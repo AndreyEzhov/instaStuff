@@ -1,0 +1,14 @@
+workspace 'InstaStuff'
+xcodeproj 'InstaStuff.xcodeproj'
+
+def shared_pods
+  pod 'SnapKit'
+  pod 'Firebase/Core'
+end
+
+target 'InstaStuff' do
+    xcodeproj 'InstaStuff.xcodeproj'
+    use_frameworks!
+    shared_pods
+    pod 'SwiftGen'
+end
