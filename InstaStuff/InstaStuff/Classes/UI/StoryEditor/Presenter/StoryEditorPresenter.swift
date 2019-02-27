@@ -13,7 +13,9 @@ protocol StoryEditorDisplayable: View {
 }
 
 protocol StoryEditorPresentable: Presenter {
-    func addSlide(at index: Int)
+    var story: StoryItem { get }
+    var templateSets: [TemplateSet] { get }
+    func addSlide(with template: FrameTemplate)
 }
 
 final class StoryEditorPresenter: StoryEditorPresentable {
@@ -39,7 +41,11 @@ final class StoryEditorPresenter: StoryEditorPresentable {
     
     private let storyStorage: StoryStorage
     
-    private let story: StoryItem
+    let story: StoryItem
+    
+    var templateSets: [TemplateSet] {
+        return templatesStorage.templateSets
+    }
     
     // MARK: - Construction
     
@@ -56,8 +62,9 @@ final class StoryEditorPresenter: StoryEditorPresentable {
     
     // MARK: - StoryEditorPresentable
     
-    func addSlide(at index: Int) {
-        
+    func addSlide(with template: FrameTemplate) {
+        let newSlide = StorySlide(template: template)
+        story.slides.append(newSlide)
     }
 
 }

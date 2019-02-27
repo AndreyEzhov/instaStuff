@@ -17,7 +17,17 @@ class TemplatesStorage {
     // MARK: - Consruction
     
     init() {
-        templateSets = []
+        templateSets = [
+            TemplateSet(id: 1, name: "Set 1", templates: []),
+            TemplateSet(id: 2, name: "Set 2", templates: []),
+            TemplateSet(id: 3, name: "Set 3", templates: []),
+            TemplateSet(id: 2, name: "Set 4", templates: []),
+            TemplateSet(id: 3, name: "Set 5", templates: []),
+            TemplateSet(id: 2, name: "Set 6", templates: []),
+            TemplateSet(id: 3, name: "Set 7", templates: []),
+            TemplateSet(id: 2, name: "Set 8", templates: []),
+            TemplateSet(id: 3, name: "Set 9", templates: [])
+        ]
     }
     
 }

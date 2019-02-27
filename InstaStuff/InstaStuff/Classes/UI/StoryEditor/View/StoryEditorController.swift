@@ -24,7 +24,23 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
         collectionView.backgroundColor = .white
         return collectionView
     }()
-
+    
+    private lazy var editorView = UIView()
+    
+    private lazy var setsCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 14
+        layout.minimumInteritemSpacing = 11
+        layout.sectionInset = UIEdgeInsets(top: 18, left: 18, bottom: 18, right: 18)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.registerClass(for: SetCollectionViewCell.self)
+        collectionView.backgroundColor = .white
+        return collectionView
+    }()
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -35,7 +51,16 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
     override func updateViewConstraints() {
         super.updateViewConstraints()
         collectionView.snp.remakeConstraints { maker in
-            maker.edges.equalToSuperview()
+            maker.top.left.right.equalToSuperview()
+            maker.bottom.equalTo(editorView.snp.top)
+        }
+        editorView.snp.remakeConstraints { maker in
+            maker.bottom.left.right.equalToSuperview()
+            maker.height.equalTo(160)
+        }
+        setsCollectionView.snp.remakeConstraints { maker in
+            maker.top.left.right.equalToSuperview()
+            maker.height.equalTo(60)
         }
     }
     
@@ -45,6 +70,8 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
     
     private func setup() {
         view.addSubview(collectionView)
+        view.addSubview(editorView)
+        editorView.addSubview(setsCollectionView)
         view.setNeedsUpdateConstraints()
     }
     
@@ -53,33 +80,47 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
     // MARK: - Functions
 
     // MARK: - Actions
-    
-    @objc private func addSlide() {
-        presenter.addSlide(at: 0)
-    }
 
     // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        switch collectionView {
+        case self.collectionView:
+            return presenter.story.slides.count
+        case setsCollectionView:
+            return presenter.templateSets.count
+        default:
+            return 0
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return collectionView.dequeue(indexPath: indexPath, with: { (cell: StorySlideCell) in
-            let areas = [
-                UIBezierPath(rect: CGRect(x: 0, y: 0, width: Consts.UIGreed.photoRatio, height: 1)),
-                UIBezierPath(ovalIn: CGRect(x: 0.3, y: 0.3, width: 0.4, height: 0.4))
-            ]
-            let template = FrameTemplate(id: 0, name: "TEST", photoAreas: areas)
-            let storySlide = StorySlide(template: template)
-            cell.setup(with: storySlide)
-        })
+        switch collectionView {
+        case self.collectionView:
+            return collectionView.dequeue(indexPath: indexPath, with: { (cell: StorySlideCell) in
+                cell.setup(with: presenter.story.slides[indexPath.row])
+            })
+        case setsCollectionView:
+            return collectionView.dequeue(indexPath: indexPath, with: { (cell: SetCollectionViewCell) in
+                cell.setup(with: presenter.templateSets[indexPath.row])
+            })
+        default:
+            return UICollectionViewCell()
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let height = collectionView.frame.height * 0.9
-        return CGSize(width: height * Consts.UIGreed.photoRatio,
-                      height: height)
+        switch collectionView {
+        case self.collectionView:
+            let height = collectionView.frame.height * 0.9
+            return CGSize(width: height * Consts.UIGreed.photoRatio,
+                          height: height)
+        case setsCollectionView:
+            return CGSize(width: 60, height: 24)
+        default:
+            return .zero
+        }
+
     }
     
 }

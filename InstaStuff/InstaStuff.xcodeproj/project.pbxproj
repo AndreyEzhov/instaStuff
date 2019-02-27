@@ -12,6 +12,7 @@
 		128186B5222483A700E48646 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 128186B4222483A700E48646 /* Strings.swift */; };
 		128186B82224844500E48646 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 128186BA2224844500E48646 /* Localizable.strings */; };
 		128186BD2224877000E48646 /* StoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 128186BC2224877000E48646 /* StoryCell.swift */; };
+		128186BF2225E29900E48646 /* SetCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 128186BE2225E29900E48646 /* SetCollectionViewCell.swift */; };
 		1289FD90222208D800CD7F0E /* CreateStoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1289FD8F222208D800CD7F0E /* CreateStoryCell.swift */; };
 		1289FD9422220E5400CD7F0E /* StorySlideCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1289FD9322220E5400CD7F0E /* StorySlideCell.swift */; };
 		1289FD9622220E9A00CD7F0E /* TemplatesStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1289FD9522220E9A00CD7F0E /* TemplatesStorage.swift */; };
@@ -57,6 +58,7 @@
 		128186B92224844500E48646 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		128186BB2224846200E48646 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		128186BC2224877000E48646 /* StoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryCell.swift; sourceTree = "<group>"; };
+		128186BE2225E29900E48646 /* SetCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetCollectionViewCell.swift; sourceTree = "<group>"; };
 		1289FD8F222208D800CD7F0E /* CreateStoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateStoryCell.swift; sourceTree = "<group>"; };
 		1289FD9322220E5400CD7F0E /* StorySlideCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorySlideCell.swift; sourceTree = "<group>"; };
 		1289FD9522220E9A00CD7F0E /* TemplatesStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatesStorage.swift; sourceTree = "<group>"; };
@@ -301,6 +303,7 @@
 				12C118D72221F23F00996C20 /* StoryEditorController.swift */,
 				1289FD9322220E5400CD7F0E /* StorySlideCell.swift */,
 				1289FDA5222281A000CD7F0E /* PhotoPlace.swift */,
+				128186BE2225E29900E48646 /* SetCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -567,6 +570,7 @@
 				12C118A02221C7F400996C20 /* AppDelegate.swift in Sources */,
 				12C118C72221C82500996C20 /* UITableView+Extension.swift in Sources */,
 				1289FD9B22220F3400CD7F0E /* FrameTemplate.swift in Sources */,
+				128186BF2225E29900E48646 /* SetCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
