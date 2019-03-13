@@ -11,4 +11,5 @@ target 'InstaStuff' do
     use_frameworks!
     shared_pods
     pod 'SwiftGen'
+    pod 'RxSwift'
 end

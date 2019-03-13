@@ -8,13 +8,17 @@
 
 import UIKit
 
+typealias UIViewTemplatePlaceble = (UIView & TemplatePlaceble)
+
 class StorySlideCell: UICollectionViewCell {
     
     // MARK: - Properties
     
+    private let backgroundImageView =  UIImageView()
+    
     private var slide: StorySlide?
     
-    private var photoPlaces: [PhotoPlace] = []
+    private(set) var photoPlaces: [UIViewTemplatePlaceble] = []
     
     // MARK: - Life Cycle
     
@@ -23,35 +27,59 @@ class StorySlideCell: UICollectionViewCell {
         guard let slide = slide else {
             return
         }
-        zip(photoPlaces, slide.template.photoAreas).forEach { (arg) in
-            let (place, path) = arg
-            let scaledPath = path
-            place.snp.remakeConstraints { maker in
-                maker.width.equalTo(scaledPath.bounds.width)
-                maker.height.equalTo(scaledPath.bounds.height)
-                //maker.center.equalTo(scaledPath.bounds.center)
-            }
-            let mask = CAShapeLayer()
-            mask.path = scaledPath.cgPath
-            place.layer.mask = mask
+        backgroundImageView.snp.remakeConstraints { maker in
+            maker.edges.equalToSuperview()
         }
+        photoPlaces.enumerated().forEach { arg in
+            let (offset, place) = arg
+            let frameArea = slide.template.frameAreas[offset]
+            place.snp.remakeConstraints { maker in
+                maker.center.equalTo(CGPoint(x: frameArea.settings.center.x * frame.width,
+                                             y: frameArea.settings.center.y * frame.height))
+                maker.width.equalToSuperview().multipliedBy(frameArea.settings.sizeWidth)
+                maker.width.equalTo(place.snp.height).multipliedBy(frameArea.settings.ratio)
+            }
+            updateTransform(for: place)
+        }
+    }
+    
+    // MARK: - Private Functions
+    
+    private func updateTransform(for view: (UIView & TemplatePlaceble)) {
+        var transform = CGAffineTransform.identity
+        transform = transform.rotated(by: view.storyEditableItem.settings.angle)
+        view.transform = transform
     }
     
     // MARK: - Function
     
     func setup(with slide: StorySlide) {
         self.slide = slide
+        contentView.clipsToBounds = true
         contentView.subviews.forEach { view in
             view.removeFromSuperview()
         }
         photoPlaces.removeAll()
-        slide.template.photoAreas.forEach { _ in
-            let photoPlace = PhotoPlace()
-            contentView.addSubview(photoPlace)
-            photoPlaces.append(photoPlace)
+        contentView.addSubview(backgroundImageView)
+        slide.items.enumerated().forEach { arg in
+            var view: UIViewTemplatePlaceble?
+            switch arg.element {
+            case let item as StoryEditablePhotoItem:
+                view = PhotoPlace(item)
+            case let item as StoryEditableTextItem:
+                view = MemeLabelView(item, isEditable: false)
+            case let item as StoryEditableStuffItem:
+                view = StuffPlace(item)
+            default:
+                break
+            }
+            if let view = view {
+                photoPlaces.append(view)
+                view.tag = arg.offset
+                contentView.addSubview(view)
+            }
         }
-        photoPlaces.first?.backgroundColor = .red
-        photoPlaces.last?.backgroundColor = .green
+        backgroundImageView.image = slide.template.backgroundImage
         setNeedsUpdateConstraints()
     }
     

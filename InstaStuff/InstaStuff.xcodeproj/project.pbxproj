@@ -7,12 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1252897E222AEA5B0040609B /* photo_frame.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1252897D222AEA5A0040609B /* photo_frame.pdf */; };
+		12528A6F222B5A5B0040609B /* StoryEditableItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12528A6E222B5A5B0040609B /* StoryEditableItem.swift */; };
+		12528A7722340CCF0040609B /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12528A7322340CCF0040609B /* CloseButton.swift */; };
+		12528A7822340CCF0040609B /* MemeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12528A7422340CCF0040609B /* MemeLabel.swift */; };
+		12528A7922340CCF0040609B /* SizeControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12528A7522340CCF0040609B /* SizeControllerView.swift */; };
+		12528A7A22340CCF0040609B /* MemeLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12528A7622340CCF0040609B /* MemeLabelView.swift */; };
+		12528A7C223517790040609B /* StaffPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12528A7B223517790040609B /* StaffPlace.swift */; };
+		12528A7F223517F60040609B /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12528A7E223517F60040609B /* Common.swift */; };
+		12528A8222351D3B0040609B /* StuffPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12528A8122351D3B0040609B /* StuffPlace.swift */; };
+		12528A85223568410040609B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 12528A87223568410040609B /* Localizable.strings */; };
 		12686CE02222FC110005BF27 /* Consts+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12686CDF2222FC110005BF27 /* Consts+Custom.swift */; };
 		128186B32224839C00E48646 /* Strings+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 128186B22224839C00E48646 /* Strings+Ext.swift */; };
 		128186B5222483A700E48646 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 128186B4222483A700E48646 /* Strings.swift */; };
-		128186B82224844500E48646 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 128186BA2224844500E48646 /* Localizable.strings */; };
 		128186BD2224877000E48646 /* StoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 128186BC2224877000E48646 /* StoryCell.swift */; };
 		128186BF2225E29900E48646 /* SetCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 128186BE2225E29900E48646 /* SetCollectionViewCell.swift */; };
+		128186C1222724E000E48646 /* TemplateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 128186C0222724E000E48646 /* TemplateCollectionViewCell.swift */; };
 		1289FD90222208D800CD7F0E /* CreateStoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1289FD8F222208D800CD7F0E /* CreateStoryCell.swift */; };
 		1289FD9422220E5400CD7F0E /* StorySlideCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1289FD9322220E5400CD7F0E /* StorySlideCell.swift */; };
 		1289FD9622220E9A00CD7F0E /* TemplatesStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1289FD9522220E9A00CD7F0E /* TemplatesStorage.swift */; };
@@ -52,13 +62,23 @@
 /* Begin PBXFileReference section */
 		123B040F2223221500258D34 /* set1 */ = {isa = PBXFileReference; explicitFileType = folder; includeInIndex = 0; path = set1; sourceTree = BUILT_PRODUCTS_DIR; };
 		123B04112223221500258D34 /* ContentInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ContentInfo.plist; sourceTree = "<group>"; };
+		1252897D222AEA5A0040609B /* photo_frame.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = photo_frame.pdf; sourceTree = "<group>"; };
+		12528A6E222B5A5B0040609B /* StoryEditableItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryEditableItem.swift; sourceTree = "<group>"; };
+		12528A7322340CCF0040609B /* CloseButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
+		12528A7422340CCF0040609B /* MemeLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemeLabel.swift; sourceTree = "<group>"; };
+		12528A7522340CCF0040609B /* SizeControllerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SizeControllerView.swift; sourceTree = "<group>"; };
+		12528A7622340CCF0040609B /* MemeLabelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemeLabelView.swift; sourceTree = "<group>"; };
+		12528A7B223517790040609B /* StaffPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffPlace.swift; sourceTree = "<group>"; };
+		12528A7E223517F60040609B /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
+		12528A8122351D3B0040609B /* StuffPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StuffPlace.swift; sourceTree = "<group>"; };
+		12528A86223568410040609B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		12528A88223568430040609B /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		12686CDF2222FC110005BF27 /* Consts+Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Consts+Custom.swift"; sourceTree = "<group>"; };
 		128186B22224839C00E48646 /* Strings+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Strings+Ext.swift"; sourceTree = "<group>"; };
 		128186B4222483A700E48646 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
-		128186B92224844500E48646 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		128186BB2224846200E48646 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		128186BC2224877000E48646 /* StoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryCell.swift; sourceTree = "<group>"; };
 		128186BE2225E29900E48646 /* SetCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetCollectionViewCell.swift; sourceTree = "<group>"; };
+		128186C0222724E000E48646 /* TemplateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateCollectionViewCell.swift; sourceTree = "<group>"; };
 		1289FD8F222208D800CD7F0E /* CreateStoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateStoryCell.swift; sourceTree = "<group>"; };
 		1289FD9322220E5400CD7F0E /* StorySlideCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorySlideCell.swift; sourceTree = "<group>"; };
 		1289FD9522220E9A00CD7F0E /* TemplatesStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatesStorage.swift; sourceTree = "<group>"; };
@@ -108,6 +128,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		96381DEEE412F4985D15C0DB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -119,19 +146,34 @@
 			path = set1;
 			sourceTree = "<group>";
 		};
-		123B04152223223B00258D34 /* InApp */ = {
+		12528A7222340CCF0040609B /* MemeLabelView */ = {
 			isa = PBXGroup;
 			children = (
-				123B04162223224300258D34 /* Set1 */,
+				12528A7322340CCF0040609B /* CloseButton.swift */,
+				12528A7422340CCF0040609B /* MemeLabel.swift */,
+				12528A7522340CCF0040609B /* SizeControllerView.swift */,
+				12528A7622340CCF0040609B /* MemeLabelView.swift */,
 			);
-			path = InApp;
+			path = MemeLabelView;
 			sourceTree = "<group>";
 		};
-		123B04162223224300258D34 /* Set1 */ = {
+		12528A7D223517DF0040609B /* Items */ = {
 			isa = PBXGroup;
 			children = (
+				1289FD9A22220F3400CD7F0E /* FrameTemplate.swift */,
+				12528A7E223517F60040609B /* Common.swift */,
 			);
-			path = Set1;
+			path = Items;
+			sourceTree = "<group>";
+		};
+		12528A8022351D1E0040609B /* PlacebleItems */ = {
+			isa = PBXGroup;
+			children = (
+				1289FDA5222281A000CD7F0E /* PhotoPlace.swift */,
+				12528A7222340CCF0040609B /* MemeLabelView */,
+				12528A8122351D3B0040609B /* StuffPlace.swift */,
+			);
+			path = PlacebleItems;
 			sourceTree = "<group>";
 		};
 		128186B12224837D00E48646 /* Static */ = {
@@ -141,22 +183,6 @@
 				128186B4222483A700E48646 /* Strings.swift */,
 			);
 			path = Static;
-			sourceTree = "<group>";
-		};
-		1289FD9122220D4900CD7F0E /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				1289FD9222220D5D00CD7F0E /* FreeFrames */,
-				128186BA2224844500E48646 /* Localizable.strings */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		1289FD9222220D5D00CD7F0E /* FreeFrames */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = FreeFrames;
 			sourceTree = "<group>";
 		};
 		1289FD9722220F0100CD7F0E /* Managers */ = {
@@ -171,8 +197,8 @@
 		1289FD9822220F0C00CD7F0E /* TemplatesStorage */ = {
 			isa = PBXGroup;
 			children = (
+				12528A7D223517DF0040609B /* Items */,
 				1289FD9522220E9A00CD7F0E /* TemplatesStorage.swift */,
-				1289FD9A22220F3400CD7F0E /* FrameTemplate.swift */,
 				1289FD9C22220F6100CD7F0E /* TemplateSet.swift */,
 			);
 			path = TemplatesStorage;
@@ -184,6 +210,7 @@
 				1289FD9F22227A2C00CD7F0E /* StoryStorage.swift */,
 				1289FDA122227A4200CD7F0E /* StoryItem.swift */,
 				1289FDA322227A5100CD7F0E /* StorySlide.swift */,
+				12528A6E222B5A5B0040609B /* StoryEditableItem.swift */,
 			);
 			path = StoryStorage;
 			sourceTree = "<group>";
@@ -218,16 +245,16 @@
 		12C1189E2221C7F400996C20 /* InstaStuff */ = {
 			isa = PBXGroup;
 			children = (
-				123B04152223223B00258D34 /* InApp */,
-				1289FD9122220D4900CD7F0E /* Resources */,
 				12C118EC2221F29800996C20 /* CustomStarterPack */,
 				12C118C82221F1A700996C20 /* Classes */,
 				12C118B12221C82500996C20 /* StarterPack */,
 				12C1189F2221C7F400996C20 /* AppDelegate.swift */,
 				12C118A32221C7F400996C20 /* Main.storyboard */,
 				12C118A62221C7F700996C20 /* Assets.xcassets */,
+				1252897D222AEA5A0040609B /* photo_frame.pdf */,
 				12C118A82221C7F700996C20 /* LaunchScreen.storyboard */,
 				12C118AB2221C7F700996C20 /* Info.plist */,
+				12528A87223568410040609B /* Localizable.strings */,
 			);
 			path = InstaStuff;
 			sourceTree = "<group>";
@@ -300,10 +327,12 @@
 		12C118D62221F23F00996C20 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				12528A8022351D1E0040609B /* PlacebleItems */,
 				12C118D72221F23F00996C20 /* StoryEditorController.swift */,
 				1289FD9322220E5400CD7F0E /* StorySlideCell.swift */,
-				1289FDA5222281A000CD7F0E /* PhotoPlace.swift */,
 				128186BE2225E29900E48646 /* SetCollectionViewCell.swift */,
+				128186C0222724E000E48646 /* TemplateCollectionViewCell.swift */,
+				12528A7B223517790040609B /* StaffPlace.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -379,6 +408,7 @@
 			buildConfigurationList = 123B04142223221500258D34 /* Build configuration list for PBXNativeTarget "set1" */;
 			buildPhases = (
 				123B040D2223221500258D34 /* Resources */,
+				96381DEEE412F4985D15C0DB /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -459,8 +489,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				12528A85223568410040609B /* Localizable.strings in Resources */,
+				1252897E222AEA5B0040609B /* photo_frame.pdf in Resources */,
 				12C118AA2221C7F700996C20 /* LaunchScreen.storyboard in Resources */,
-				128186B82224844500E48646 /* Localizable.strings in Resources */,
 				12C118A72221C7F700996C20 /* Assets.xcassets in Resources */,
 				12C118A52221C7F400996C20 /* Main.storyboard in Resources */,
 			);
@@ -474,20 +505,16 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"$(SRCROOT)/InstaStuff/en.lproj/Localizable.strings",
 			);
 			name = "Swift Gen";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"$(SRCROOT)/InstaStuff/Classes/Static/Strings.swift",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${PODS_ROOT}/InstaStuff/bin/swiftgen strings -t structured-swift4 InstaStuff/en.lproj/Localizable.strings -o MyMem/Classes/Static/Strings.swift\n";
+			shellScript = "${PODS_ROOT}/SwiftGen/bin/swiftgen strings -t structured-swift4 InstaStuff/en.lproj/Localizable.strings -o MyMem/Classes/Static/Strings.swift\n";
 		};
 		20D920C07A241B6FC26505D1 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -497,12 +524,16 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-InstaStuff/Pods-InstaStuff-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/RxAtomic/RxAtomic.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAtomic.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -540,13 +571,18 @@
 				128186B5222483A700E48646 /* Strings.swift in Sources */,
 				1289FDA422227A5100CD7F0E /* StorySlide.swift in Sources */,
 				12C118C62221C82500996C20 /* RequestInfo.swift in Sources */,
+				128186C1222724E000E48646 /* TemplateCollectionViewCell.swift in Sources */,
 				12C118EA2221F23F00996C20 /* StoryPickerRouter.swift in Sources */,
+				12528A7722340CCF0040609B /* CloseButton.swift in Sources */,
 				12C118C22221C82500996C20 /* Router.swift in Sources */,
 				12C118E42221F23F00996C20 /* StoryEditorRouter.swift in Sources */,
 				12C118E62221F23F00996C20 /* StoryEditorController.swift in Sources */,
 				12C118E32221F23F00996C20 /* StoryEditorPresenter.swift in Sources */,
 				12C118EE2221F2A800996C20 /* Assembley.swift in Sources */,
+				12528A8222351D3B0040609B /* StuffPlace.swift in Sources */,
 				12C118C42221C82500996C20 /* Font.swift in Sources */,
+				12528A6F222B5A5B0040609B /* StoryEditableItem.swift in Sources */,
+				12528A7822340CCF0040609B /* MemeLabel.swift in Sources */,
 				12C118BF2221C82500996C20 /* MVP.swift in Sources */,
 				1289FDA222227A4200CD7F0E /* StoryItem.swift in Sources */,
 				12C118C12221C82500996C20 /* UICollectionView+Extension.swift in Sources */,
@@ -561,13 +597,17 @@
 				1289FDA022227A2C00CD7F0E /* StoryStorage.swift in Sources */,
 				128186BD2224877000E48646 /* StoryCell.swift in Sources */,
 				12C118E52221F23F00996C20 /* StoryEditorAssembly.swift in Sources */,
+				12528A7A22340CCF0040609B /* MemeLabelView.swift in Sources */,
 				12C118E82221F23F00996C20 /* StoryPickerPresenter.swift in Sources */,
+				12528A7F223517F60040609B /* Common.swift in Sources */,
 				1289FDA6222281A000CD7F0E /* PhotoPlace.swift in Sources */,
 				1289FD9422220E5400CD7F0E /* StorySlideCell.swift in Sources */,
 				1289FD9D22220F6100CD7F0E /* TemplateSet.swift in Sources */,
 				12C118C02221C82500996C20 /* AttributedString+Extension.swift in Sources */,
 				1289FD9622220E9A00CD7F0E /* TemplatesStorage.swift in Sources */,
+				12528A7C223517790040609B /* StaffPlace.swift in Sources */,
 				12C118A02221C7F400996C20 /* AppDelegate.swift in Sources */,
+				12528A7922340CCF0040609B /* SizeControllerView.swift in Sources */,
 				12C118C72221C82500996C20 /* UITableView+Extension.swift in Sources */,
 				1289FD9B22220F3400CD7F0E /* FrameTemplate.swift in Sources */,
 				128186BF2225E29900E48646 /* SetCollectionViewCell.swift in Sources */,
@@ -577,11 +617,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		128186BA2224844500E48646 /* Localizable.strings */ = {
+		12528A87223568410040609B /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				128186B92224844500E48646 /* en */,
-				128186BB2224846200E48646 /* ru */,
+				12528A86223568410040609B /* en */,
+				12528A88223568430040609B /* ru */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -681,7 +721,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -737,7 +777,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -763,7 +803,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hedgy.InstaStuff;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -783,7 +823,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hedgy.InstaStuff;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

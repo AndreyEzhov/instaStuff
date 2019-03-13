@@ -78,11 +78,13 @@ final class StoryPickerController: BaseViewController<StoryPickerPresentable>, S
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard indexPath.row == 0 else {
-            return
+        var story: StoryItem
+        if indexPath.row == 0 {
+            story = presenter.createNewStory()
+            collectionView.insertItems(at: [IndexPath(row: 1, section: 0)])
+        } else {
+            story = presenter.stories[indexPath.row-1]
         }
-        let story = presenter.createNewStory()
-        collectionView.insertItems(at: [IndexPath(row: 1, section: 0)])
         navigationController?.router.routeToStoryEditor(parameters: StoryEditorPresenter.Parameters(story: story))
     }
     

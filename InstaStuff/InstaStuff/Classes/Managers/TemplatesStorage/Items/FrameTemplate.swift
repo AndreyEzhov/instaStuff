@@ -10,7 +10,7 @@ import UIKit
 
 struct FrameTemplate {
     
-    typealias TemplateId = Int
+    typealias TemplateId = String
     
     // MARK: - Properties
     
@@ -18,6 +18,14 @@ struct FrameTemplate {
     
     let name: String
     
-    let photoAreas: [UIBezierPath]
+    let frameAreas: [FrameAreaDescription]
+    
+    var backgroundImage: UIImage? {
+        return UIImage(named: id + "_background")
+    }
+    
+    var previewImage: UIImage? {
+        return UIImage(named: id + "_preview")
+    }
     
 }

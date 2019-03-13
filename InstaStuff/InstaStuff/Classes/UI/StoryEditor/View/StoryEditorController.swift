@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class StoryEditorController: BaseViewController<StoryEditorPresentable>, StoryEditorDisplayable, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+final class StoryEditorController: BaseViewController<StoryEditorPresentable>, StoryEditorDisplayable, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UINavigationControllerDelegate, PhotoPicker {
 
     // MARK: - Properties
     
@@ -30,9 +30,8 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
     private lazy var setsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 14
-        layout.minimumInteritemSpacing = 11
-        layout.sectionInset = UIEdgeInsets(top: 18, left: 18, bottom: 18, right: 18)
+        layout.minimumInteritemSpacing = 21
+        layout.sectionInset = UIEdgeInsets(top: 25, left: 18, bottom: 11, right: 18)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -40,6 +39,24 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
         collectionView.backgroundColor = .white
         return collectionView
     }()
+    
+    private lazy var framesCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 14
+        layout.minimumInteritemSpacing = 11
+        layout.sectionInset = UIEdgeInsets(top: 18, left: 18, bottom: 18, right: 18)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.registerClass(for: TemplateCollectionViewCell.self)
+        collectionView.backgroundColor = Consts.Colors.applicationColor
+        return collectionView
+    }()
+    
+    private var selectedSet: Int = 0
+    
+    private var photoDidSelectedBlock: ((UIImage) -> ())?
     
     // MARK: - Life Cycle
     
@@ -62,6 +79,10 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
             maker.top.left.right.equalToSuperview()
             maker.height.equalTo(60)
         }
+        framesCollectionView.snp.remakeConstraints { maker in
+            maker.bottom.left.right.equalToSuperview()
+            maker.top.equalTo(setsCollectionView.snp.bottom)
+        }
     }
     
     // MARK: - StoryEditorDisplayable
@@ -72,15 +93,16 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
         view.addSubview(collectionView)
         view.addSubview(editorView)
         editorView.addSubview(setsCollectionView)
+        editorView.addSubview(framesCollectionView)
         view.setNeedsUpdateConstraints()
     }
     
     // MARK: - Private Functions
     
     // MARK: - Functions
-
+    
     // MARK: - Actions
-
+    
     // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -89,6 +111,8 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
             return presenter.story.slides.count
         case setsCollectionView:
             return presenter.templateSets.count
+        case framesCollectionView:
+            return selectedSet < presenter.templateSets.count ? presenter.templateSets[selectedSet].templates.count : 0
         default:
             return 0
         }
@@ -99,10 +123,18 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
         case self.collectionView:
             return collectionView.dequeue(indexPath: indexPath, with: { (cell: StorySlideCell) in
                 cell.setup(with: presenter.story.slides[indexPath.row])
+                cell.photoPlaces.forEach({ photoPlace in
+                    (photoPlace as? PhotoPlace)?.delegate = self
+                })
             })
         case setsCollectionView:
             return collectionView.dequeue(indexPath: indexPath, with: { (cell: SetCollectionViewCell) in
                 cell.setup(with: presenter.templateSets[indexPath.row])
+            })
+        case framesCollectionView:
+            return collectionView.dequeue(indexPath: indexPath, with: { (cell: TemplateCollectionViewCell) in
+                let template = presenter.templateSets[selectedSet].templates[indexPath.row]
+                cell.setup(with: template)
             })
         default:
             return UICollectionViewCell()
@@ -112,15 +144,58 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch collectionView {
         case self.collectionView:
-            let height = collectionView.frame.height * 0.9
-            return CGSize(width: height * Consts.UIGreed.photoRatio,
-                          height: height)
+            let maxHeight = collectionView.frame.height * 0.9
+            let maxWidth = collectionView.frame.width * 0.9
+            if maxWidth < maxHeight * Consts.UIGreed.photoRatio {
+                return CGSize(width: maxWidth,
+                              height: maxWidth / Consts.UIGreed.photoRatio)
+            } else {
+                return CGSize(width: maxHeight * Consts.UIGreed.photoRatio,
+                              height: maxHeight)
+            }
         case setsCollectionView:
             return CGSize(width: 60, height: 24)
+        case framesCollectionView:
+            return CGSize(width: 40, height: 64)
         default:
             return .zero
         }
-
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch collectionView {
+        case setsCollectionView:
+            selectedSet = indexPath.row
+            framesCollectionView.reloadData()
+        case framesCollectionView:
+            let template = presenter.templateSets[selectedSet].templates[indexPath.row]
+            presenter.addSlide(with: template)
+            self.collectionView.reloadData()
+        default:
+            break
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage,
+            let block = photoDidSelectedBlock {
+            block(pickedImage)
+        }
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion:nil)
+    }
+    
+    // MARK: - PhotoPicker
+    
+    func photoPlaceDidSelected(completion: @escaping (UIImage) -> ()) {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = false
+        imagePicker.sourceType = .photoLibrary
+        present(imagePicker, animated: true, completion: nil)
+        photoDidSelectedBlock = completion
+    }
 }
