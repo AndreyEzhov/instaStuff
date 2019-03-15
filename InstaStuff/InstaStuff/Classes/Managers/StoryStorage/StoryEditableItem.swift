@@ -66,7 +66,7 @@ class StoryEditableTextItem: StoryEditableItem {
     
     let textItem: TextItem
     
-    let text: BehaviorSubject<String?>
+    let text: BehaviorSubject<String>
     
     init(_ textItem: TextItem, settings: Settings) {
         self.textItem = textItem

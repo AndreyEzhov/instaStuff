@@ -4,6 +4,8 @@ extension UIFont {
     
     // MARK: - Properties
     
+    static let chalkboard = "Chalkboard SE"
+    
     static let applicationFontName = "System"
     
     static var applicationFontFamilyName: String {
@@ -83,4 +85,19 @@ extension UIFont {
         return UIFont.applicationFontNameFont(ofSize: fontSize, weight: FontWeight.thin)
     }
     
+}
+
+extension UIFont {
+    func withTraits(traits:UIFontDescriptorSymbolicTraits) -> UIFont {
+        let descriptor = fontDescriptor.withSymbolicTraits(traits)
+        return UIFont(descriptor: descriptor!, size: 0) //size 0 means keep the size as it is
+    }
+    
+    func bold() -> UIFont {
+        return withTraits(traits: .traitBold)
+    }
+    
+    func italic() -> UIFont {
+        return withTraits(traits: .traitItalic)
+    }
 }

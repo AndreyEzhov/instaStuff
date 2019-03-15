@@ -18,17 +18,6 @@ class StoryStorage {
     
     init() {
         
-    }
-    
-    func createNewStory() -> StoryItem {
-        let story = StoryItem()
-        stories.insert(story, at: 0)
-        return story
-    }
-    
-    func delete(at index: Int) {
-        stories.remove(at: index)
-    }
-    
+    }    
     
 }

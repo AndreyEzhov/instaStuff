@@ -14,19 +14,15 @@ protocol StoryEditorDisplayable: View {
 
 protocol StoryEditorPresentable: Presenter {
     var story: StoryItem { get }
-    var templateSets: [TemplateSet] { get }
-    func addSlide(with template: FrameTemplate)
 }
 
 final class StoryEditorPresenter: StoryEditorPresentable {
     
     struct Dependencies {
-        let templatesStorage: TemplatesStorage
-        let storyStorage: StoryStorage
     }
     
     struct Parameters {
-        let story: StoryItem
+        let template: FrameTemplate
     }
     
     // MARK: - Nested types
@@ -37,23 +33,12 @@ final class StoryEditorPresenter: StoryEditorPresentable {
     
     weak var view: View?
     
-    private let templatesStorage: TemplatesStorage
-    
-    private let storyStorage: StoryStorage
-    
     let story: StoryItem
-    
-    var templateSets: [TemplateSet] {
-        return templatesStorage.templateSets
-    }
     
     // MARK: - Construction
     
     init(dependencies: Dependencies, parameters: Parameters) {
-        templatesStorage = dependencies.templatesStorage
-        storyStorage = dependencies.storyStorage
-        
-        story = parameters.story
+        story = StoryItem(template: parameters.template)
     }
     
     // MARK: - Private Functions
@@ -61,10 +46,5 @@ final class StoryEditorPresenter: StoryEditorPresentable {
     // MARK: - Functions
     
     // MARK: - StoryEditorPresentable
-    
-    func addSlide(with template: FrameTemplate) {
-        let newSlide = StorySlide(template: template)
-        story.slides.append(newSlide)
-    }
 
 }

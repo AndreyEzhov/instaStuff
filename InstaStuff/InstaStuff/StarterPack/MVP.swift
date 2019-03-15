@@ -47,11 +47,19 @@ class BaseViewController<T>: UIViewController, View {
     
     private var isFirstTimeAppear = true
     
+    var navigationBarStyle: UINavigationBar.AppStyle {
+        return .default
+    }
+    
     // MARK: - Life Cycle
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         (presenter as? AnyPresenter)?.onWillAppear(firstTime: isFirstTimeAppear)
+        if let navigationController = navigationController, navigationController.viewControllers.contains(self) {
+            navigationController.navigationBar.applyAppStyle(self.navigationBarStyle)
+            navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "navigationBarIcon"))
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

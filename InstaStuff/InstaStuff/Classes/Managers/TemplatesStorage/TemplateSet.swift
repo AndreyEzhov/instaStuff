@@ -16,6 +16,8 @@ struct TemplateSet {
     
     let id: TemplateSetId
     
+    let themeColor: UIColor
+    
     let name: String
     
     let templates: [FrameTemplate]

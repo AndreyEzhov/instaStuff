@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 
 protocol PhotoPicker: class {
-    func photoPlaceDidSelected(completion: @escaping (UIImage) -> ())
+    func photoPlaceDidSelected(_ photoPlace: PhotoPlace, completion: @escaping (UIImage) -> ())
 }
 
 protocol TemplatePlaceble: class {
@@ -62,23 +62,38 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
     
     private lazy var deletePhotoButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = .black
+        button.setImage(#imageLiteral(resourceName: "closeButton"), for: .normal)
         button.addTarget(self, action: #selector(deletePhoto), for: .touchUpInside)
         return button
     }()
     
-    private let bag = DisposeBag()
+    override var canBecomeFirstResponder: Bool {
+        return true
+    }
     
-    private var isSelected = false {
-        didSet {
-            photoContentFrameView.isHidden = !isSelected
-            deletePhotoButton.isHidden = !isSelected
+    override var inputView: UIView? {
+        if hasPhoto {
+            let view = Assembly.shared.createPhotoModuleControllerController(params: PhotoModuleControllerPresenter.Parameters())
+            view.delegate = self
+            view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 100)
+            return view
+        } else {
+            return nil
         }
     }
+    
+    private let bag = DisposeBag()
     
     weak var delegate: PhotoPicker?
     
     private var gestures: [UIGestureRecognizer] = []
+    
+    private var hasPhoto: Bool {
+        if let image = try? storyEditablePhotoItem.image.value(), image == nil {
+            return false
+        }
+        return true
+    }
     
     // MARK: - Construction
     
@@ -98,7 +113,7 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
     override func updateConstraints() {
         super.updateConstraints()
         photoContentView.snp.remakeConstraints { maker in
-           let settings = storyEditablePhotoItem.photoItem.photoAreaLocation
+            let settings = storyEditablePhotoItem.photoItem.photoAreaLocation
             maker.width.equalTo(photoContentView.snp.height).multipliedBy(settings.ratio)
             maker.width.equalToSuperview().multipliedBy(settings.sizeWidth)
             maker.centerX.equalToSuperview().multipliedBy(settings.center.x * 2)
@@ -163,14 +178,13 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
     
     @objc private func tapGesture(_ sender: UITapGestureRecognizer) {
         guard sender.state == .ended else { return }
-        if let image = try? storyEditablePhotoItem.image.value(), image == nil {
-            delegate?.photoPlaceDidSelected { image in
+        guard hasPhoto else {
+            delegate?.photoPlaceDidSelected(self) { image in
                 self.storyEditablePhotoItem.update(image: image)
-                self.isSelected = true
             }
-        } else {
-            isSelected.toggle()
+            return
         }
+        _ = becomeFirstResponder()
     }
     
     @objc private func deletePhoto() {
@@ -190,10 +204,18 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
         photoPlace.image = storyEditablePhotoItem.photoItem.photoPlaceImage
         storyEditablePhotoItem.image.subscribe(onNext: { [weak self] image in
             self?.photoImageView.image = image
+            if image == nil {
+                _ = self?.resignFirstResponder()
+            } else {
+                _ = self?.becomeFirstResponder()
+            }
+            self?.reloadInputViews()
         }).disposed(by: bag)
         framePlace.image = storyEditablePhotoItem.photoItem.framePlaceImage
         
         clipsToBounds = true
+        photoContentFrameView.isHidden = true
+        deletePhotoButton.isHidden = true
         updateConstraintsIfNeeded()
     }
     
@@ -235,10 +257,53 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
         if gestureRecognizer is UITapGestureRecognizer {
             return true
         }
-        if isSelected {
+        if isFirstResponder {
             return gestures.contains(gestureRecognizer)
         } else {
             return !gestures.contains(gestureRecognizer)
+        }
+    }
+    
+    // MARK: - UIResponder
+    
+    override func resignFirstResponder() -> Bool {
+        let flag = super.resignFirstResponder()
+        photoContentFrameView.isHidden = !isFirstResponder
+        deletePhotoButton.isHidden = !isFirstResponder
+        return flag
+    }
+    
+    override func becomeFirstResponder() -> Bool {
+        let flag = super.becomeFirstResponder()
+        photoContentFrameView.isHidden = !isFirstResponder
+        deletePhotoButton.isHidden = !isFirstResponder
+        return flag
+    }
+    
+}
+
+let queue = DispatchQueue(label: "myImageQueue", qos: .background)
+
+extension PhotoPlace: SliderListener {
+    
+    func valueDidChanged(_ value: Float) {
+        DispatchQueue.global(qos: .userInitiated).async {
+            guard let imageOpt = try? self.storyEditablePhotoItem.image.value(), let image = imageOpt else {
+                return
+            }
+            if let originalImage = CIImage(image: image) {
+                let outputImage = originalImage.applyingFilter("CIColorControls",
+                                                               parameters: [
+                                                                kCIInputImageKey: originalImage,
+                                                                kCIInputSaturationKey: 1.0 - 0.05 * value,
+                                                                kCIInputContrastKey: 1.0 - 0.05 * value,
+                                                                kCIInputBrightnessKey: 0.05 * value,
+                                                                ])
+                let newImage = UIImage(ciImage: outputImage)
+                DispatchQueue.main.async {
+                    self.photoImageView.image = newImage
+                }
+            }
         }
     }
     

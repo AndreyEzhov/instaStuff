@@ -1,5 +1,5 @@
 //
-//  StoryItem.swift
+//  StorySlide.swift
 //  InstaStuff
 //
 //  Created by Андрей Ежов on 24.02.2019.
@@ -10,24 +10,26 @@ import UIKit
 
 class StoryItem {
     
-    typealias StoryId = String
-    
     // MARK: - Properties
     
-    private let storyId: StoryId
+    let template: FrameTemplate
     
-    var slides: [StorySlide] = []
+    let items: [StoryEditableItem]
     
-    // MARK: - Constrcution
+    // MARK: - Construction
     
-    init() {
-        storyId = UUID().uuidString
+    init(template: FrameTemplate) {
+        self.template = template
+        items = template.frameAreas.map {
+            switch $0.frameArea {
+            case .photoFrame(let photoItem):
+                return StoryEditablePhotoItem(photoItem, settings: $0.settings)
+            case .textFrame(let textItem):
+                return StoryEditableTextItem(textItem, settings: $0.settings)
+            case .stuffFrame(let stuffItem):
+                return StoryEditableStuffItem(stuffItem, settings: $0.settings)
+            }
+        }
     }
     
-}
-
-extension StoryItem: Equatable {
-    static func == (lhs: StoryItem, rhs: StoryItem) -> Bool {
-        return lhs.storyId == rhs.storyId
-    }
 }

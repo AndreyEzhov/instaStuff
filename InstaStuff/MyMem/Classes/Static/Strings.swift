@@ -11,6 +11,13 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name
 internal enum L10n {
+
+  internal enum Mail {
+    /// Choose best\nready template
+    internal static let chooseBestReadyTemplate = L10n.tr("Localizable", "mail.choose-best-ready-template")
+    /// Create your\nunic history
+    internal static let createYourUnicHistory = L10n.tr("Localizable", "mail.create-your-unic-history")
+  }
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:enable nesting type_body_length type_name

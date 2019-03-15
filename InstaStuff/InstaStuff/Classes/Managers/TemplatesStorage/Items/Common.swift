@@ -38,6 +38,7 @@ struct PhotoItem {
 }
 
 struct TextItem {
+    let textSetups: TextSetups
     let defautText: String
 }
 
