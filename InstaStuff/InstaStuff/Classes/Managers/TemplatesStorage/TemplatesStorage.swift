@@ -35,7 +35,7 @@ class TemplatesStorage {
     
     private func setupFrames() {
         let photoSettings = Settings(center: CGPoint(x: 0.5, y: 200.0 / 517.0),
-                                     sizeWidth: 340.0 / 397.0,
+                                     sizeWidth: 340.0 / 394.0,
                                      angle: 0,
                                      ratio: 340.0 / 336.0)
         let frameArea = PhotoItem(frameName: "frame1_1",
@@ -51,19 +51,26 @@ class TemplatesStorage {
         let frameAreaDescription = FrameAreaDescription(settings: frameSettings,
                                                         frameArea: .photoFrame(frames["frame1_1"]!))
         
+        let frameSettings2 = Settings(center: CGPoint(x: 0.3, y: 0.3),
+                                     sizeWidth: 0.7,
+                                     angle: .pi / 8,
+                                     ratio: 397.0 / 517.0)
+        let frameAreaDescription2 = FrameAreaDescription(settings: frameSettings2,
+                                                        frameArea: .photoFrame(frames["frame1_1"]!))
+        
         let textSettings = Settings(center: CGPoint(x: 0.5, y: 0.5),
                                     sizeWidth: 0.7,
                                     angle: 0,
                                     ratio: 4.0)
         
-        let textItem = TextItem(textSetups: TextSetups(textType: [.bold]),
-                                defautText: "Hello")
+        let textItem = TextItem(textSetups: TextSetups(textType: [.bold, .italic], fontSize: 60),
+                                defautText: "a aa aaa aaaa aaaaa aaaaa aaaaaa aaaaaaa aaaaaaa")
         let textAreaDescription = FrameAreaDescription(settings: textSettings,
                                                        frameArea: .textFrame(textItem))
         
         let textSettings2 = Settings(center: CGPoint(x: 0.5, y: 0.9),
                                     sizeWidth: 0.7,
-                                    angle: 0,
+                                    angle: -.pi / 10,
                                     ratio: 4.0)
         
         let textAreaDescription2 = FrameAreaDescription(settings: textSettings2,
@@ -78,9 +85,9 @@ class TemplatesStorage {
         
         let areas = [
             frameAreaDescription,
-            //textAreaDescription,
-            textAreaDescription2,
+            frameAreaDescription2,
             stuffAreaDescription,
+            textAreaDescription2
             ]
         
         let templates = [

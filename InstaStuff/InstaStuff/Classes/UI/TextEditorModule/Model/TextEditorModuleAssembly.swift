@@ -14,7 +14,7 @@ protocol TextEditorModuleAssembly {
     /// Экран «TextEditorModule»
     ///
     /// - Returns: View Controller
-    func createTextEditorModuleController(params: TextEditorModulePresenter.Parameters) -> UIView
+    func createTextEditorModuleController(params: TextEditorModulePresenter.Parameters) -> TextEditorModuleController
     
 }
 
@@ -23,7 +23,7 @@ extension Assembly: TextEditorModuleAssembly {
     /// Экран «TextEditorModule»
     ///
     /// - Returns: View Controller
-    func createTextEditorModuleController(params: TextEditorModulePresenter.Parameters) -> UIView {
+    func createTextEditorModuleController(params: TextEditorModulePresenter.Parameters) -> TextEditorModuleController {
         let presenter = TextEditorModulePresenter(params: params)
         return TextEditorModuleController.controller(presenter: presenter)
     }

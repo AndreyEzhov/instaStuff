@@ -71,8 +71,12 @@ class BaseViewController<T>: UIViewController, View {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.view.backgroundColor = Consts.Colors.applicationColor
         navigationController?.navigationBar.barTintColor = Consts.Colors.applicationColor
         navigationController?.navigationBar.tintColor = Consts.Colors.applicationTintColor
+        navigationController?.navigationBar.backIndicatorImage = #imageLiteral(resourceName: "backButton")
+        navigationController?.navigationBar.backIndicatorTransitionMaskImage = #imageLiteral(resourceName: "backButton")
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {

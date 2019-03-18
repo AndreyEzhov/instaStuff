@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1252897E222AEA5B0040609B /* photo_frame.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1252897D222AEA5A0040609B /* photo_frame.pdf */; };
 		12528A6F222B5A5B0040609B /* StoryEditableItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12528A6E222B5A5B0040609B /* StoryEditableItem.swift */; };
 		12528A7F223517F60040609B /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12528A7E223517F60040609B /* Common.swift */; };
 		12528A8222351D3B0040609B /* StuffPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12528A8122351D3B0040609B /* StuffPlace.swift */; };
@@ -60,12 +59,12 @@
 		AD5829DE223BFCB80069558B /* PhotoModuleControllerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5829D8223BFCB80069558B /* PhotoModuleControllerAssembly.swift */; };
 		AD5829E0223BFCB80069558B /* PhotoModuleControllerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5829DB223BFCB80069558B /* PhotoModuleControllerController.swift */; };
 		AD5829E2223C205B0069558B /* TextSetups.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5829E1223C205B0069558B /* TextSetups.swift */; };
+		AD5829E4223D85400069558B /* TextEdibaleItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5829E3223D85400069558B /* TextEdibaleItemModel.swift */; };
 		ADEBBC422239381A00D2C566 /* StorySlideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEBBC412239381A00D2C566 /* StorySlideView.swift */; };
 		ADEBBC4422393DA900D2C566 /* TextViewPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEBBC4322393DA900D2C566 /* TextViewPlace.swift */; };
 		ADEBBC5922394CE600D2C566 /* TextEditorModulePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEBBC5222394CE600D2C566 /* TextEditorModulePresenter.swift */; };
 		ADEBBC5A22394CE600D2C566 /* TextEditorModuleAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEBBC5422394CE600D2C566 /* TextEditorModuleAssembly.swift */; };
 		ADEBBC5C22394CE600D2C566 /* TextEditorModuleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEBBC5722394CE600D2C566 /* TextEditorModuleController.swift */; };
-		ADEBBC5E22394EDF00D2C566 /* TextEditableItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEBBC5D22394EDF00D2C566 /* TextEditableItem.swift */; };
 		ADEBBC60223959A500D2C566 /* TextEditableItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEBBC5F223959A500D2C566 /* TextEditableItemCell.swift */; };
 		ADEBBC6222398F9700D2C566 /* UITextView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEBBC6122398F9700D2C566 /* UITextView+Ext.swift */; };
 /* End PBXBuildFile section */
@@ -73,7 +72,6 @@
 /* Begin PBXFileReference section */
 		123B040F2223221500258D34 /* set1 */ = {isa = PBXFileReference; explicitFileType = folder; includeInIndex = 0; path = set1; sourceTree = BUILT_PRODUCTS_DIR; };
 		123B04112223221500258D34 /* ContentInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ContentInfo.plist; sourceTree = "<group>"; };
-		1252897D222AEA5A0040609B /* photo_frame.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = photo_frame.pdf; sourceTree = "<group>"; };
 		12528A6E222B5A5B0040609B /* StoryEditableItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryEditableItem.swift; sourceTree = "<group>"; };
 		12528A7E223517F60040609B /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		12528A8122351D3B0040609B /* StuffPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StuffPlace.swift; sourceTree = "<group>"; };
@@ -130,12 +128,12 @@
 		AD5829D8223BFCB80069558B /* PhotoModuleControllerAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoModuleControllerAssembly.swift; sourceTree = "<group>"; };
 		AD5829DB223BFCB80069558B /* PhotoModuleControllerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoModuleControllerController.swift; sourceTree = "<group>"; };
 		AD5829E1223C205B0069558B /* TextSetups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSetups.swift; sourceTree = "<group>"; };
+		AD5829E3223D85400069558B /* TextEdibaleItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEdibaleItemModel.swift; sourceTree = "<group>"; };
 		ADEBBC412239381A00D2C566 /* StorySlideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorySlideView.swift; sourceTree = "<group>"; };
 		ADEBBC4322393DA900D2C566 /* TextViewPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewPlace.swift; sourceTree = "<group>"; };
 		ADEBBC5222394CE600D2C566 /* TextEditorModulePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEditorModulePresenter.swift; sourceTree = "<group>"; };
 		ADEBBC5422394CE600D2C566 /* TextEditorModuleAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEditorModuleAssembly.swift; sourceTree = "<group>"; };
 		ADEBBC5722394CE600D2C566 /* TextEditorModuleController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEditorModuleController.swift; sourceTree = "<group>"; };
-		ADEBBC5D22394EDF00D2C566 /* TextEditableItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEditableItem.swift; sourceTree = "<group>"; };
 		ADEBBC5F223959A500D2C566 /* TextEditableItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEditableItemCell.swift; sourceTree = "<group>"; };
 		ADEBBC6122398F9700D2C566 /* UITextView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Ext.swift"; sourceTree = "<group>"; };
 		BE8890ED00D814BB3024EB3B /* Pods_InstaStuff.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InstaStuff.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -257,7 +255,6 @@
 				12C1189F2221C7F400996C20 /* AppDelegate.swift */,
 				12C118A32221C7F400996C20 /* Main.storyboard */,
 				12C118A62221C7F700996C20 /* Assets.xcassets */,
-				1252897D222AEA5A0040609B /* photo_frame.pdf */,
 				12C118A82221C7F700996C20 /* LaunchScreen.storyboard */,
 				12C118AB2221C7F700996C20 /* Info.plist */,
 				12528A87223568410040609B /* Localizable.strings */,
@@ -498,8 +495,8 @@
 			isa = PBXGroup;
 			children = (
 				ADEBBC5422394CE600D2C566 /* TextEditorModuleAssembly.swift */,
-				ADEBBC5D22394EDF00D2C566 /* TextEditableItem.swift */,
 				AD5829E1223C205B0069558B /* TextSetups.swift */,
+				AD5829E3223D85400069558B /* TextEdibaleItemModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -603,7 +600,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				12528A85223568410040609B /* Localizable.strings in Resources */,
-				1252897E222AEA5B0040609B /* photo_frame.pdf in Resources */,
 				12C118AA2221C7F700996C20 /* LaunchScreen.storyboard in Resources */,
 				12C118A72221C7F700996C20 /* Assets.xcassets in Resources */,
 				12C118A52221C7F400996C20 /* Main.storyboard in Resources */,
@@ -635,9 +631,10 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-InstaStuff/Pods-InstaStuff-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-InstaStuff/Pods-InstaStuff-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/RxAtomic/RxAtomic.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
@@ -646,13 +643,14 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAtomic.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-InstaStuff/Pods-InstaStuff-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-InstaStuff/Pods-InstaStuff-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD5508D8C2862EF1A8312F53 /* [CP] Check Pods Manifest.lock */ = {
@@ -718,7 +716,6 @@
 				12C118BE2221C82500996C20 /* TypeCast.swift in Sources */,
 				12C118E92221F23F00996C20 /* StoryPickerAssembly.swift in Sources */,
 				1289FDA022227A2C00CD7F0E /* StoryStorage.swift in Sources */,
-				ADEBBC5E22394EDF00D2C566 /* TextEditableItem.swift in Sources */,
 				AD4C0173223A787900F17FF3 /* TemplatePickerPresenter.swift in Sources */,
 				128186BD2224877000E48646 /* StoryCell.swift in Sources */,
 				12C118E52221F23F00996C20 /* StoryEditorAssembly.swift in Sources */,
@@ -728,6 +725,7 @@
 				ADEBBC5922394CE600D2C566 /* TextEditorModulePresenter.swift in Sources */,
 				1289FDA6222281A000CD7F0E /* PhotoPlace.swift in Sources */,
 				ADEBBC422239381A00D2C566 /* StorySlideView.swift in Sources */,
+				AD5829E4223D85400069558B /* TextEdibaleItemModel.swift in Sources */,
 				1289FD9D22220F6100CD7F0E /* TemplateSet.swift in Sources */,
 				12C118C02221C82500996C20 /* AttributedString+Extension.swift in Sources */,
 				1289FD9622220E9A00CD7F0E /* TemplatesStorage.swift in Sources */,

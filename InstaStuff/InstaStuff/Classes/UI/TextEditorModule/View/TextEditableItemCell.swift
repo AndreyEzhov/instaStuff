@@ -24,7 +24,7 @@ class TextEditableItemCell: UICollectionViewCell {
         }
     }
     
-    private var item: TextEditableItem!
+    private var item: TextEdibaleItemModel!
     
     // MARK: - Construction
     
@@ -55,7 +55,7 @@ class TextEditableItemCell: UICollectionViewCell {
     
     // MARK: - Functions
     
-    func setup(with item: TextEditableItem) {
+    func setup(with item: TextEdibaleItemModel) {
         self.item = item
         isSelected = false
     }

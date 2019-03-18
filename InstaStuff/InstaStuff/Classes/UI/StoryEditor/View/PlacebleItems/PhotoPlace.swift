@@ -287,7 +287,7 @@ let queue = DispatchQueue(label: "myImageQueue", qos: .background)
 extension PhotoPlace: SliderListener {
     
     func valueDidChanged(_ value: Float) {
-        DispatchQueue.global(qos: .userInitiated).async {
+        DispatchQueue.global(qos: .background).async {
             guard let imageOpt = try? self.storyEditablePhotoItem.image.value(), let image = imageOpt else {
                 return
             }

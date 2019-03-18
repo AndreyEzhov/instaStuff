@@ -15,8 +15,11 @@ protocol TextEditorModuleDisplayable: class {
 
 /// Интерфейс презентера
 protocol TextEditorModulePresentable: class {
-    var editableItems: [TextEditableItem] { get }
+    var editableItems: [TextEdibaleItemModel] { get }
     var view: TextEditorModuleDisplayable? { get set }
+    var textSetups: TextSetupsEditable? { get set }
+    var selectedIndexes: [Int] { get }
+    func select(at index: Int)
 }
 
 /// Презентер для экрана «TextEditorModule»
@@ -24,9 +27,17 @@ final class TextEditorModulePresenter: TextEditorModulePresentable {
     
     // MARK: - Nested types
     
-    let editableItems: [TextEditableItem]
+    let editableItems: [TextEdibaleItemModel]
+    
+    var selectedIndexes: [Int] = []
     
     weak var view: TextEditorModuleDisplayable?
+    
+    var textSetups: TextSetupsEditable? {
+        didSet {
+            
+        }
+    }
     
     /// Параметры экрана
     struct Parameters {
@@ -36,7 +47,10 @@ final class TextEditorModulePresenter: TextEditorModulePresentable {
     // MARK: - Construction
     
     init(params: Parameters) {
-        editableItems = TextEditableItem.defaultSet
+        editableItems = [
+            TextEdibaleItemModel(item: .bold),
+            TextEdibaleItemModel(item: .italic)
+        ]
     }
     
     // MARK: - Private Functions
@@ -44,5 +58,9 @@ final class TextEditorModulePresenter: TextEditorModulePresentable {
     // MARK: - Functions
     
     // MARK: - TextEditorModulePresentable
+    
+    func select(at index: Int) {
+        let model = editableItems[index]
+    }
     
 }

@@ -36,7 +36,7 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
         }
         return view
     }()
-
+    
     private var photoDidSelectedBlock: ((UIImage) -> ())?
     
     // MARK: - Life Cycle
@@ -45,6 +45,7 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
         super.viewDidLoad()
         setup()
         setupTap()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "export"), style: .plain, target: self, action: #selector(exportImage))
     }
     
     override func updateViewConstraints() {
@@ -53,7 +54,7 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
             maker.top.equalTo(view.snp.topMargin)
             maker.bottom.equalTo(view.snp.bottomMargin)
         }
-        let frame = slideView.frame
+        let frame = view.frame
         let ratio: CGFloat = 9.0 / 16.0
         
         slideView.snp.remakeConstraints { maker in
@@ -96,7 +97,54 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
     // MARK: - Functions
     
     // MARK: - Actions
-
+    
+    @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        if let error = error {
+            // we got back an error!
+            let ac = UIAlertController(title: "Save error", message: error.localizedDescription, preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
+        } else {
+            let ac = UIAlertController(title: "Saved!", message: "Your altered image has been saved to your photos.", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
+        }
+    }
+    
+    @objc private func exportImage() {
+        let width = Consts.UIGreed.screenWidth
+        let height = Consts.UIGreed.screenHeight
+        let size = CGSize(width: width, height: height)
+        UIGraphicsBeginImageContext(size)
+        let story = presenter.story
+        story.template.backgroundImage?.draw(in: CGRect(origin: .zero, size: size))
+        
+        story.items.forEach { item in
+            guard let image = item.renderedImage else {
+                return
+            }
+            let currentWidth = item.settings.sizeWidth * width
+            let size = CGSize(width: currentWidth,
+                              height: currentWidth / item.settings.ratio)
+            let frame = CGRect(origin: CGPoint(x: -size.width / 2.0, y: -size.height / 2.0), size: size)
+            
+            if let context = UIGraphicsGetCurrentContext() {
+                context.saveGState()
+                context.translateBy(x: width * item.settings.center.x,
+                                    y: height * item.settings.center.y)
+                context.concatenate(CGAffineTransform(rotationAngle: item.settings.angle))
+                image.draw(in: frame)
+                context.restoreGState()
+            }
+        }
+        
+        let myImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        if let image = myImage {
+            UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+        }
+    }
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage,
             let block = photoDidSelectedBlock {

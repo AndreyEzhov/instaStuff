@@ -12,4 +12,5 @@ target 'InstaStuff' do
     shared_pods
     pod 'SwiftGen'
     pod 'RxSwift'
+    pod 'RxCocoa'
 end

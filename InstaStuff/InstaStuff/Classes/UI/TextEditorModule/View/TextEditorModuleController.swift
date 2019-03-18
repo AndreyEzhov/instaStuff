@@ -13,7 +13,7 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
     
     // MARK: - Properties
     
-    private var presenter: TextEditorModulePresentable!
+    private(set) var presenter: TextEditorModulePresentable!
     
     /// Есть ли сториборд
     class func controller(presenter: TextEditorModulePresentable) -> TextEditorModuleController {
@@ -33,7 +33,7 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = .clear
-        collectionView.allowsMultipleSelection = false
+        collectionView.allowsMultipleSelection = true
         collectionView.registerClass(for: TextEditableItemCell.self)
         return collectionView
     }()
@@ -102,7 +102,7 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
     // MARK: - UICollectionViewDelegate
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+
     }
     
 }

@@ -8,19 +8,13 @@
 
 import UIKit
 
-private var routerAssociationKey: UInt8 = 0
-
 extension TextViewPlace {
     
-    private var editView: UIView {
-        guard let view = objc_getAssociatedObject(self, &routerAssociationKey) as? TextEditorModuleController else {
-            let view = Assembly.shared.createTextEditorModuleController(params: TextEditorModulePresenter.Parameters())
-            objc_setAssociatedObject(self, &routerAssociationKey, view, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
-            view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 335-44)
-            return view
-        }
+    static let editView: TextEditorModuleController = {
+        let view = Assembly.shared.createTextEditorModuleController(params: TextEditorModulePresenter.Parameters())
+        view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 335-44)
         return view
-    }
+    }()
     
     func addDoneButtonOnKeyboard() {
         let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
@@ -49,7 +43,7 @@ extension TextViewPlace {
             inputView = nil
             return
         }
-        inputView = editView
+        inputView = TextViewPlace.editView
         
     }
 }

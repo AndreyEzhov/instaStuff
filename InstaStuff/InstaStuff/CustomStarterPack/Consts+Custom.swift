@@ -12,6 +12,10 @@ extension Consts {
     
     struct UIGreed {
         static let photoRatio: CGFloat = 9.0 / 16.0
+        
+        static let screenWidth: CGFloat = 1080
+        
+        static let screenHeight: CGFloat = 1920
     }
     
     struct Colors {

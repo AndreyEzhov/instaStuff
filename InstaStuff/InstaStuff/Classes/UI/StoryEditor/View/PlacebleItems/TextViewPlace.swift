@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 class TextViewPlace: UITextView, TemplatePlaceble {
     
@@ -44,8 +45,12 @@ class TextViewPlace: UITextView, TemplatePlaceble {
     // MARK: - Private Functions
     
     private func setup() {
-        storyEditableTextItem.text.asObservable().subscribe(onNext: { [weak self] text in
-            self?.text = text
+        textContainerInset = .zero
+        textContainer.lineFragmentPadding = 0
+        storyEditableTextItem.text.asObservable().bind(to: rx.text).disposed(by: bag)
+        rx.text.orEmpty.bind(to: storyEditableTextItem.text).disposed(by: bag)
+        storyEditableTextItem.textSetups.attributesSubject.asObservable().subscribe(onNext: { [weak self] attributes in
+            self?.attributedText = NSAttributedString(string: self?.text ?? "", attributes: attributes)
         }).disposed(by: bag)
         backgroundColor = .clear
         isScrollEnabled = false
@@ -53,28 +58,18 @@ class TextViewPlace: UITextView, TemplatePlaceble {
         addDoneButtonOnKeyboard()
     }
     
-    private func updateTextSetup() {
-        let setups = storyEditableTextItem.textItem.textSetups
-        var newFont = UIFont.systemFont(ofSize: 16)
-        if setups.textType.contains(.bold) {
-            newFont = newFont.bold()
-        }
-        if setups.textType.contains(.italic) {
-            newFont = newFont.italic()
-        }
-    }
-    
     // MARK: - UIResponder
     
     override func becomeFirstResponder() -> Bool {
         let becomeFirstResponder = super.becomeFirstResponder()
-        isSelected = becomeFirstResponder
+        isSelected = isFirstResponder
+        TextViewPlace.editView.presenter.textSetups = storyEditableTextItem.textSetups
         return becomeFirstResponder
     }
     
     override func resignFirstResponder() -> Bool {
         let resignFirstResponder = super.resignFirstResponder()
-        isSelected = !resignFirstResponder
+        isSelected = isFirstResponder
         return resignFirstResponder
     }
 

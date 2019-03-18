@@ -80,7 +80,7 @@ final class PhotoModuleControllerController: UIView, PhotoModuleControllerDispla
     // MARK: - Actions
     
     @objc private func sliderValueDidChanged() {
-        value = Int(round(slideView.value / 2))
+        value = Int(round(slideView.value / 4))
     }
     
 }
