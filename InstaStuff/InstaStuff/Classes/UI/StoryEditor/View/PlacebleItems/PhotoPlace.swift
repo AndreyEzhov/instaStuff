@@ -33,6 +33,14 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
         return view
     }()
     
+    private let dashedLayer: CAShapeLayer = {
+        let layer = CAShapeLayer()
+        layer.strokeColor = UIColor.black.cgColor
+        layer.fillColor = nil
+        layer.lineWidth = 1 / UIScreen.main.scale
+        return layer
+    }()
+    
     private lazy var photoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -49,15 +57,6 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         return imageView
-    }()
-    
-    private lazy var photoContentFrameView: UIView = {
-        let view = UIView()
-        view.layer.borderColor = UIColor.black.cgColor
-        view.layer.borderWidth = 1
-        view.layer.cornerRadius = 3
-        view.isUserInteractionEnabled = false
-        return view
     }()
     
     private lazy var deletePhotoButton: UIButton = {
@@ -128,12 +127,9 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
         framePlace.snp.remakeConstraints { maker in
             maker.edges.equalToSuperview()
         }
-        photoContentFrameView.snp.remakeConstraints { maker in
-            maker.edges.equalTo(photoContentView.snp.edges)
-        }
         deletePhotoButton.snp.remakeConstraints { maker in
-            maker.top.equalTo(photoContentFrameView.snp.top)
-            maker.right.equalTo(photoContentFrameView.snp.right)
+            maker.top.equalTo(photoContentView.snp.top)
+            maker.right.equalTo(photoContentView.snp.right)
             maker.size.equalTo(CGSize(width: 30, height: 30))
         }
     }
@@ -189,17 +185,24 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
     
     @objc private func deletePhoto() {
         storyEditablePhotoItem.update(image: nil)
+        updateTransforms()
     }
     
     // MARK: - Private Functions
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        dashedLayer.frame = photoContentView.frame
+        dashedLayer.path = UIBezierPath(rect: dashedLayer.bounds).cgPath
+    }
     
     private func setup() {
         addSubview(photoPlace)
         addSubview(photoContentView)
         photoContentView.addSubview(photoImageView)
         addSubview(framePlace)
-        addSubview(photoContentFrameView)
         addSubview(deletePhotoButton)
+        layer.addSublayer(dashedLayer)
         
         photoPlace.image = storyEditablePhotoItem.photoItem.photoPlaceImage
         storyEditablePhotoItem.image.subscribe(onNext: { [weak self] image in
@@ -214,7 +217,6 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
         framePlace.image = storyEditablePhotoItem.photoItem.framePlaceImage
         
         clipsToBounds = true
-        photoContentFrameView.isHidden = true
         deletePhotoButton.isHidden = true
         updateConstraintsIfNeeded()
     }
@@ -268,14 +270,14 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
     
     override func resignFirstResponder() -> Bool {
         let flag = super.resignFirstResponder()
-        photoContentFrameView.isHidden = !isFirstResponder
+        dashedLayer.lineDashPattern = isFirstResponder ? nil : [2, 2]
         deletePhotoButton.isHidden = !isFirstResponder
         return flag
     }
     
     override func becomeFirstResponder() -> Bool {
         let flag = super.becomeFirstResponder()
-        photoContentFrameView.isHidden = !isFirstResponder
+        dashedLayer.lineDashPattern = isFirstResponder ? nil : [2, 2]
         deletePhotoButton.isHidden = !isFirstResponder
         return flag
     }

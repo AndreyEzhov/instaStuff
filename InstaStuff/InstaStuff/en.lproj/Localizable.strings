@@ -1,12 +1,14 @@
-/* 
-  Localizable.strings
-  InstaStuff
 
-  Created by Андрей Ежов on 10.03.2019.
-  Copyright © 2019 Андрей Ежов. All rights reserved.
-*/
 
 
 "mail.choose-best-ready-template" = "Choose best\nready template";
 
 "mail.create-your-unic-history" = "Create your\nunic history";
+
+// MARK: - Text Editor Toolbar
+
+"toolbar.edit-text" = "Edit text";
+
+// MARK: - Common
+
+"common.done" = "Done";

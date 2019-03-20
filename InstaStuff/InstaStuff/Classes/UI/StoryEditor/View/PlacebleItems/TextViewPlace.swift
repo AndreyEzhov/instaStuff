@@ -20,13 +20,19 @@ class TextViewPlace: UITextView, TemplatePlaceble {
         return storyEditableTextItem
     }
     
+    private let dashedLayer: CAShapeLayer = {
+        let layer = CAShapeLayer()
+        layer.strokeColor = UIColor.black.cgColor
+        layer.fillColor = nil
+        layer.lineWidth = 1 / UIScreen.main.scale
+        return layer
+    }()
+    
     private let bag = DisposeBag()
     
     var isSelected = false {
         didSet {
-            layer.borderColor = UIColor.black.cgColor
-            layer.cornerRadius = 3
-            layer.borderWidth = isSelected ? 1 : 0
+            dashedLayer.lineDashPattern = isSelected ? nil : [2, 2]
         }
     }
     
@@ -42,13 +48,24 @@ class TextViewPlace: UITextView, TemplatePlaceble {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Life Cycle
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        dashedLayer.frame = layer.bounds
+        dashedLayer.path = UIBezierPath(rect: dashedLayer.bounds.inset(by: UIEdgeInsets(top: 1 / UIScreen.main.scale, left: 1 / UIScreen.main.scale, bottom: 1 / UIScreen.main.scale, right: 1 / UIScreen.main.scale))).cgPath
+    }
+    
     // MARK: - Private Functions
     
     private func setup() {
         textContainerInset = .zero
         textContainer.lineFragmentPadding = 0
         storyEditableTextItem.text.asObservable().bind(to: rx.text).disposed(by: bag)
-        rx.text.orEmpty.bind(to: storyEditableTextItem.text).disposed(by: bag)
+        rx.text.orEmpty.subscribe(onNext: { [weak self] (string) in
+            self?.storyEditableTextItem.text.onNext(string)
+            self?.attributedText = NSAttributedString(string: string, attributes: self?.storyEditableTextItem.textSetups.attributes)
+        }).disposed(by: bag)
         storyEditableTextItem.textSetups.attributesSubject.asObservable().subscribe(onNext: { [weak self] attributes in
             self?.attributedText = NSAttributedString(string: self?.text ?? "", attributes: attributes)
         }).disposed(by: bag)
@@ -56,6 +73,8 @@ class TextViewPlace: UITextView, TemplatePlaceble {
         isScrollEnabled = false
         isSelected = false
         addDoneButtonOnKeyboard()
+        layer.addSublayer(dashedLayer)
+        layoutManager.allowsNonContiguousLayout = false
     }
     
     // MARK: - UIResponder

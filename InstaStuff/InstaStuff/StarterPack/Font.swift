@@ -103,4 +103,12 @@ extension UIFont {
     func italic() -> UIFont {
         return withTraits(traits: .traitItalic)
     }
+    
+    var canBeBold: Bool {
+        return fontDescriptor.withSymbolicTraits(.traitBold) != nil
+    }
+    
+    var canBeItalic: Bool {
+        return fontDescriptor.withSymbolicTraits(.traitItalic) != nil
+    }
 }

@@ -34,8 +34,8 @@ class TemplatesStorage {
     }
     
     private func setupFrames() {
-        let photoSettings = Settings(center: CGPoint(x: 0.5, y: 200.0 / 517.0),
-                                     sizeWidth: 340.0 / 394.0,
+        let photoSettings = Settings(center: CGPoint(x: 0.5, y: 20.0 / 52.0),
+                                     sizeWidth: 340.0 / 396.0,
                                      angle: 0,
                                      ratio: 340.0 / 336.0)
         let frameArea = PhotoItem(frameName: "frame1_1",
@@ -63,7 +63,7 @@ class TemplatesStorage {
                                     angle: 0,
                                     ratio: 4.0)
         
-        let textItem = TextItem(textSetups: TextSetups(textType: [.bold, .italic], fontSize: 60),
+        let textItem = TextItem(textSetups: TextSetups(textType: [.bold, .italic], aligment: .left, fontSize: 60, lineSpacing: 1, fontType: .chalkboardSE, kern: 1, color: .black),
                                 defautText: "a aa aaa aaaa aaaaa aaaaa aaaaaa aaaaaaa aaaaaaa")
         let textAreaDescription = FrameAreaDescription(settings: textSettings,
                                                        frameArea: .textFrame(textItem))

@@ -94,8 +94,8 @@ class StoryEditablePhotoItem: StoryEditableItem {
         
         if let context = UIGraphicsGetCurrentContext(),
             let photo = photo() {
-            context.translateBy(x: photoSize.width / 2.0 + editablePhotoTransform.currentTranslation.x / globalScale,
-                                y: photoSize.height / 2.0 + editablePhotoTransform.currentTranslation.y / globalScale)
+            context.translateBy(x: photoSize.width / 2.0 + editablePhotoTransform.currentTranslation.x / Consts.UIGreed.globalScale,
+                                y: photoSize.height / 2.0 + editablePhotoTransform.currentTranslation.y / Consts.UIGreed.globalScale)
             context.rotate(by: editablePhotoTransform.currentRotation)
             context.scaleBy(x: editablePhotoTransform.currentScale,
                             y: editablePhotoTransform.currentScale)
@@ -150,6 +150,8 @@ class StoryEditableTextItem: StoryEditableItem {
     
     let text: BehaviorSubject<String>
     
+    private let bag = DisposeBag()
+    
     override var renderedImage: UIImage? {
         let width = Consts.UIGreed.screenWidth
         let textWidth = width * settings.sizeWidth
@@ -170,11 +172,14 @@ class StoryEditableTextItem: StoryEditableItem {
         textSetups = TextSetupsEditable(textSetups: textItem.textSetups)
         text = BehaviorSubject(value: textItem.defautText)
         super.init(settings)
+        textSetups.isUpperCaseSubject.asObservable().subscribe(onNext: { [weak self] isUpperCase in
+            if let text = try? self?.text.value(), let textValue = text {
+                self?.text.onNext(isUpperCase ? textValue.uppercased() : textValue.capitalized)
+            }
+        }).disposed(by: bag)
     }
     
 }
-
-let globalScale: CGFloat = 369.0 / 1080.0
 
 class StoryEditableStuffItem: StoryEditableItem {
     
