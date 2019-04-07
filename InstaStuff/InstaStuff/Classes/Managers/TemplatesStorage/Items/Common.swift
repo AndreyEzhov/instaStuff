@@ -17,7 +17,7 @@ struct Settings {
 
 struct FrameAreaDescription {
     enum FrameAreaType {
-        case textFrame(TextItem), photoFrame(PhotoItem), stuffFrame(StuffItem)
+        case textFrame(TextItem), photoFrame(PhotoItem), stuffFrame(StuffItem), viewFrame(ViewItem)
     }
     let settings: Settings
     let frameArea: FrameAreaType
@@ -47,4 +47,8 @@ struct StuffItem {
     var stuffImage: UIImage? {
         return UIImage(named: stuffName)
     }
+}
+
+struct ViewItem {
+    let color: UIColor
 }

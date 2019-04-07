@@ -28,6 +28,8 @@ class StoryItem {
                 return StoryEditableTextItem(textItem, settings: $0.settings)
             case .stuffFrame(let stuffItem):
                 return StoryEditableStuffItem(stuffItem, settings: $0.settings)
+            case .viewFrame(let viewItem):
+                return StoryEditableViewItem(viewItem, settings: $0.settings)
             }
         }
     }

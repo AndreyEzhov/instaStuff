@@ -23,9 +23,8 @@ final class PhotoModuleControllerController: UIView, PhotoModuleControllerDispla
     
     private lazy var slideView: UISlider = {
         let slider = UISlider()
-        slider.minimumValue = -100
+        slider.minimumValue = 0
         slider.maximumValue = 100
-        slider.value = 0
         slider.addTarget(self, action: #selector(sliderValueDidChanged), for: .valueChanged)
         return slider
     }()
@@ -41,15 +40,15 @@ final class PhotoModuleControllerController: UIView, PhotoModuleControllerDispla
     // MARK: - Construction
     
     class func controller(presenter: PhotoModuleControllerPresentable) -> PhotoModuleControllerController {
-        let view = PhotoModuleControllerController(frame: .zero)
-        view.presenter = presenter
+        let view = PhotoModuleControllerController(presenter)
         presenter.view = view
         return view
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(_ presenter: PhotoModuleControllerPresentable) {
+        super.init(frame: .zero)
         backgroundColor = Consts.Colors.applicationColor
+        self.presenter = presenter
         setup()
     }
     
@@ -73,6 +72,7 @@ final class PhotoModuleControllerController: UIView, PhotoModuleControllerDispla
     private func setup() {
         addSubview(slideView)
         updateConstraintsIfNeeded()
+        slideView.value = presenter.initilaValue * 100
     }
     
     // MARK: - Functions
@@ -80,7 +80,7 @@ final class PhotoModuleControllerController: UIView, PhotoModuleControllerDispla
     // MARK: - Actions
     
     @objc private func sliderValueDidChanged() {
-        value = Int(round(slideView.value / 4))
+        value = Int(round(slideView.value))
     }
     
 }

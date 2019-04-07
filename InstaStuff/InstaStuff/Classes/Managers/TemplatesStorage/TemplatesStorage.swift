@@ -45,13 +45,37 @@ class TemplatesStorage {
                                   photoAreaLocation: photoSettings)
         frames[frameArea.frameName] = frameArea
         
-        let photoSettingsEmpty = Settings(center: CGPoint(x: 0.5, y: 0.5),
-                                          sizeWidth: 1,
-                                          angle: 0,
-                                          ratio: 0)
-        let frameAreaEmpty = PhotoItem(frameName: "empty",
-                                       photoAreaLocation: photoSettingsEmpty)
-        frames[frameAreaEmpty.frameName] = frameAreaEmpty
+        let photoSettingsEmpty7to8 = Settings(center: CGPoint(x: 0.5, y: 0.5),
+                                              sizeWidth: 1,
+                                              angle: 0,
+                                              ratio: 7.0/8.0)
+        let frameAreaEmpty7to8 = PhotoItem(frameName: "empty7to8",
+                                           photoAreaLocation: photoSettingsEmpty7to8)
+        frames[frameAreaEmpty7to8.frameName] = frameAreaEmpty7to8
+        
+        let photoSettingsEmpty8to10 = Settings(center: CGPoint(x: 0.5, y: 0.5),
+                                               sizeWidth: 1,
+                                               angle: 0,
+                                               ratio: 0.8)
+        let frameAreaEmpty8to10 = PhotoItem(frameName: "empty8to10",
+                                            photoAreaLocation: photoSettingsEmpty8to10)
+        frames[frameAreaEmpty8to10.frameName] = frameAreaEmpty8to10
+        
+        let photoSettingsEmpty1to1 = Settings(center: CGPoint(x: 0.5, y: 0.5),
+                                              sizeWidth: 1,
+                                              angle: 0,
+                                              ratio: 1)
+        let frameAreaEmpty1to1 = PhotoItem(frameName: "empty1to1",
+                                           photoAreaLocation: photoSettingsEmpty1to1)
+        frames[frameAreaEmpty1to1.frameName] = frameAreaEmpty1to1
+        
+        let photoSettingsEmpty9to16 = Settings(center: CGPoint(x: 0.5, y: 0.5),
+                                               sizeWidth: 1,
+                                               angle: 0,
+                                               ratio: 9.0/16.0)
+        let frameAreaEmpty9to16 = PhotoItem(frameName: "empty9to16",
+                                            photoAreaLocation: photoSettingsEmpty9to16)
+        frames[frameAreaEmpty9to16.frameName] = frameAreaEmpty9to16
     }
     
     private func setupTemplates() {
@@ -104,13 +128,69 @@ class TemplatesStorage {
         let frame2Photo1Settings = Settings(center: CGPoint(x: 0.5, y: 0.5),
                                             sizeWidth: 1,
                                             angle: 0,
-                                            ratio: 1080.0 / 1920.0)
+                                            ratio: 9.0 / 16.0)
         
         let frame2Photo1 = FrameAreaDescription(settings: frame2Photo1Settings,
-                                                frameArea: .photoFrame(frames["empty"]!))
+                                                frameArea: .photoFrame(frames["empty9to16"]!))
+        
+        let frame2Photo2Settings = Settings(center: CGPoint(x: 63.0/108.0, y: 66.0/192.0),
+                                            sizeWidth: 80.0/108.0,
+                                            angle: 0,
+                                            ratio: 0.8)
+        
+        let frame2Photo2 = FrameAreaDescription(settings: frame2Photo2Settings,
+                                                frameArea: .photoFrame(frames["empty8to10"]!))
+        
+        let frame2Photo3Settings = Settings(center: CGPoint(x: 40.0/108.0, y: 134.0/192.0),
+                                            sizeWidth: 70.0/108.0,
+                                            angle: 0,
+                                            ratio: 7.0/8.0)
+        
+        let frame2Photo3 = FrameAreaDescription(settings: frame2Photo3Settings,
+                                                frameArea: .photoFrame(frames["empty7to8"]!))
+        
+        let frame2Photo4Settings = Settings(center: CGPoint(x: 75.0/108.0, y: 108.0/192.0),
+                                            sizeWidth: 43.0/108.0,
+                                            angle: 0,
+                                            ratio: 1)
+        
+        let frame2Photo4 = FrameAreaDescription(settings: frame2Photo4Settings,
+                                                frameArea: .photoFrame(frames["empty1to1"]!))
+        
+        let viewItem = ViewItem(color: .white)
+        
+        let frame2ViewPhoto2Settings = Settings(center: CGPoint(x: 63.0/108.0, y: 66.0/192.0),
+                                                sizeWidth: 84.0/108.0,
+                                                angle: 0,
+                                                ratio: 84.0/104.0)
+        
+        let frame2ViewPhoto2 = FrameAreaDescription(settings: frame2ViewPhoto2Settings,
+                                                    frameArea: .viewFrame(viewItem))
+        
+        let frame2ViewPhoto3Settings = Settings(center: CGPoint(x: 40.0/108.0, y: 134.0/192.0),
+                                                sizeWidth: 74.0/108.0,
+                                                angle: 0,
+                                                ratio: 74.0/84.0)
+        
+        let frame2ViewPhoto3 = FrameAreaDescription(settings: frame2ViewPhoto3Settings,
+                                                    frameArea: .viewFrame(viewItem))
+        
+        let frame2ViewPhoto4Settings = Settings(center: CGPoint(x: 75.0/108.0, y: 108.0/192.0),
+                                                sizeWidth: 47.0/108.0,
+                                                angle: 0,
+                                                ratio: 1)
+        
+        let frame2ViewPhoto4 = FrameAreaDescription(settings: frame2ViewPhoto4Settings,
+                                                    frameArea: .viewFrame(viewItem))
         
         let areas2 = [
-            frame2Photo1
+            frame2Photo1,
+            //frame2ViewPhoto2,
+            //frame2Photo2,
+            //frame2ViewPhoto3,
+            //frame2Photo3,
+            //frame2ViewPhoto4,
+            //frame2Photo4
         ]
         
         let templates = [
@@ -118,7 +198,7 @@ class TemplatesStorage {
                           name: "Frame 1",
                           frameAreas: areas),
             
-            FrameTemplate(id: "template1",
+            FrameTemplate(id: "template2",
                           name: "Frame 2",
                           frameAreas: areas2),
             

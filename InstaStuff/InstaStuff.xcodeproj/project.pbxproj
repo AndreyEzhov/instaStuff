@@ -62,6 +62,7 @@
 		AD5829E2223C205B0069558B /* TextSetups.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5829E1223C205B0069558B /* TextSetups.swift */; };
 		AD5829E4223D85400069558B /* TextEdibaleItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5829E3223D85400069558B /* TextEdibaleItemModel.swift */; };
 		AD5F429E224186E000C19386 /* NSParagraphStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F429D224186E000C19386 /* NSParagraphStyle.swift */; };
+		ADBF3ECF225A4D830008A543 /* ViewPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBF3ECE225A4D830008A543 /* ViewPlace.swift */; };
 		ADEBBC422239381A00D2C566 /* StorySlideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEBBC412239381A00D2C566 /* StorySlideView.swift */; };
 		ADEBBC4422393DA900D2C566 /* TextViewPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEBBC4322393DA900D2C566 /* TextViewPlace.swift */; };
 		ADEBBC5922394CE600D2C566 /* TextEditorModulePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEBBC5222394CE600D2C566 /* TextEditorModulePresenter.swift */; };
@@ -133,6 +134,7 @@
 		AD5829E1223C205B0069558B /* TextSetups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSetups.swift; sourceTree = "<group>"; };
 		AD5829E3223D85400069558B /* TextEdibaleItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEdibaleItemModel.swift; sourceTree = "<group>"; };
 		AD5F429D224186E000C19386 /* NSParagraphStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSParagraphStyle.swift; sourceTree = "<group>"; };
+		ADBF3ECE225A4D830008A543 /* ViewPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPlace.swift; sourceTree = "<group>"; };
 		ADEBBC412239381A00D2C566 /* StorySlideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorySlideView.swift; sourceTree = "<group>"; };
 		ADEBBC4322393DA900D2C566 /* TextViewPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewPlace.swift; sourceTree = "<group>"; };
 		ADEBBC5222394CE600D2C566 /* TextEditorModulePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEditorModulePresenter.swift; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 				1289FDA5222281A000CD7F0E /* PhotoPlace.swift */,
 				12528A8122351D3B0040609B /* StuffPlace.swift */,
 				ADEBBC4322393DA900D2C566 /* TextViewPlace.swift */,
+				ADBF3ECE225A4D830008A543 /* ViewPlace.swift */,
 			);
 			path = PlacebleItems;
 			sourceTree = "<group>";
@@ -719,6 +722,7 @@
 				AD4C0174223A787900F17FF3 /* TemplatePickerRouter.swift in Sources */,
 				128186B32224839C00E48646 /* Strings+Ext.swift in Sources */,
 				12C118BE2221C82500996C20 /* TypeCast.swift in Sources */,
+				ADBF3ECF225A4D830008A543 /* ViewPlace.swift in Sources */,
 				12C118E92221F23F00996C20 /* StoryPickerAssembly.swift in Sources */,
 				1289FDA022227A2C00CD7F0E /* StoryStorage.swift in Sources */,
 				AD52373F224256DA003649AD /* ColorCell.swift in Sources */,

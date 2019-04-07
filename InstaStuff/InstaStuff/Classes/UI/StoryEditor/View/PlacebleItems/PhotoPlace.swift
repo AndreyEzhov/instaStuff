@@ -64,9 +64,11 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
         return true
     }
     
+    private var photoRedactorValue: Float = 0
+    
     override var inputView: UIView? {
         if hasPhoto {
-            let view = Assembly.shared.createPhotoModuleControllerController(params: PhotoModuleControllerPresenter.Parameters())
+            let view = Assembly.shared.createPhotoModuleControllerController(params: PhotoModuleControllerPresenter.Parameters(initilaValue: photoRedactorValue))
             view.delegate = self
             view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 100)
             return view
@@ -132,7 +134,7 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
         let realCenterX = location.center.x * rect.width
         let realCenterY = location.center.y * rect.height
         let widthRect = location.sizeWidth * rect.width
-        let hightRect = widthRect * location.ratio
+        let hightRect = widthRect / location.ratio
         let xRect = realCenterX - widthRect / 2
         let yRect = realCenterY - hightRect / 2
         UIBezierPath(rect: CGRect(x: xRect,
@@ -311,6 +313,7 @@ extension PhotoPlace: SliderListener {
     
     func valueDidChanged(_ value: Float) {
         DispatchQueue.global(qos: .background).async {
+            self.photoRedactorValue = value
             guard let imageOpt = ((try? self.storyEditablePhotoItem.image.value()) as UIImage??), let image = imageOpt else {
                 return
             }
@@ -318,9 +321,9 @@ extension PhotoPlace: SliderListener {
                 let outputImage = originalImage.applyingFilter("CIColorControls",
                                                                parameters: [
                                                                 kCIInputImageKey: originalImage,
-                                                                kCIInputSaturationKey: 1.0 - 0.05 * value,
-                                                                kCIInputContrastKey: 1.0 - 0.05 * value,
-                                                                kCIInputBrightnessKey: 0.05 * value,
+                                                                kCIInputSaturationKey: 1.0 - 0.07 * value,
+                                                                kCIInputContrastKey: 1.0 - 0.13 * value,
+                                                                kCIInputBrightnessKey: -0.06 * value,
                                                                 ])
                 let newImage = UIImage(ciImage: outputImage)
                 DispatchQueue.main.async {

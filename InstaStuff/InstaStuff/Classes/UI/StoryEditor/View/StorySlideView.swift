@@ -76,6 +76,8 @@ class StorySlideView: UIView {
                 view = TextViewPlace(item)
             case let item as StoryEditableStuffItem:
                 view = StuffPlace(item)
+            case let item as StoryEditableViewItem:
+                view = ViewPlace(item)
             default:
                 break
             }

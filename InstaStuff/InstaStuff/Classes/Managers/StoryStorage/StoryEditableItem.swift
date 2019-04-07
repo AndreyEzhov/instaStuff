@@ -194,3 +194,27 @@ class StoryEditableStuffItem: StoryEditableItem {
         super.init(settings)
     }
 }
+
+class StoryEditableViewItem: StoryEditableItem {
+    
+    override var renderedImage: UIImage? {
+        let width = Consts.UIGreed.screenWidth
+        let viewWidth = width * settings.sizeWidth
+        let viewSize = CGSize(width: viewWidth,
+                              height: viewWidth / settings.ratio)
+        UIGraphicsBeginImageContext(viewSize)
+        viewItem.color.setFill()
+        let context = UIGraphicsGetCurrentContext()
+        context?.fill(CGRect(origin: .zero, size: viewSize))
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
+    }
+    
+    let viewItem: ViewItem
+    
+    init(_ viewItem: ViewItem, settings: Settings) {
+        self.viewItem = viewItem
+        super.init(settings)
+    }
+}
