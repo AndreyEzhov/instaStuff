@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1010"
+   LastUpgradeVersion = "1020"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "75BF544982A3E2E391FE42849293208A"
+               BlueprintIdentifier = "D64C77F297D60E73A49590DEC5F5BBC7"
                BuildableName = "RxAtomic.framework"
                BlueprintName = "RxAtomic"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "75BF544982A3E2E391FE42849293208A"
+            BlueprintIdentifier = "D64C77F297D60E73A49590DEC5F5BBC7"
             BuildableName = "RxAtomic.framework"
             BlueprintName = "RxAtomic"
             ReferencedContainer = "container:Pods.xcodeproj">

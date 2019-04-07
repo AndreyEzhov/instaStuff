@@ -54,7 +54,7 @@ class StoryEditablePhotoItem: StoryEditableItem {
     var editablePhotoTransform = EditableTransform()
     
     private func photo() -> UIImage? {
-        if let photo = try? self.image.value(),
+        if let photo = ((try? self.image.value()) as UIImage??),
             let unwrapedPhoto = photo {
             
             let photoRealRatio = unwrapedPhoto.size.width / unwrapedPhoto.size.height
@@ -173,7 +173,7 @@ class StoryEditableTextItem: StoryEditableItem {
         text = BehaviorSubject(value: textItem.defautText)
         super.init(settings)
         textSetups.isUpperCaseSubject.asObservable().subscribe(onNext: { [weak self] isUpperCase in
-            if let text = try? self?.text.value(), let textValue = text {
+            if let text = ((try? self?.text.value()) as String??), let textValue = text {
                 self?.text.onNext(isUpperCase ? textValue.uppercased() : textValue.capitalized)
             }
         }).disposed(by: bag)

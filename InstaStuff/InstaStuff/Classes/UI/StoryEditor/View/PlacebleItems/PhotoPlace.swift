@@ -47,12 +47,6 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
         return imageView
     }()
     
-    private lazy var photoPlace: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
-    
     private lazy var framePlace: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -88,7 +82,7 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
     private var gestures: [UIGestureRecognizer] = []
     
     private var hasPhoto: Bool {
-        if let image = try? storyEditablePhotoItem.image.value(), image == nil {
+        if let image = ((try? storyEditablePhotoItem.image.value()) as UIImage??), image == nil {
             return false
         }
         return true
@@ -118,9 +112,6 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
             maker.centerX.equalToSuperview().multipliedBy(settings.center.x * 2)
             maker.centerY.equalToSuperview().multipliedBy(settings.center.y * 2)
         }
-        photoPlace.snp.remakeConstraints { maker in
-            maker.edges.equalToSuperview()
-        }
         photoImageView.snp.remakeConstraints { maker in
             maker.edges.equalToSuperview()
         }
@@ -132,6 +123,37 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
             maker.right.equalTo(photoContentView.snp.right)
             maker.size.equalTo(CGSize(width: 30, height: 30))
         }
+    }
+    
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        let location = storyEditablePhotoItem.photoItem.photoAreaLocation
+        Consts.Colors.photoplaceColor.setFill()
+        let realCenterX = location.center.x * rect.width
+        let realCenterY = location.center.y * rect.height
+        let widthRect = location.sizeWidth * rect.width
+        let hightRect = widthRect * location.ratio
+        let xRect = realCenterX - widthRect / 2
+        let yRect = realCenterY - hightRect / 2
+        UIBezierPath(rect: CGRect(x: xRect,
+                                  y: yRect,
+                                  width: widthRect,
+                                  height: hightRect)).fill()
+        Consts.Colors.applicationTintColor.setStroke()
+        let lineSize: CGFloat = min(widthRect * 0.5, 20)
+        let vPath = UIBezierPath()
+        vPath.move(to: CGPoint(x: realCenterX - lineSize, y: realCenterY))
+        vPath.addLine(to: CGPoint(x: realCenterX + lineSize, y: realCenterY))
+        vPath.close()
+        vPath.lineWidth = 1
+        vPath.stroke()
+        
+        let hPath = UIBezierPath()
+        hPath.move(to: CGPoint(x: realCenterX, y: realCenterY - lineSize))
+        hPath.addLine(to: CGPoint(x: realCenterX, y: realCenterY + lineSize))
+        hPath.close()
+        hPath.lineWidth = 1
+        hPath.stroke()
     }
     
     // MARK: - Actions
@@ -197,14 +219,13 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
     }
     
     private func setup() {
-        addSubview(photoPlace)
+        backgroundColor = .clear
         addSubview(photoContentView)
         photoContentView.addSubview(photoImageView)
         addSubview(framePlace)
         addSubview(deletePhotoButton)
         layer.addSublayer(dashedLayer)
         
-        photoPlace.image = storyEditablePhotoItem.photoItem.photoPlaceImage
         storyEditablePhotoItem.image.subscribe(onNext: { [weak self] image in
             self?.photoImageView.image = image
             if image == nil {
@@ -290,7 +311,7 @@ extension PhotoPlace: SliderListener {
     
     func valueDidChanged(_ value: Float) {
         DispatchQueue.global(qos: .background).async {
-            guard let imageOpt = try? self.storyEditablePhotoItem.image.value(), let image = imageOpt else {
+            guard let imageOpt = ((try? self.storyEditablePhotoItem.image.value()) as UIImage??), let image = imageOpt else {
                 return
             }
             if let originalImage = CIImage(image: image) {

@@ -29,8 +29,11 @@ class TemplatesStorage {
     // MARK: - Private Functions
     
     private func setupStuffs() {
-        let stuff = StuffItem(stuffName: "stuff_1")
-        stuffs[stuff.stuffName] = stuff
+        [
+            StuffItem(stuffName: "stuff_1")
+            ].forEach {
+                stuffs[$0.stuffName] = $0
+        }
     }
     
     private func setupFrames() {
@@ -41,6 +44,14 @@ class TemplatesStorage {
         let frameArea = PhotoItem(frameName: "frame1_1",
                                   photoAreaLocation: photoSettings)
         frames[frameArea.frameName] = frameArea
+        
+        let photoSettingsEmpty = Settings(center: CGPoint(x: 0.5, y: 0.5),
+                                          sizeWidth: 1,
+                                          angle: 0,
+                                          ratio: 0)
+        let frameAreaEmpty = PhotoItem(frameName: "empty",
+                                       photoAreaLocation: photoSettingsEmpty)
+        frames[frameAreaEmpty.frameName] = frameAreaEmpty
     }
     
     private func setupTemplates() {
@@ -52,11 +63,11 @@ class TemplatesStorage {
                                                         frameArea: .photoFrame(frames["frame1_1"]!))
         
         let frameSettings2 = Settings(center: CGPoint(x: 0.3, y: 0.3),
-                                     sizeWidth: 0.7,
-                                     angle: .pi / 8,
-                                     ratio: 397.0 / 517.0)
+                                      sizeWidth: 0.7,
+                                      angle: .pi / 8,
+                                      ratio: 397.0 / 517.0)
         let frameAreaDescription2 = FrameAreaDescription(settings: frameSettings2,
-                                                        frameArea: .photoFrame(frames["frame1_1"]!))
+                                                         frameArea: .photoFrame(frames["frame1_1"]!))
         
         let textSettings = Settings(center: CGPoint(x: 0.5, y: 0.5),
                                     sizeWidth: 0.7,
@@ -69,12 +80,12 @@ class TemplatesStorage {
                                                        frameArea: .textFrame(textItem))
         
         let textSettings2 = Settings(center: CGPoint(x: 0.5, y: 0.9),
-                                    sizeWidth: 0.7,
-                                    angle: -.pi / 10,
-                                    ratio: 4.0)
+                                     sizeWidth: 0.7,
+                                     angle: -.pi / 10,
+                                     ratio: 4.0)
         
         let textAreaDescription2 = FrameAreaDescription(settings: textSettings2,
-                                                       frameArea: .textFrame(textItem))
+                                                        frameArea: .textFrame(textItem))
         
         let stuffSettings = Settings(center: CGPoint(x: 0.42, y: 0.22),
                                      sizeWidth: 0.3,
@@ -84,11 +95,23 @@ class TemplatesStorage {
                                                         frameArea: .stuffFrame(stuffs["stuff_1"]!))
         
         let areas = [
+            stuffAreaDescription,
             frameAreaDescription,
             frameAreaDescription2,
-            stuffAreaDescription,
             textAreaDescription2
-            ]
+        ]
+        
+        let frame2Photo1Settings = Settings(center: CGPoint(x: 0.5, y: 0.5),
+                                            sizeWidth: 1,
+                                            angle: 0,
+                                            ratio: 1080.0 / 1920.0)
+        
+        let frame2Photo1 = FrameAreaDescription(settings: frame2Photo1Settings,
+                                                frameArea: .photoFrame(frames["empty"]!))
+        
+        let areas2 = [
+            frame2Photo1
+        ]
         
         let templates = [
             FrameTemplate(id: "template1",
@@ -97,7 +120,7 @@ class TemplatesStorage {
             
             FrameTemplate(id: "template1",
                           name: "Frame 2",
-                          frameAreas: areas),
+                          frameAreas: areas2),
             
             FrameTemplate(id: "template1",
                           name: "Frame 3",
@@ -114,7 +137,7 @@ class TemplatesStorage {
             FrameTemplate(id: "template1",
                           name: "Frame 6",
                           frameAreas: areas),
-            ]
+        ]
         
         templateSets = [
             TemplateSet(id: 1,

@@ -28,6 +28,8 @@ extension Consts {
         
         static let applicationTintColor = UIColor.black
         
+        static let photoplaceColor = Colors.r219g219b219
+        
         static let keyboardColor = #colorLiteral(red: 0.8235294118, green: 0.8352941176, blue: 0.8588235294, alpha: 1)
         
         static let text = #colorLiteral(red: 0.1333333333, green: 0.1333333333, blue: 0.1333333333, alpha: 1)
@@ -37,6 +39,8 @@ extension Consts {
         static let r112g112b112 = #colorLiteral(red: 0.4392156863, green: 0.4392156863, blue: 0.4392156863, alpha: 1)
         
         static let r219g192b178 = #colorLiteral(red: 0.8588235294, green: 0.7529411765, blue: 0.6980392157, alpha: 1)
+        
+        static let r219g219b219 = #colorLiteral(red: 0.8588235294, green: 0.8588235294, blue: 0.8588235294, alpha: 1)
         
     }
 }

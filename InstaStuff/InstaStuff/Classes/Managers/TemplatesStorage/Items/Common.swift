@@ -32,9 +32,6 @@ struct PhotoItem {
     var framePlaceImage: UIImage? {
         return UIImage(named: frameName + "_frameplace")
     }
-    var photoPlaceImage: UIImage? {
-        return UIImage(named: frameName + "_photoplace")
-    }
 }
 
 struct TextItem {
