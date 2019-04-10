@@ -63,6 +63,7 @@
 		AD5829E4223D85400069558B /* TextEdibaleItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5829E3223D85400069558B /* TextEdibaleItemModel.swift */; };
 		AD5F429E224186E000C19386 /* NSParagraphStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F429D224186E000C19386 /* NSParagraphStyle.swift */; };
 		ADBF3ECF225A4D830008A543 /* ViewPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBF3ECE225A4D830008A543 /* ViewPlace.swift */; };
+		ADD7D704225E024F00DC8E78 /* bad-script.regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ADD7D703225E024F00DC8E78 /* bad-script.regular.ttf */; };
 		ADEBBC422239381A00D2C566 /* StorySlideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEBBC412239381A00D2C566 /* StorySlideView.swift */; };
 		ADEBBC4422393DA900D2C566 /* TextViewPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEBBC4322393DA900D2C566 /* TextViewPlace.swift */; };
 		ADEBBC5922394CE600D2C566 /* TextEditorModulePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEBBC5222394CE600D2C566 /* TextEditorModulePresenter.swift */; };
@@ -135,6 +136,7 @@
 		AD5829E3223D85400069558B /* TextEdibaleItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEdibaleItemModel.swift; sourceTree = "<group>"; };
 		AD5F429D224186E000C19386 /* NSParagraphStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSParagraphStyle.swift; sourceTree = "<group>"; };
 		ADBF3ECE225A4D830008A543 /* ViewPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPlace.swift; sourceTree = "<group>"; };
+		ADD7D703225E024F00DC8E78 /* bad-script.regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "bad-script.regular.ttf"; sourceTree = "<group>"; };
 		ADEBBC412239381A00D2C566 /* StorySlideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorySlideView.swift; sourceTree = "<group>"; };
 		ADEBBC4322393DA900D2C566 /* TextViewPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewPlace.swift; sourceTree = "<group>"; };
 		ADEBBC5222394CE600D2C566 /* TextEditorModulePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEditorModulePresenter.swift; sourceTree = "<group>"; };
@@ -257,6 +259,7 @@
 		12C1189E2221C7F400996C20 /* InstaStuff */ = {
 			isa = PBXGroup;
 			children = (
+				ADD7D701225E023F00DC8E78 /* Res */,
 				12C118EC2221F29800996C20 /* CustomStarterPack */,
 				12C118C82221F1A700996C20 /* Classes */,
 				12C118B12221C82500996C20 /* StarterPack */,
@@ -481,6 +484,22 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		ADD7D701225E023F00DC8E78 /* Res */ = {
+			isa = PBXGroup;
+			children = (
+				ADD7D702225E024600DC8E78 /* Fonts */,
+			);
+			path = Res;
+			sourceTree = "<group>";
+		};
+		ADD7D702225E024600DC8E78 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				ADD7D703225E024F00DC8E78 /* bad-script.regular.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		ADEBBC4E22394CE600D2C566 /* TextEditorModule */ = {
 			isa = PBXGroup;
 			children = (
@@ -613,6 +632,7 @@
 				12C118AA2221C7F700996C20 /* LaunchScreen.storyboard in Resources */,
 				12C118A72221C7F700996C20 /* Assets.xcassets in Resources */,
 				12C118A52221C7F400996C20 /* Main.storyboard in Resources */,
+				ADD7D704225E024F00DC8E78 /* bad-script.regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

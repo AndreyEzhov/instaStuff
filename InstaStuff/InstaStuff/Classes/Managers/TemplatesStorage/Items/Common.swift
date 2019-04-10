@@ -17,7 +17,7 @@ struct Settings {
 
 struct FrameAreaDescription {
     enum FrameAreaType {
-        case textFrame(TextItem), photoFrame(PhotoItem), stuffFrame(StuffItem), viewFrame(ViewItem)
+        case textFrame(TextItem), photoFrame(PhotoItem, PhotoItemCustomSettings?), stuffFrame(StuffItem), viewFrame(ViewItem)
     }
     let settings: Settings
     let frameArea: FrameAreaType
@@ -32,6 +32,14 @@ struct PhotoItem {
     var framePlaceImage: UIImage? {
         return UIImage(named: frameName + "_frameplace")
     }
+}
+
+struct PhotoItemCustomSettings {
+    enum CloseButtonPosition {
+        case leftTop, rightTop, leftBottom, rightBottom
+    }
+    let closeButtonPosition: CloseButtonPosition?
+    let plusLocation: CGPoint?
 }
 
 struct TextItem {

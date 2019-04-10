@@ -22,8 +22,8 @@ class StoryItem {
         self.template = template
         items = template.frameAreas.map {
             switch $0.frameArea {
-            case .photoFrame(let photoItem):
-                return StoryEditablePhotoItem(photoItem, settings: $0.settings)
+            case .photoFrame(let photoItem, let customSettings):
+                return StoryEditablePhotoItem(photoItem, customSettings: customSettings, settings: $0.settings)
             case .textFrame(let textItem):
                 return StoryEditableTextItem(textItem, settings: $0.settings)
             case .stuffFrame(let stuffItem):

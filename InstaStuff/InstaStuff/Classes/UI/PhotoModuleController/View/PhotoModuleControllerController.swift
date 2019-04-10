@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol SliderListener: class {
+protocol SliderListener: UIView {
     func valueDidChanged(_ value: Float)
 }
 
@@ -27,6 +27,15 @@ final class PhotoModuleControllerController: UIView, PhotoModuleControllerDispla
         slider.maximumValue = 100
         slider.addTarget(self, action: #selector(sliderValueDidChanged), for: .valueChanged)
         return slider
+    }()
+    
+    private lazy var doneButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitleColor(Consts.Colors.text, for: .normal)
+        button.setTitle(Strings.Common.done, for: .normal)
+        button.addTarget(self, action: #selector(doneButtonAction), for: .touchUpInside)
+        button.titleLabel?.font = UIFont.applicationFontSemibold(ofSize: 17.0)
+        return button
     }()
     
     private var value: Int = 0 {
@@ -55,12 +64,19 @@ final class PhotoModuleControllerController: UIView, PhotoModuleControllerDispla
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - Life Cycle
     
     override func updateConstraints() {
-        slideView.snp.makeConstraints { maker in
-            maker.edges.equalToSuperview().inset(20)
+        doneButton.snp.remakeConstraints { maker in
+            maker.top.equalToSuperview()
+            maker.right.equalToSuperview().inset(20)
+            maker.height.equalTo(44.0)
+        }
+        slideView.snp.remakeConstraints { maker in
+            maker.top.equalTo(doneButton.snp.bottom)
+            maker.left.right.equalToSuperview().inset(20)
+            maker.height.equalTo(44.0)
         }
         super.updateConstraints()
     }
@@ -71,6 +87,7 @@ final class PhotoModuleControllerController: UIView, PhotoModuleControllerDispla
     
     private func setup() {
         addSubview(slideView)
+        addSubview(doneButton)
         updateConstraintsIfNeeded()
         slideView.value = presenter.initilaValue * 100
     }
@@ -81,6 +98,10 @@ final class PhotoModuleControllerController: UIView, PhotoModuleControllerDispla
     
     @objc private func sliderValueDidChanged() {
         value = Int(round(slideView.value))
+    }
+    
+    @objc private func doneButtonAction() {
+        delegate?.resignFirstResponder()
     }
     
 }

@@ -49,6 +49,8 @@ class StoryEditablePhotoItem: StoryEditableItem {
     
     let photoItem: PhotoItem
     
+    let customSettings: PhotoItemCustomSettings?
+    
     let image: BehaviorSubject<UIImage?>
     
     var editablePhotoTransform = EditableTransform()
@@ -131,8 +133,9 @@ class StoryEditablePhotoItem: StoryEditableItem {
         return image
     }
     
-    init(_ photoItem: PhotoItem, settings: Settings) {
+    init(_ photoItem: PhotoItem, customSettings: PhotoItemCustomSettings?, settings: Settings) {
         image = BehaviorSubject(value: nil)
+        self.customSettings = customSettings
         self.photoItem = photoItem
         super.init(settings)
     }

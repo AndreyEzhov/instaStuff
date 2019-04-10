@@ -70,7 +70,7 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
         if hasPhoto {
             let view = Assembly.shared.createPhotoModuleControllerController(params: PhotoModuleControllerPresenter.Parameters(initilaValue: photoRedactorValue))
             view.delegate = self
-            view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 100)
+            view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 140)
             return view
         } else {
             return nil
@@ -105,6 +105,12 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
     
     // MARK: - Life Cycle
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        dashedLayer.frame = photoContentView.frame
+        dashedLayer.path = UIBezierPath(rect: dashedLayer.bounds).cgPath
+    }
+    
     override func updateConstraints() {
         super.updateConstraints()
         photoContentView.snp.remakeConstraints { maker in
@@ -120,9 +126,22 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
         framePlace.snp.remakeConstraints { maker in
             maker.edges.equalToSuperview()
         }
+        let closeButtonPosition = storyEditablePhotoItem.customSettings?.closeButtonPosition ?? PhotoItemCustomSettings.CloseButtonPosition.rightTop
         deletePhotoButton.snp.remakeConstraints { maker in
-            maker.top.equalTo(photoContentView.snp.top)
-            maker.right.equalTo(photoContentView.snp.right)
+            switch closeButtonPosition {
+            case .leftTop:
+                maker.top.equalTo(photoContentView.snp.top)
+                maker.left.equalTo(photoContentView.snp.left)
+            case .leftBottom:
+                maker.bottom.equalTo(photoContentView.snp.bottom)
+                maker.left.equalTo(photoContentView.snp.left)
+            case .rightTop:
+                maker.top.equalTo(photoContentView.snp.top)
+                maker.right.equalTo(photoContentView.snp.right)
+            case .rightBottom:
+                maker.bottom.equalTo(photoContentView.snp.bottom)
+                maker.right.equalTo(photoContentView.snp.right)
+            }
             maker.size.equalTo(CGSize(width: 30, height: 30))
         }
     }
@@ -143,16 +162,22 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
                                   height: hightRect)).fill()
         Consts.Colors.applicationTintColor.setStroke()
         let lineSize: CGFloat = min(widthRect * 0.5, 20)
+        
+        var plussCenter = CGPoint(x: realCenterX, y: realCenterY)
+        if let plusLocation = storyEditablePhotoItem.customSettings?.plusLocation {
+            plussCenter = CGPoint(x: plusLocation.x * rect.width, y: plusLocation.y * rect.height)
+        }
+        
         let vPath = UIBezierPath()
-        vPath.move(to: CGPoint(x: realCenterX - lineSize, y: realCenterY))
-        vPath.addLine(to: CGPoint(x: realCenterX + lineSize, y: realCenterY))
+        vPath.move(to: CGPoint(x: plussCenter.x - lineSize, y: plussCenter.y))
+        vPath.addLine(to: CGPoint(x: plussCenter.x + lineSize, y: plussCenter.y))
         vPath.close()
         vPath.lineWidth = 1
         vPath.stroke()
         
         let hPath = UIBezierPath()
-        hPath.move(to: CGPoint(x: realCenterX, y: realCenterY - lineSize))
-        hPath.addLine(to: CGPoint(x: realCenterX, y: realCenterY + lineSize))
+        hPath.move(to: CGPoint(x: plussCenter.x, y: plussCenter.y - lineSize))
+        hPath.addLine(to: CGPoint(x: plussCenter.x, y: plussCenter.y + lineSize))
         hPath.close()
         hPath.lineWidth = 1
         hPath.stroke()
@@ -213,12 +238,6 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
     }
     
     // MARK: - Private Functions
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        dashedLayer.frame = photoContentView.frame
-        dashedLayer.path = UIBezierPath(rect: dashedLayer.bounds).cgPath
-    }
     
     private func setup() {
         backgroundColor = .clear
@@ -321,9 +340,9 @@ extension PhotoPlace: SliderListener {
                 let outputImage = originalImage.applyingFilter("CIColorControls",
                                                                parameters: [
                                                                 kCIInputImageKey: originalImage,
-                                                                kCIInputSaturationKey: 1.0 - 0.07 * value,
-                                                                kCIInputContrastKey: 1.0 - 0.13 * value,
-                                                                kCIInputBrightnessKey: -0.06 * value,
+                                                                //kCIInputSaturationKey: 1.0 - 0.07 * value,
+                                                                kCIInputContrastKey: 1.0 - 0.2 * value,
+                                                                //kCIInputBrightnessKey: -0.06 * value,
                                                                 ])
                 let newImage = UIImage(ciImage: outputImage)
                 DispatchQueue.main.async {
