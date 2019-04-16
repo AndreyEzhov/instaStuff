@@ -7,269 +7,107 @@
 //
 
 import UIKit
+import CoreData
 
 class TemplatesStorage {
     
     // MARK: - Properties
     
-    private(set) var frames: [PhotoItem.Id: PhotoItem] = [:]
-    
-    private(set) var stuffs: [StuffItem.Id: StuffItem] = [:]
+    let coreDataStack = CoreDataStack(modelName: "Sets")
     
     private(set) var templateSets: [TemplateSet] = []
     
     // MARK: - Consruction
     
     init() {
-        setupFrames()
-        setupStuffs()
-        setupTemplates()
+        fillCoreData()
+        setupSets()
     }
     
     // MARK: - Private Functions
     
-    private func setupStuffs() {
-        [
-            StuffItem(stuffName: "stuff_1")
-            ].forEach {
-                stuffs[$0.stuffName] = $0
+    private func setupSets() {
+        let setFetch: NSFetchRequest<Set> = Set.fetchRequest()
+        setFetch.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
+        do {
+            let results = try coreDataStack.managedContext.fetch(setFetch)
+            if results.count > 0 {
+                templateSets = results.map { currentSet -> TemplateSet in
+                    let templatesRaw = (currentSet.templates?.array) as? [Templates]
+                    let templates = templatesRaw?.compactMap { (currentTemplate: Templates) -> FrameTemplate in
+                        
+                        let itemsRaw = (currentTemplate.items?.array) as? [ItemInTemplate]
+                        
+                        let frameAreas = itemsRaw?.compactMap({ (itemInTemplate: ItemInTemplate) -> FrameAreaDescription? in
+                            return frameAreaDescription(from: itemInTemplate)
+                        })
+                        
+                        return FrameTemplate(id: currentTemplate.templateId ?? "",
+                                             name: currentTemplate.templateName ?? "",
+                                             frameAreas: frameAreas ?? [])
+                    }
+                    return TemplateSet(id: currentSet.id,
+                                       themeColor: (currentSet.themeColor as? UIColor) ?? UIColor.white,
+                                       name: currentSet.setName ?? "",
+                                       templates: templates ?? [])
+                }
+            }
+        } catch let error as NSError {
+            print("Fetch error: \(error) description: \(error.userInfo)")
         }
     }
     
-    private func setupFrames() {
-        let photoSettings = Settings(center: CGPoint(x: 0.5, y: 20.0 / 52.0),
-                                     sizeWidth: 340.0 / 396.0,
-                                     angle: 0,
-                                     ratio: 340.0 / 336.0)
-        let frameArea = PhotoItem(frameName: "frame1_1",
-                                  photoAreaLocation: photoSettings)
-        frames[frameArea.frameName] = frameArea
+    private func frameAreaDescription(from itemInTemplate: ItemInTemplate) -> FrameAreaDescription? {
+        guard let item = itemInTemplate.item else {
+            return nil
+        }
         
-        let photoSettingsEmpty7to8 = Settings(center: CGPoint(x: 0.5, y: 0.5),
-                                              sizeWidth: 1,
-                                              angle: 0,
-                                              ratio: 7.0/8.0)
-        let frameAreaEmpty7to8 = PhotoItem(frameName: "empty7to8",
-                                           photoAreaLocation: photoSettingsEmpty7to8)
-        frames[frameAreaEmpty7to8.frameName] = frameAreaEmpty7to8
+        let settings = generateSettings(from: itemInTemplate.settings)
+        let internalSettings = generateSettings(from: itemInTemplate.item?.internalSettings)
         
-        let photoSettingsEmpty8to10 = Settings(center: CGPoint(x: 0.5, y: 0.5),
-                                               sizeWidth: 1,
-                                               angle: 0,
-                                               ratio: 0.8)
-        let frameAreaEmpty8to10 = PhotoItem(frameName: "empty8to10",
-                                            photoAreaLocation: photoSettingsEmpty8to10)
-        frames[frameAreaEmpty8to10.frameName] = frameAreaEmpty8to10
+        switch ItemType.init(rawValue: item.itemType) {
+        case .photo?:
+            let photoItem = PhotoItem(frameName: itemInTemplate.item?.itemName ?? "", photoAreaLocation: internalSettings)
+            let customSettings = photoItemCustomSettings(from: itemInTemplate.addSettings)
+            
+            let type = FrameAreaDescription.FrameAreaType.photoFrame(photoItem, customSettings)
+            
+            return FrameAreaDescription(settings: settings,
+                                        frameArea: type)
+        case .text?:
+            let textSetups = TextSetups.init(textType: .none,
+                                             aligment: .center,
+                                             fontSize: 36,
+                                             lineSpacing: 1,
+                                             fontType: .futura,
+                                             kern: 0,
+                                             color: .black)
+            let textItem = TextItem.init(textSetups: textSetups, defautText: "Type your text")
+            let type = FrameAreaDescription.FrameAreaType.textFrame(textItem)
+            return FrameAreaDescription(settings: settings,
+                                        frameArea: type)
+        default:
+            return nil
+        }
         
-        let photoSettingsEmpty1to1 = Settings(center: CGPoint(x: 0.5, y: 0.5),
-                                              sizeWidth: 1,
-                                              angle: 0,
-                                              ratio: 1)
-        let frameAreaEmpty1to1 = PhotoItem(frameName: "empty1to1",
-                                           photoAreaLocation: photoSettingsEmpty1to1)
-        frames[frameAreaEmpty1to1.frameName] = frameAreaEmpty1to1
-        
-        let photoSettingsEmpty9to16 = Settings(center: CGPoint(x: 0.5, y: 0.5),
-                                               sizeWidth: 1,
-                                               angle: 0,
-                                               ratio: 9.0/16.0)
-        let frameAreaEmpty9to16 = PhotoItem(frameName: "empty9to16",
-                                            photoAreaLocation: photoSettingsEmpty9to16)
-        frames[frameAreaEmpty9to16.frameName] = frameAreaEmpty9to16
     }
     
-    private func setupTemplates() {
-        let frameSettings = Settings(center: CGPoint(x: 0.5, y: 0.5),
-                                     sizeWidth: 0.7,
-                                     angle: .pi / 6,
-                                     ratio: 397.0 / 517.0)
-        let frameAreaDescription = FrameAreaDescription(settings: frameSettings,
-                                                        frameArea: .photoFrame(frames["frame1_1"]!, nil))
-        
-        let frameSettings2 = Settings(center: CGPoint(x: 0.3, y: 0.3),
-                                      sizeWidth: 0.7,
-                                      angle: .pi / 8,
-                                      ratio: 397.0 / 517.0)
-        let frameAreaDescription2 = FrameAreaDescription(settings: frameSettings2,
-                                                         frameArea: .photoFrame(frames["frame1_1"]!, nil))
-        
-        let textSettings = Settings(center: CGPoint(x: 0.5, y: 0.5),
-                                    sizeWidth: 0.7,
-                                    angle: 0,
-                                    ratio: 4.0)
-        
-        let textItem = TextItem(textSetups: TextSetups(textType: [.bold, .italic], aligment: .left, fontSize: 60, lineSpacing: 1, fontType: .chalkboardSE, kern: 1, color: .black),
-                                defautText: "a aa aaa aaaa aaaaa aaaaa aaaaaa aaaaaaa aaaaaaa")
-        let textAreaDescription = FrameAreaDescription(settings: textSettings,
-                                                       frameArea: .textFrame(textItem))
-        
-        let textSettings2 = Settings(center: CGPoint(x: 0.5, y: 0.9),
-                                     sizeWidth: 0.7,
-                                     angle: -.pi / 10,
-                                     ratio: 4.0)
-        
-        let textAreaDescription2 = FrameAreaDescription(settings: textSettings2,
-                                                        frameArea: .textFrame(textItem))
-        
-        let stuffSettings = Settings(center: CGPoint(x: 0.42, y: 0.22),
-                                     sizeWidth: 0.3,
-                                     angle: -.pi / 6,
-                                     ratio: 86.0 / 43)
-        let stuffAreaDescription = FrameAreaDescription(settings: stuffSettings,
-                                                        frameArea: .stuffFrame(stuffs["stuff_1"]!))
-        
-        let areas = [
-            stuffAreaDescription,
-            frameAreaDescription,
-            frameAreaDescription2,
-            textAreaDescription2
-        ]
-        
-        let frame2Photo1Settings = Settings(center: CGPoint(x: 0.5, y: 0.5),
-                                            sizeWidth: 1,
-                                            angle: 0,
-                                            ratio: 9.0 / 16.0)
-        
-        let frame2Photo1 = FrameAreaDescription(settings: frame2Photo1Settings,
-                                                frameArea: .photoFrame(frames["empty9to16"]!, PhotoItemCustomSettings(closeButtonPosition: .rightTop, plusLocation: CGPoint(x: 11.0/108.0, y: 36.0/192.0))))
-        
-        let frame2Photo2Settings = Settings(center: CGPoint(x: 63.0/108.0, y: 66.0/192.0),
-                                            sizeWidth: 80.0/108.0,
-                                            angle: 0,
-                                            ratio: 0.8)
-        
-        let frame2Photo2 = FrameAreaDescription(settings: frame2Photo2Settings,
-                                                frameArea: .photoFrame(frames["empty8to10"]!, nil))
-        
-        let frame2Photo3Settings = Settings(center: CGPoint(x: 40.0/108.0, y: 134.0/192.0),
-                                            sizeWidth: 70.0/108.0,
-                                            angle: 0,
-                                            ratio: 7.0/8.0)
-        
-        let frame2Photo3 = FrameAreaDescription(settings: frame2Photo3Settings,
-                                                frameArea: .photoFrame(frames["empty7to8"]!, PhotoItemCustomSettings(closeButtonPosition: .leftTop, plusLocation: CGPoint(x: 0.5, y: 0.5))))
-        
-        let frame2Photo4Settings = Settings(center: CGPoint(x: 75.0/108.0, y: 108.0/192.0),
-                                            sizeWidth: 43.0/108.0,
-                                            angle: 0,
-                                            ratio: 1)
-        
-        let frame2Photo4 = FrameAreaDescription(settings: frame2Photo4Settings,
-                                                frameArea: .photoFrame(frames["empty1to1"]!, nil))
-        
-        let viewItem = ViewItem(color: .white)
-        
-        let frame2ViewPhoto2Settings = Settings(center: CGPoint(x: 63.0/108.0, y: 66.0/192.0),
-                                                sizeWidth: 84.0/108.0,
-                                                angle: 0,
-                                                ratio: 84.0/104.0)
-        
-        let frame2ViewPhoto2 = FrameAreaDescription(settings: frame2ViewPhoto2Settings,
-                                                    frameArea: .viewFrame(viewItem))
-        
-        let frame2ViewPhoto3Settings = Settings(center: CGPoint(x: 40.0/108.0, y: 134.0/192.0),
-                                                sizeWidth: 74.0/108.0,
-                                                angle: 0,
-                                                ratio: 74.0/84.0)
-        
-        let frame2ViewPhoto3 = FrameAreaDescription(settings: frame2ViewPhoto3Settings,
-                                                    frameArea: .viewFrame(viewItem))
-        
-        let frame2ViewPhoto4Settings = Settings(center: CGPoint(x: 75.0/108.0, y: 108.0/192.0),
-                                                sizeWidth: 47.0/108.0,
-                                                angle: 0,
-                                                ratio: 1)
-        
-        let frame2ViewPhoto4 = FrameAreaDescription(settings: frame2ViewPhoto4Settings,
-                                                    frameArea: .viewFrame(viewItem))
-        
-        let areas2 = [
-            frame2Photo1,
-            frame2ViewPhoto2,
-            frame2Photo2,
-            frame2ViewPhoto3,
-            frame2Photo3,
-            frame2ViewPhoto4,
-            frame2Photo4
-        ]
-        
-        let templates = [
-            FrameTemplate(id: "template1",
-                          name: "Frame 1",
-                          frameAreas: areas),
-            
-            FrameTemplate(id: "template2",
-                          name: "Frame 2",
-                          frameAreas: areas2),
-            
-            FrameTemplate(id: "template1",
-                          name: "Frame 3",
-                          frameAreas: areas),
-            
-            FrameTemplate(id: "template1",
-                          name: "Frame 4",
-                          frameAreas: areas),
-            
-            FrameTemplate(id: "template1",
-                          name: "Frame 5",
-                          frameAreas: areas),
-            
-            FrameTemplate(id: "template1",
-                          name: "Frame 6",
-                          frameAreas: areas),
-        ]
-        
-        templateSets = [
-            TemplateSet(id: 1,
-                        themeColor: #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1),
-                        name: "Casual",
-                        templates: templates),
-            TemplateSet(id: 2,
-                        themeColor: #colorLiteral(red: 0.8901960784, green: 0.862745098, blue: 0.7215686275, alpha: 1),
-                        name: "Lifestyle",
-                        templates: templates),
-            TemplateSet(id: 3,
-                        themeColor: #colorLiteral(red: 0.8588235294, green: 0.7529411765, blue: 0.6980392157, alpha: 1),
-                        name: "Love",
-                        templates: templates),
-            TemplateSet(id: 4,
-                        themeColor: #colorLiteral(red: 0.8078431373, green: 0.7098039216, blue: 0.5529411765, alpha: 1),
-                        name: "Fashion",
-                        templates: templates),
-            TemplateSet(id: 5,
-                        themeColor: #colorLiteral(red: 0.5882352941, green: 0.6823529412, blue: 0.6274509804, alpha: 1),
-                        name: "Ocean",
-                        templates: templates),
-            TemplateSet(id: 6,
-                        themeColor: #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1),
-                        name: "Tommy",
-                        templates: templates),
-            
-            TemplateSet(id: 1,
-                        themeColor: #colorLiteral(red: 0.8901960784, green: 0.862745098, blue: 0.7215686275, alpha: 1),
-                        name: "Casual",
-                        templates: templates),
-            TemplateSet(id: 2,
-                        themeColor: #colorLiteral(red: 0.8588235294, green: 0.7529411765, blue: 0.6980392157, alpha: 1),
-                        name: "Lifestyle",
-                        templates: templates),
-            TemplateSet(id: 3,
-                        themeColor: #colorLiteral(red: 0.8078431373, green: 0.7098039216, blue: 0.5529411765, alpha: 1),
-                        name: "Love",
-                        templates: templates),
-            TemplateSet(id: 4,
-                        themeColor: #colorLiteral(red: 0.5882352941, green: 0.6823529412, blue: 0.6274509804, alpha: 1),
-                        name: "Fashion",
-                        templates: templates),
-            TemplateSet(id: 5,
-                        themeColor: #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1),
-                        name: "Ocean",
-                        templates: templates),
-            TemplateSet(id: 6,
-                        themeColor: #colorLiteral(red: 0.8078431373, green: 0.7098039216, blue: 0.5529411765, alpha: 1),
-                        name: "Tommy",
-                        templates: templates)
-        ]
+    private func photoItemCustomSettings(from addSettings: AdditionalSettings?) -> PhotoItemCustomSettings? {
+        guard let addSettings = addSettings else {
+            return nil
+        }
+        return PhotoItemCustomSettings(closeButtonPosition: PhotoItemCustomSettings.CloseButtonPosition(rawValue: addSettings.closeButtonPosition),
+                                       plusLocation: CGPoint(x: CGFloat(addSettings.plusLocationX), y: CGFloat(addSettings.plusLocationY)))
+    }
+    
+    private func generateSettings(from itemSettings: ItemSettings?) -> Settings {
+        let centerPoint = CGPoint(x: CGFloat(itemSettings?.centerX ?? 0.5), y: CGFloat(itemSettings?.centerY ?? 0.5))
+        return Settings(center: centerPoint,
+                        sizeWidth: CGFloat(itemSettings?.width ?? 1),
+                        angle: CGFloat(itemSettings?.rotation ?? 0),
+                        ratio: CGFloat(itemSettings?.ratio ?? 1))
     }
     
 }
+
+

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14490.98" systemVersion="18E226" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="AdditionalSettings" representedClassName="AdditionalSettings" syncable="YES" codeGenerationType="class">
+        <attribute name="closeButtonPosition" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="plusLocationX" optional="YES" attributeType="Float" defaultValueString="0.5" syncable="YES"/>
+        <attribute name="plusLocationY" optional="YES" attributeType="Float" defaultValueString="0.5" syncable="YES"/>
+    </entity>
+    <entity name="ItemInTemplate" representedClassName="ItemInTemplate" syncable="YES" codeGenerationType="class">
+        <relationship name="addSettings" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AdditionalSettings" syncable="YES"/>
+        <relationship name="item" maxCount="1" deletionRule="Nullify" destinationEntity="Items" syncable="YES"/>
+        <relationship name="settings" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ItemSettings" syncable="YES"/>
+    </entity>
+    <entity name="Items" representedClassName="Items" syncable="YES" codeGenerationType="class">
+        <attribute name="itemName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="itemType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="internalSettings" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ItemSettings" syncable="YES"/>
+    </entity>
+    <entity name="ItemSettings" representedClassName="ItemSettings" syncable="YES" codeGenerationType="class">
+        <attribute name="centerX" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="centerY" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="ratio" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="rotation" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="width" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <entity name="Set" representedClassName="Set" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="setName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="themeColor" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <relationship name="templates" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Templates" syncable="YES"/>
+    </entity>
+    <entity name="Templates" representedClassName="Templates" syncable="YES" codeGenerationType="class">
+        <attribute name="templateId" attributeType="String" syncable="YES"/>
+        <attribute name="templateName" attributeType="String" syncable="YES"/>
+        <relationship name="items" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="ItemInTemplate" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="AdditionalSettings" positionX="-585" positionY="-9" width="128" height="90"/>
+        <element name="ItemInTemplate" positionX="-567.6953125" positionY="67.48046875" width="128" height="90"/>
+        <element name="Items" positionX="-151.3359375" positionY="72.98046875" width="128" height="90"/>
+        <element name="ItemSettings" positionX="-357.37890625" positionY="232.90234375" width="128" height="120"/>
+        <element name="Set" positionX="-789.16796875" positionY="-163.3359375" width="128" height="105"/>
+        <element name="Templates" positionX="-676.125" positionY="-55.27734375" width="128" height="90"/>
+    </elements>
+</model>

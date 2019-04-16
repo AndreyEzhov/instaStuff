@@ -11,6 +11,8 @@ import RxSwift
 
 protocol PhotoPicker: class {
     func photoPlaceDidSelected(_ photoPlace: PhotoPlace, completion: @escaping (UIImage) -> ())
+    func photoPlaceDidBeginEditing(_ photoPlace: PhotoPlace)
+    func photoPlaceDidEndEditing(_ photoPlace: PhotoPlace)
 }
 
 protocol TemplatePlaceble: class {
@@ -89,6 +91,8 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
         }
         return true
     }
+    
+    private var currentMinimumScale: CGFloat = 1
     
     // MARK: - Construction
     
@@ -214,7 +218,7 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
         case .began:
             sender.scale = storyEditablePhotoItem.editablePhotoTransform.currentScale
         case .changed:
-            storyEditablePhotoItem.editablePhotoTransform.currentScale = sender.scale
+            storyEditablePhotoItem.editablePhotoTransform.currentScale = max(currentMinimumScale, sender.scale)
             updateTransforms()
         default:
             break
@@ -248,11 +252,19 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
         layer.addSublayer(dashedLayer)
         
         storyEditablePhotoItem.image.subscribe(onNext: { [weak self] image in
-            self?.photoImageView.image = image
-            if image == nil {
-                _ = self?.resignFirstResponder()
+            guard let sSelf = self else { return }
+            sSelf.photoImageView.image = image
+            if let image = image {
+                _ = sSelf.becomeFirstResponder()
+                var scale = sSelf.storyEditablePhotoItem.photoItem.photoAreaLocation.ratio / (image.size.width / image.size.height)
+                if scale < 1 {
+                    scale = 1 / scale
+                }
+                sSelf.storyEditablePhotoItem.editablePhotoTransform.currentScale = scale
+                sSelf.currentMinimumScale = scale
+                sSelf.updateTransforms()
             } else {
-                _ = self?.becomeFirstResponder()
+                _ = sSelf.resignFirstResponder()
             }
             self?.reloadInputViews()
         }).disposed(by: bag)
@@ -314,6 +326,7 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
         let flag = super.resignFirstResponder()
         dashedLayer.lineDashPattern = isFirstResponder ? nil : [2, 2]
         deletePhotoButton.isHidden = !isFirstResponder
+        delegate?.photoPlaceDidEndEditing(self)
         return flag
     }
     
@@ -321,6 +334,9 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
         let flag = super.becomeFirstResponder()
         dashedLayer.lineDashPattern = isFirstResponder ? nil : [2, 2]
         deletePhotoButton.isHidden = !isFirstResponder
+        if hasPhoto {
+            delegate?.photoPlaceDidBeginEditing(self)
+        }
         return flag
     }
     

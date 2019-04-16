@@ -14,6 +14,7 @@ struct TextSetups {
     struct TextType: OptionSet {
         let rawValue: Int
         
+        static let none = TextType(rawValue: 0 << 0)
         static let bold = TextType(rawValue: 1 << 0)
         static let italic = TextType(rawValue: 1 << 1)
     }

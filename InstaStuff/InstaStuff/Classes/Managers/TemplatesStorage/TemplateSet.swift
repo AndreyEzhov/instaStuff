@@ -10,7 +10,7 @@ import UIKit
 
 struct TemplateSet {
     
-    typealias TemplateSetId = Int
+    typealias TemplateSetId = Int64
     
     // MARK: - Properties
     

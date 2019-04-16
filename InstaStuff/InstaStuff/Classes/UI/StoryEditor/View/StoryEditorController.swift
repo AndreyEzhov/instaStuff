@@ -30,6 +30,7 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
     
     private lazy var slideView: StorySlideView = {
         let view = StorySlideView(slide: presenter.story)
+        view.backgroundColor = .white
         view.photoPlaces.forEach {
             ($0 as? PhotoPlace)?.delegate = self
             ($0 as? TextViewPlace)?.delegate = self
@@ -74,6 +75,11 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
         view.addGestureRecognizer(tap)
         tap.addTarget(self, action: #selector(tapGesture(_:)))
         tap.delegate = self
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        slideView.dropShadow()
     }
     
     // MARK: - UIGestureRecognizerDelegate
@@ -162,6 +168,20 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
     func photoPlaceDidSelected(_ photoPlace: PhotoPlace, completion: @escaping (UIImage) -> ()) {
         present(imagePicker, animated: true, completion: nil)
         photoDidSelectedBlock = completion
+    }
+    
+    func photoPlaceDidBeginEditing(_ photoPlace: PhotoPlace) {
+        guard let frame = photoPlace.superview?.convert(photoPlace.frame, to: self.view) else {
+            return
+        }
+        let offset = (view.frame.height - frame.maxY) - 160
+        if offset < 0 {
+            slideArea.setContentOffset(CGPoint(x: 0, y: -offset), animated: true)
+        }
+    }
+    
+    func photoPlaceDidEndEditing(_ photoPlace: PhotoPlace) {
+        slideArea.setContentOffset(.zero, animated: true)
     }
     
     // MARK: - UITextViewDelegate

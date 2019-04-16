@@ -61,9 +61,11 @@ final class TemplatePickerController: BaseViewController<TemplatePickerPresentab
         view.addSubview(setsCollectionView)
         view.addSubview(framesCollectionView)
         view.updateConstraintsIfNeeded()
-        setsCollectionView.selectItem(at: IndexPath(row: selectedSet, section: 0),
-                                      animated: false,
-                                      scrollPosition: .left)
+        if setsCollectionView.numberOfItems(inSection: 0) > selectedSet {
+            setsCollectionView.selectItem(at: IndexPath(row: selectedSet, section: 0),
+                                          animated: false,
+                                          scrollPosition: .left)
+        }
     }
     
     override func updateViewConstraints() {
@@ -134,21 +136,21 @@ final class TemplatePickerController: BaseViewController<TemplatePickerPresentab
         }
     }
     
-        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-            switch collectionView {
-            case setsCollectionView:
-                if selectedSet == indexPath.row {
-                    return
-                }
-                selectedSet = indexPath.row
-                framesCollectionView.reloadData()
-                framesCollectionView.setContentOffset(.zero, animated: false)
-            case framesCollectionView:
-                let template = presenter.templateSets[selectedSet].templates[indexPath.row]
-                navigationController?.router.routeToStoryEditor(parameters: StoryEditorPresenter.Parameters.init(template: template))
-            default:
-                break
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch collectionView {
+        case setsCollectionView:
+            if selectedSet == indexPath.row {
+                return
             }
+            selectedSet = indexPath.row
+            framesCollectionView.reloadData()
+            framesCollectionView.setContentOffset(.zero, animated: false)
+        case framesCollectionView:
+            let template = presenter.templateSets[selectedSet].templates[indexPath.row]
+            navigationController?.router.routeToStoryEditor(parameters: StoryEditorPresenter.Parameters.init(template: template))
+        default:
+            break
         }
+    }
     
 }

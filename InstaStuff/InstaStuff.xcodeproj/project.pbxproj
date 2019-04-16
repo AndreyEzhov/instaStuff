@@ -62,6 +62,9 @@
 		AD5829E2223C205B0069558B /* TextSetups.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5829E1223C205B0069558B /* TextSetups.swift */; };
 		AD5829E4223D85400069558B /* TextEdibaleItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5829E3223D85400069558B /* TextEdibaleItemModel.swift */; };
 		AD5F429E224186E000C19386 /* NSParagraphStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F429D224186E000C19386 /* NSParagraphStyle.swift */; };
+		AD8F6EDD22609D580030537D /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8F6EDC22609D580030537D /* CoreDataStack.swift */; };
+		AD8F6EE02260A1FE0030537D /* Sets.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AD8F6EDE2260A1FE0030537D /* Sets.xcdatamodeld */; };
+		AD8F6EE22260BE4E0030537D /* TemplatesStorage+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8F6EE12260BE4E0030537D /* TemplatesStorage+Ext.swift */; };
 		ADBF3ECF225A4D830008A543 /* ViewPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBF3ECE225A4D830008A543 /* ViewPlace.swift */; };
 		ADD7D704225E024F00DC8E78 /* bad-script.regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ADD7D703225E024F00DC8E78 /* bad-script.regular.ttf */; };
 		ADEBBC422239381A00D2C566 /* StorySlideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEBBC412239381A00D2C566 /* StorySlideView.swift */; };
@@ -135,6 +138,9 @@
 		AD5829E1223C205B0069558B /* TextSetups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSetups.swift; sourceTree = "<group>"; };
 		AD5829E3223D85400069558B /* TextEdibaleItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEdibaleItemModel.swift; sourceTree = "<group>"; };
 		AD5F429D224186E000C19386 /* NSParagraphStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSParagraphStyle.swift; sourceTree = "<group>"; };
+		AD8F6EDC22609D580030537D /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		AD8F6EDF2260A1FE0030537D /* Sets.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Sets.xcdatamodel; sourceTree = "<group>"; };
+		AD8F6EE12260BE4E0030537D /* TemplatesStorage+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TemplatesStorage+Ext.swift"; sourceTree = "<group>"; };
 		ADBF3ECE225A4D830008A543 /* ViewPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPlace.swift; sourceTree = "<group>"; };
 		ADD7D703225E024F00DC8E78 /* bad-script.regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "bad-script.regular.ttf"; sourceTree = "<group>"; };
 		ADEBBC412239381A00D2C566 /* StorySlideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorySlideView.swift; sourceTree = "<group>"; };
@@ -210,6 +216,7 @@
 		1289FD9722220F0100CD7F0E /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				AD8F6EDB22609D430030537D /* CoreData */,
 				1289FD9E22227A1300CD7F0E /* StoryStorage */,
 				1289FD9822220F0C00CD7F0E /* TemplatesStorage */,
 			);
@@ -222,6 +229,7 @@
 				12528A7D223517DF0040609B /* Items */,
 				1289FD9522220E9A00CD7F0E /* TemplatesStorage.swift */,
 				1289FD9C22220F6100CD7F0E /* TemplateSet.swift */,
+				AD8F6EE12260BE4E0030537D /* TemplatesStorage+Ext.swift */,
 			);
 			path = TemplatesStorage;
 			sourceTree = "<group>";
@@ -482,6 +490,15 @@
 				AD5829DB223BFCB80069558B /* PhotoModuleControllerController.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		AD8F6EDB22609D430030537D /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				AD8F6EDC22609D580030537D /* CoreDataStack.swift */,
+				AD8F6EDE2260A1FE0030537D /* Sets.xcdatamodeld */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 		ADD7D701225E023F00DC8E78 /* Res */ = {
@@ -746,6 +763,7 @@
 				12C118E92221F23F00996C20 /* StoryPickerAssembly.swift in Sources */,
 				1289FDA022227A2C00CD7F0E /* StoryStorage.swift in Sources */,
 				AD52373F224256DA003649AD /* ColorCell.swift in Sources */,
+				AD8F6EE02260A1FE0030537D /* Sets.xcdatamodeld in Sources */,
 				AD4C0173223A787900F17FF3 /* TemplatePickerPresenter.swift in Sources */,
 				128186BD2224877000E48646 /* StoryCell.swift in Sources */,
 				12C118E52221F23F00996C20 /* StoryEditorAssembly.swift in Sources */,
@@ -756,10 +774,12 @@
 				1289FDA6222281A000CD7F0E /* PhotoPlace.swift in Sources */,
 				ADEBBC422239381A00D2C566 /* StorySlideView.swift in Sources */,
 				AD5829E4223D85400069558B /* TextEdibaleItemModel.swift in Sources */,
+				AD8F6EDD22609D580030537D /* CoreDataStack.swift in Sources */,
 				1289FD9D22220F6100CD7F0E /* TemplateSet.swift in Sources */,
 				AD5F429E224186E000C19386 /* NSParagraphStyle.swift in Sources */,
 				12C118C02221C82500996C20 /* AttributedString+Extension.swift in Sources */,
 				1289FD9622220E9A00CD7F0E /* TemplatesStorage.swift in Sources */,
+				AD8F6EE22260BE4E0030537D /* TemplatesStorage+Ext.swift in Sources */,
 				12C118A02221C7F400996C20 /* AppDelegate.swift in Sources */,
 				12C118C72221C82500996C20 /* UITableView+Extension.swift in Sources */,
 				1289FD9B22220F3400CD7F0E /* FrameTemplate.swift in Sources */,
@@ -1011,6 +1031,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		AD8F6EDE2260A1FE0030537D /* Sets.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				AD8F6EDF2260A1FE0030537D /* Sets.xcdatamodel */,
+			);
+			currentVersion = AD8F6EDF2260A1FE0030537D /* Sets.xcdatamodel */;
+			path = Sets.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 12C118942221C7F400996C20 /* Project object */;
 }

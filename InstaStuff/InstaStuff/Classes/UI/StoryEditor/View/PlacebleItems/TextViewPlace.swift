@@ -75,6 +75,7 @@ class TextViewPlace: UITextView, TemplatePlaceble {
         addDoneButtonOnKeyboard()
         layer.addSublayer(dashedLayer)
         layoutManager.allowsNonContiguousLayout = false
+        addObserver(self, forKeyPath: "contentSize", options: [.new, .old], context: nil)
     }
     
     // MARK: - UIResponder
@@ -91,5 +92,17 @@ class TextViewPlace: UITextView, TemplatePlaceble {
         isSelected = isFirstResponder
         return resignFirstResponder
     }
-
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "contentSize" {
+            alignVerticaly()
+        }
+    }
+    
+    private func alignVerticaly() {
+        var topoffset = bounds.size.height - contentSize.height * zoomScale / 2.0
+        topoffset = topoffset < 0.0 ? 0.0 : topoffset
+        contentOffset = CGPoint(x: 0, y: -topoffset)
+    }
+    
 }

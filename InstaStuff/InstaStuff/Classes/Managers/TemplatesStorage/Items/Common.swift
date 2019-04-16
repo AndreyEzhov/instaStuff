@@ -35,8 +35,8 @@ struct PhotoItem {
 }
 
 struct PhotoItemCustomSettings {
-    enum CloseButtonPosition {
-        case leftTop, rightTop, leftBottom, rightBottom
+    enum CloseButtonPosition: Int16 {
+        case rightTop = 0, leftTop = 1, leftBottom = 2, rightBottom = 3
     }
     let closeButtonPosition: CloseButtonPosition?
     let plusLocation: CGPoint?
