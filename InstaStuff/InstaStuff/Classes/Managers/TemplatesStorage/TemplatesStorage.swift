@@ -27,29 +27,13 @@ class TemplatesStorage {
     // MARK: - Private Functions
     
     private func setupSets() {
-        let setFetch: NSFetchRequest<Set> = Set.fetchRequest()
+        let setFetch: NSFetchRequest<CDSet> = CDSet.fetchRequest()
         setFetch.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
         do {
             let results = try coreDataStack.managedContext.fetch(setFetch)
             if results.count > 0 {
-                templateSets = results.map { currentSet -> TemplateSet in
-                    let templatesRaw = (currentSet.templates?.array) as? [Templates]
-                    let templates = templatesRaw?.compactMap { (currentTemplate: Templates) -> FrameTemplate in
-                        
-                        let itemsRaw = (currentTemplate.items?.array) as? [ItemInTemplate]
-                        
-                        let frameAreas = itemsRaw?.compactMap({ (itemInTemplate: ItemInTemplate) -> FrameAreaDescription? in
-                            return frameAreaDescription(from: itemInTemplate)
-                        })
-                        
-                        return FrameTemplate(id: currentTemplate.templateId ?? "",
-                                             name: currentTemplate.templateName ?? "",
-                                             frameAreas: frameAreas ?? [])
-                    }
-                    return TemplateSet(id: currentSet.id,
-                                       themeColor: (currentSet.themeColor as? UIColor) ?? UIColor.white,
-                                       name: currentSet.setName ?? "",
-                                       templates: templates ?? [])
+                templateSets = results.compactMap { currentSet -> TemplateSet? in
+                    return templateSet(from: currentSet)
                 }
             }
         } catch let error as NSError {
@@ -57,42 +41,79 @@ class TemplatesStorage {
         }
     }
     
-    private func frameAreaDescription(from itemInTemplate: ItemInTemplate) -> FrameAreaDescription? {
-        guard let item = itemInTemplate.item else {
+    private func templateSet(from cdSet: CDSet) -> TemplateSet? {
+        guard let templatesRaw = cdSet.templates?.array as? [CDTemplate], let name = cdSet.name, let themeColor = cdSet.themeColor as? UIColor else {
+            return nil
+        }
+        let templates = templatesRaw.compactMap { (currentTemplate) -> FrameTemplate? in
+            return template(from: currentTemplate)
+        }
+        return TemplateSet(id: cdSet.id,
+                           themeColor: themeColor,
+                           name: name,
+                           templates: templates)
+    }
+    
+    private func template(from currentTemplate: CDTemplate) -> FrameTemplate? {
+        guard let templateId = currentTemplate.id, let name = currentTemplate.name, let areas = currentTemplate.items?.array as? [CDItemInTemplate] else {
             return nil
         }
         
-        let settings = generateSettings(from: itemInTemplate.settings)
-        let internalSettings = generateSettings(from: itemInTemplate.item?.internalSettings)
+        let frameAreas = areas.compactMap { (currentArea) -> FrameAreaDescription? in
+            return frameAreaDescription(from: currentArea)
+        }
         
-        switch ItemType.init(rawValue: item.itemType) {
-        case .photo?:
-            let photoItem = PhotoItem(frameName: itemInTemplate.item?.itemName ?? "", photoAreaLocation: internalSettings)
-            let customSettings = photoItemCustomSettings(from: itemInTemplate.addSettings)
-            
-            let type = FrameAreaDescription.FrameAreaType.photoFrame(photoItem, customSettings)
-            
-            return FrameAreaDescription(settings: settings,
-                                        frameArea: type)
-        case .text?:
-            let textSetups = TextSetups.init(textType: .none,
-                                             aligment: .center,
-                                             fontSize: 36,
-                                             lineSpacing: 1,
-                                             fontType: .futura,
-                                             kern: 0,
-                                             color: .black)
-            let textItem = TextItem.init(textSetups: textSetups, defautText: "Type your text")
-            let type = FrameAreaDescription.FrameAreaType.textFrame(textItem)
-            return FrameAreaDescription(settings: settings,
-                                        frameArea: type)
+        return FrameTemplate(id: templateId,
+                             name: name,
+                             frameAreas: frameAreas)
+    }
+    
+    private func frameAreaDescription(from itemInTemplate: CDItemInTemplate) -> FrameAreaDescription? {
+        switch itemInTemplate {
+        case let item as CDPhotoItemInTemplate:
+            return photoFrameAreaDescription(from: item)
+        case let item as CDTextItemInTemplate:
+            return textFrameAreaDescription(from: item)
         default:
             return nil
         }
-        
     }
     
-    private func photoItemCustomSettings(from addSettings: AdditionalSettings?) -> PhotoItemCustomSettings? {
+    private func photoFrameAreaDescription(from photoItemInFrame: CDPhotoItemInTemplate) -> FrameAreaDescription? {
+        guard let photoItem = photoItemInFrame.photoItem, let settings = photoItemInFrame.settings else {
+            return nil
+        }
+        let customSettings = photoItemCustomSettings(from: photoItemInFrame.additionalSettings)
+        
+        let type = FrameAreaDescription.FrameAreaType.photoFrame(self.photoItem(from: photoItem), customSettings)
+        return FrameAreaDescription(settings: generateSettings(from: settings),
+                                    frameArea: type)
+    }
+    
+    private func photoItem(from cdPhotoItem: CDPhotoItem) -> PhotoItem {
+        let settings = generateSettings(from: cdPhotoItem.settings)
+        return PhotoItem(frameName: cdPhotoItem.name ?? "", photoAreaLocation: settings)
+    }
+    
+    private func textFrameAreaDescription(from textItemInFrame: CDTextItemInTemplate) -> FrameAreaDescription? {
+        guard let settings = textItemInFrame.settings else {
+            return nil
+        }
+        let textSetups = TextSetups.init(textType: .none,
+                                         aligment: .center,
+                                         fontSize: 36,
+                                         lineSpacing: 1,
+                                         fontType: .futura,
+                                         kern: 0,
+                                         color: .black)
+        let textItem = TextItem.init(textSetups: textSetups, defautText: "Type your text")
+        
+        let type = FrameAreaDescription.FrameAreaType.textFrame(textItem)
+        return FrameAreaDescription(settings: generateSettings(from: settings),
+                                    frameArea: type)
+    }
+
+    private func photoItemCustomSettings(from addSettings: CDPhotoItemSettings?) -> PhotoItemCustomSettings? {
         guard let addSettings = addSettings else {
             return nil
         }
@@ -100,7 +121,7 @@ class TemplatesStorage {
                                        plusLocation: CGPoint(x: CGFloat(addSettings.plusLocationX), y: CGFloat(addSettings.plusLocationY)))
     }
     
-    private func generateSettings(from itemSettings: ItemSettings?) -> Settings {
+    private func generateSettings(from itemSettings: CDSettings?) -> Settings {
         let centerPoint = CGPoint(x: CGFloat(itemSettings?.centerX ?? 0.5), y: CGFloat(itemSettings?.centerY ?? 0.5))
         return Settings(center: centerPoint,
                         sizeWidth: CGFloat(itemSettings?.width ?? 1),
