@@ -86,13 +86,10 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
     private var gestures: [UIGestureRecognizer] = []
     
     private var hasPhoto: Bool {
-        if let image = ((try? storyEditablePhotoItem.image.value()) as UIImage??), image == nil {
-            return false
-        }
-        return true
+        return image != nil
     }
     
-    private var currentMinimumScale: CGFloat = 1
+    private var image: UIImage?
     
     // MARK: - Construction
     
@@ -125,7 +122,17 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
             maker.centerY.equalToSuperview().multipliedBy(settings.center.y * 2)
         }
         photoImageView.snp.remakeConstraints { maker in
-            maker.edges.equalToSuperview()
+            if let image = self.image {
+                let photoRatio = image.size.width/image.size.height
+                let settings = storyEditablePhotoItem.photoItem.photoAreaLocation
+                maker.width.equalTo(photoImageView.snp.height).multipliedBy(photoRatio)
+                if photoRatio < settings.ratio {
+                    maker.left.equalToSuperview()
+                } else {
+                    maker.top.equalToSuperview()
+                }
+            }
+            maker.center.equalToSuperview()
         }
         framePlace.snp.remakeConstraints { maker in
             maker.edges.equalToSuperview()
@@ -218,7 +225,7 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
         case .began:
             sender.scale = storyEditablePhotoItem.editablePhotoTransform.currentScale
         case .changed:
-            storyEditablePhotoItem.editablePhotoTransform.currentScale = max(currentMinimumScale, sender.scale)
+            storyEditablePhotoItem.editablePhotoTransform.currentScale = sender.scale
             updateTransforms()
         default:
             break
@@ -253,19 +260,15 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
         
         storyEditablePhotoItem.image.subscribe(onNext: { [weak self] image in
             guard let sSelf = self else { return }
+            sSelf.image = image
             sSelf.photoImageView.image = image
             if let image = image {
                 _ = sSelf.becomeFirstResponder()
-                var scale = sSelf.storyEditablePhotoItem.photoItem.photoAreaLocation.ratio / (image.size.width / image.size.height)
-                if scale < 1 {
-                    scale = 1 / scale
-                }
-                sSelf.storyEditablePhotoItem.editablePhotoTransform.currentScale = scale
-                sSelf.currentMinimumScale = scale
                 sSelf.updateTransforms()
             } else {
                 _ = sSelf.resignFirstResponder()
             }
+            self?.updateConstraints()
             self?.reloadInputViews()
         }).disposed(by: bag)
         framePlace.image = storyEditablePhotoItem.photoItem.framePlaceImage
@@ -326,7 +329,7 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
         let flag = super.resignFirstResponder()
         dashedLayer.lineDashPattern = isFirstResponder ? nil : [2, 2]
         deletePhotoButton.isHidden = !isFirstResponder
-        delegate?.photoPlaceDidEndEditing(self)
+        //delegate?.photoPlaceDidEndEditing(self)
         return flag
     }
     
@@ -335,7 +338,7 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
         dashedLayer.lineDashPattern = isFirstResponder ? nil : [2, 2]
         deletePhotoButton.isHidden = !isFirstResponder
         if hasPhoto {
-            delegate?.photoPlaceDidBeginEditing(self)
+            //delegate?.photoPlaceDidBeginEditing(self)
         }
         return flag
     }

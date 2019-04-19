@@ -55,34 +55,34 @@ class StoryEditablePhotoItem: StoryEditableItem {
     
     var editablePhotoTransform = EditableTransform()
     
-    private func photo() -> UIImage? {
-        if let photo = ((try? self.image.value()) as UIImage??),
-            let unwrapedPhoto = photo {
-            
-            let photoRealRatio = unwrapedPhoto.size.width / unwrapedPhoto.size.height
-            
-            // Если ширина фотки больше чем высота, то число меньше 1
-            if photoRealRatio > photoItem.photoAreaLocation.ratio {
-                let height = unwrapedPhoto.size.width / photoItem.photoAreaLocation.ratio
-                let size = CGSize(width: unwrapedPhoto.size.width, height: height)
-                UIGraphicsBeginImageContext(size)
-                unwrapedPhoto.draw(in: CGRect(origin: CGPoint(x: 0, y: (height - unwrapedPhoto.size.height) / 2.0),
-                                              size: unwrapedPhoto.size))
-            } else {
-                let width = unwrapedPhoto.size.height * photoItem.photoAreaLocation.ratio
-                let size = CGSize(width: width, height: unwrapedPhoto.size.height)
-                UIGraphicsBeginImageContext(size)
-                unwrapedPhoto.draw(in: CGRect(origin: CGPoint(x: (width - unwrapedPhoto.size.width) / 2.0, y: 0),
-                                              size: unwrapedPhoto.size))
-            }
-
-            let image = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            return image
-        } else {
-            return nil
-        }
-    }
+//    private func photo() -> UIImage? {
+//        if let photo = ((try? self.image.value()) as UIImage??),
+//            let unwrapedPhoto = photo {
+//
+//            let photoRealRatio = unwrapedPhoto.size.width / unwrapedPhoto.size.height
+//
+//            // Если ширина фотки больше чем высота, то число меньше 1
+//            if photoRealRatio > photoItem.photoAreaLocation.ratio {
+//                let height = unwrapedPhoto.size.width / photoItem.photoAreaLocation.ratio
+//                let size = CGSize(width: unwrapedPhoto.size.width, height: height)
+//                UIGraphicsBeginImageContext(size)
+//                unwrapedPhoto.draw(in: CGRect(origin: CGPoint(x: 0, y: (height - unwrapedPhoto.size.height) / 2.0),
+//                                              size: unwrapedPhoto.size))
+//            } else {
+//                let width = unwrapedPhoto.size.height * photoItem.photoAreaLocation.ratio
+//                let size = CGSize(width: width, height: unwrapedPhoto.size.height)
+//                UIGraphicsBeginImageContext(size)
+//                unwrapedPhoto.draw(in: CGRect(origin: CGPoint(x: (width - unwrapedPhoto.size.width) / 2.0, y: 0),
+//                                              size: unwrapedPhoto.size))
+//            }
+//
+//            let image = UIGraphicsGetImageFromCurrentImageContext()
+//            UIGraphicsEndImageContext()
+//            return image
+//        } else {
+//            return nil
+//        }
+//    }
     
     private func renderedPhoto() -> UIImage? {
         let photoWidth = Consts.UIGreed.screenWidth * photoItem.photoAreaLocation.sizeWidth * settings.sizeWidth
@@ -95,13 +95,15 @@ class StoryEditablePhotoItem: StoryEditableItem {
         context?.fill(CGRect(origin: .zero, size: photoSize))
         
         if let context = UIGraphicsGetCurrentContext(),
-            let photo = photo() {
+            let photo = ((try? self.image.value()) as UIImage??), let unwrapedPhoto = photo {
             context.translateBy(x: photoSize.width / 2.0 + editablePhotoTransform.currentTranslation.x / Consts.UIGreed.globalScale,
                                 y: photoSize.height / 2.0 + editablePhotoTransform.currentTranslation.y / Consts.UIGreed.globalScale)
             context.rotate(by: editablePhotoTransform.currentRotation)
             context.scaleBy(x: editablePhotoTransform.currentScale,
                             y: editablePhotoTransform.currentScale)
-            photo.draw(in: CGRect(origin: CGPoint(x: -photoSize.width / 2.0, y: -photoSize.height / 2.0), size: photoSize))
+            let minRatio = min(unwrapedPhoto.size.width/photoSize.width, unwrapedPhoto.size.height/photoSize.height)
+            let size = CGSize(width: unwrapedPhoto.size.width / minRatio, height: unwrapedPhoto.size.height / minRatio)
+            unwrapedPhoto.draw(in: CGRect(origin: CGPoint(x: -size.width / 2.0, y: -size.height / 2.0), size: size))
         }
         
         let image = UIGraphicsGetImageFromCurrentImageContext()
