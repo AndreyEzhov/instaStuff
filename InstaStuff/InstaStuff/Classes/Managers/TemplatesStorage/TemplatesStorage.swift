@@ -74,6 +74,8 @@ class TemplatesStorage {
             return photoFrameAreaDescription(from: item)
         case let item as CDTextItemInTemplate:
             return textFrameAreaDescription(from: item)
+        case let item as CDViewInTemplate:
+            return viewAreaDescription(from: item)
         default:
             return nil
         }
@@ -109,6 +111,17 @@ class TemplatesStorage {
         let textItem = TextItem.init(textSetups: textSetups, defautText: "Type your text")
         
         let type = FrameAreaDescription.FrameAreaType.textFrame(textItem)
+        return FrameAreaDescription(settings: generateSettings(from: settings),
+                                    frameArea: type)
+    }
+    
+    private func viewAreaDescription(from viewInFrame: CDViewInTemplate) -> FrameAreaDescription? {
+        guard let settings = viewInFrame.settings else {
+            return nil
+        }
+        let viewItem = ViewItem(color: (viewInFrame.color as? UIColor) ?? UIColor.white)
+        
+        let type = FrameAreaDescription.FrameAreaType.viewFrame(viewItem)
         return FrameAreaDescription(settings: generateSettings(from: settings),
                                     frameArea: type)
     }

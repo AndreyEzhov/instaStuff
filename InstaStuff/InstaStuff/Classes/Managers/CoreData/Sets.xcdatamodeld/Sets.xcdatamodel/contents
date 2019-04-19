@@ -44,18 +44,20 @@
         <relationship name="items" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="CDItemInTemplate" inverseName="template" inverseEntity="CDItemInTemplate" syncable="YES"/>
         <relationship name="set" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDSet" inverseName="templates" inverseEntity="CDSet" syncable="YES"/>
     </entity>
-    <entity name="CDTextItem" representedClassName="CDTextItem" parentEntity="CDItem" syncable="YES" codeGenerationType="class"/>
     <entity name="CDTextItemInTemplate" representedClassName="CDTextItemInTemplate" parentEntity="CDItemInTemplate" syncable="YES" codeGenerationType="class"/>
+    <entity name="CDViewInTemplate" representedClassName="CDViewInTemplate" parentEntity="CDItemInTemplate" syncable="YES" codeGenerationType="class">
+        <attribute name="color" attributeType="Transformable" syncable="YES"/>
+    </entity>
     <elements>
-        <element name="CDPhotoItemSettings" positionX="-534.015625" positionY="-134.9765625" width="128" height="105"/>
-        <element name="CDItemInTemplate" positionX="-551.37109375" positionY="-408.265625" width="128" height="88"/>
         <element name="CDItem" positionX="-254.046875" positionY="-155.98046875" width="128" height="60"/>
-        <element name="CDSettings" positionX="-433.30859375" positionY="32.97265625" width="128" height="148"/>
-        <element name="CDSet" positionX="-980.765625" positionY="-121.58984375" width="128" height="103"/>
-        <element name="CDTemplate" positionX="-708.51171875" positionY="-136.671875" width="128" height="105"/>
-        <element name="CDPhotoItemInTemplate" positionX="-274.68359375" positionY="-412.84375" width="128" height="73"/>
+        <element name="CDItemInTemplate" positionX="-551.37109375" positionY="-408.265625" width="128" height="88"/>
         <element name="CDPhotoItem" positionX="-259.10546875" positionY="27.55859375" width="128" height="88"/>
-        <element name="CDTextItem" positionX="-63.65625" positionY="-148.44921875" width="128" height="45"/>
+        <element name="CDPhotoItemInTemplate" positionX="-274.68359375" positionY="-412.84375" width="128" height="73"/>
+        <element name="CDPhotoItemSettings" positionX="-534.015625" positionY="-134.9765625" width="128" height="105"/>
+        <element name="CDSet" positionX="-980.765625" positionY="-121.58984375" width="128" height="103"/>
+        <element name="CDSettings" positionX="-433.30859375" positionY="32.97265625" width="128" height="148"/>
+        <element name="CDTemplate" positionX="-708.51171875" positionY="-136.671875" width="128" height="105"/>
         <element name="CDTextItemInTemplate" positionX="-545.8828125" positionY="-228.76171875" width="128" height="45"/>
+        <element name="CDViewInTemplate" positionX="-783" positionY="-270" width="128" height="60"/>
     </elements>
 </model>

@@ -165,7 +165,7 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
                                   width: widthRect,
                                   height: hightRect)).fill()
         Consts.Colors.applicationTintColor.setStroke()
-        let lineSize: CGFloat = min(widthRect * 0.5, 20)
+        let lineSize: CGFloat = min(widthRect * 0.5, 15)
         
         var plussCenter = CGPoint(x: realCenterX, y: realCenterY)
         if let plusLocation = storyEditablePhotoItem.customSettings?.plusLocation {
@@ -176,14 +176,14 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
         vPath.move(to: CGPoint(x: plussCenter.x - lineSize, y: plussCenter.y))
         vPath.addLine(to: CGPoint(x: plussCenter.x + lineSize, y: plussCenter.y))
         vPath.close()
-        vPath.lineWidth = 1
+        vPath.lineWidth = 1 / UIScreen.main.scale
         vPath.stroke()
         
         let hPath = UIBezierPath()
         hPath.move(to: CGPoint(x: plussCenter.x, y: plussCenter.y - lineSize))
         hPath.addLine(to: CGPoint(x: plussCenter.x, y: plussCenter.y + lineSize))
         hPath.close()
-        hPath.lineWidth = 1
+        hPath.lineWidth = vPath.lineWidth
         hPath.stroke()
     }
     
