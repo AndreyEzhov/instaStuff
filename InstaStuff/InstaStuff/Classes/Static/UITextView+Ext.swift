@@ -28,31 +28,31 @@ extension TextViewPlace {
         doneToolbar.items = items
         doneToolbar.sizeToFit()
         doneToolbar.isTranslucent = false
-        inputAccessoryView = doneToolbar
+        textView.inputAccessoryView = doneToolbar
         updateToolbarColor()
     }
     
     @objc private func doneButtonAction() {
-        _ = resignFirstResponder()
+        _ = textView.resignFirstResponder()
     }
     
     @objc private func changeEditableView() {
         defer {
             updateToolbarColor()
-            reloadInputViews()
+            textView.reloadInputViews()
         }
-        guard inputView == nil else {
-            inputView = nil
+        guard textView.inputView == nil else {
+            textView.inputView = nil
             return
         }
-        inputView = TextViewPlace.editView
+        textView.inputView = TextViewPlace.editView
     }
     
     private func updateToolbarColor() {
-        guard inputView == nil else {
-            (inputAccessoryView as? UIToolbar)?.barTintColor = Consts.Colors.applicationColor
+        guard textView.inputView == nil else {
+            (textView.inputAccessoryView as? UIToolbar)?.barTintColor = Consts.Colors.applicationColor
             return
         }
-        (inputAccessoryView as? UIToolbar)?.barTintColor = Consts.Colors.keyboardColor
+        (textView.inputAccessoryView as? UIToolbar)?.barTintColor = Consts.Colors.keyboardColor
     }
 }

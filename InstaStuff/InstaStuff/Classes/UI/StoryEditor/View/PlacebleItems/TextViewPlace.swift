@@ -10,9 +10,19 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class TextViewPlace: UITextView, TemplatePlaceble {
+class TextViewPlace: UIView, TemplatePlaceble {
     
     // MARK: - Properties
+    
+    private(set) lazy var textView: UITextView = {
+        let textView = UITextView()
+        textView.textContainer.lineFragmentPadding = 0
+        textView.textContainerInset = .zero
+        textView.isScrollEnabled = false
+        textView.layoutManager.allowsNonContiguousLayout = false
+        textView.backgroundColor = .clear
+        return textView
+    }()
     
     let storyEditableTextItem: StoryEditableTextItem
     
@@ -40,7 +50,7 @@ class TextViewPlace: UITextView, TemplatePlaceble {
     
     init(_ item: StoryEditableTextItem) {
         storyEditableTextItem = item
-        super.init(frame: .zero, textContainer: nil)
+        super.init(frame: .zero)
         setup()
     }
     
@@ -56,40 +66,59 @@ class TextViewPlace: UITextView, TemplatePlaceble {
         dashedLayer.path = UIBezierPath(rect: dashedLayer.bounds.inset(by: UIEdgeInsets(top: 1 / UIScreen.main.scale, left: 1 / UIScreen.main.scale, bottom: 1 / UIScreen.main.scale, right: 1 / UIScreen.main.scale))).cgPath
     }
     
+    override func updateConstraints() {
+        super.updateConstraints()
+        textView.snp.remakeConstraints { maker in
+            maker.left.right.equalToSuperview()
+            maker.center.equalToSuperview()
+        }
+    }
+    
     // MARK: - Private Functions
     
     private func setup() {
-        textContainerInset = .zero
-        textContainer.lineFragmentPadding = 0
-        storyEditableTextItem.text.asObservable().bind(to: rx.text).disposed(by: bag)
-        rx.text.orEmpty.subscribe(onNext: { [weak self] (string) in
-            self?.storyEditableTextItem.text.onNext(string)
-            self?.attributedText = NSAttributedString(string: string, attributes: self?.storyEditableTextItem.textSetups.attributes)
+        
+        addSubview(textView)
+        
+        storyEditableTextItem.text.asObservable().bind(to: textView.rx.text).disposed(by: bag)
+        
+        textView.rx.text.orEmpty.subscribe(onNext: { [weak self] string in
+            guard let sSelf = self else { return }
+            sSelf.storyEditableTextItem.text.onNext(string)
+            sSelf.textView.attributedText = NSAttributedString(string: string, attributes: sSelf.storyEditableTextItem.textSetups.attributes)
         }).disposed(by: bag)
+        
         storyEditableTextItem.textSetups.attributesSubject.asObservable().subscribe(onNext: { [weak self] attributes in
-            self?.attributedText = NSAttributedString(string: self?.text ?? "", attributes: attributes)
+            self?.textView.attributedText = NSAttributedString(string: self?.textView.text ?? "", attributes: attributes)
         }).disposed(by: bag)
+        
         backgroundColor = .clear
-        isScrollEnabled = false
         isSelected = false
         addDoneButtonOnKeyboard()
         layer.addSublayer(dashedLayer)
-        layoutManager.allowsNonContiguousLayout = false
+        setupTap()
     }
     
-    // MARK: - UIResponder
-    
-    override func becomeFirstResponder() -> Bool {
-        let becomeFirstResponder = super.becomeFirstResponder()
-        isSelected = isFirstResponder
-        TextViewPlace.editView.presenter.textSetups = storyEditableTextItem.textSetups
-        return becomeFirstResponder
+    private func setupTap() {
+        let tap = UITapGestureRecognizer()
+        addGestureRecognizer(tap)
+        tap.addTarget(self, action: #selector(tapGesture(_:)))
+        let tapTV = UITapGestureRecognizer()
+        textView.addGestureRecognizer(tapTV)
+        tapTV.addTarget(self, action: #selector(tapGesture(_:)))
     }
     
-    override func resignFirstResponder() -> Bool {
-        let resignFirstResponder = super.resignFirstResponder()
-        isSelected = isFirstResponder
-        return resignFirstResponder
+    // MARK: - Actions
+    
+    @objc private func tapGesture(_ gesture: UITapGestureRecognizer) {
+        if textView.isFirstResponder {
+            textView.resignFirstResponder()
+        } else {
+            textView.becomeFirstResponder()
+            TextViewPlace.editView.presenter.textSetups = storyEditableTextItem.textSetups
+        }
+        isSelected = textView.isFirstResponder
     }
+
     
 }

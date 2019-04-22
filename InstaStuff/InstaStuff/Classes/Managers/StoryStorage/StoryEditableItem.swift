@@ -131,16 +131,19 @@ class StoryEditableTextItem: StoryEditableItem {
     override var renderedImage: UIImage? {
         let width = Consts.UIGreed.screenWidth
         let textWidth = width * settings.sizeWidth
-        let textSize = CGSize(width: textWidth,
-                              height: textWidth / settings.ratio)
-        UIGraphicsBeginImageContext(textSize)
+        
+        var image: UIImage?
         
         if let unwrapedText = try? self.text.value() {
-            NSString(string: unwrapedText).draw(in: CGRect(origin: .zero, size: textSize), withAttributes: textSetups.realAttributes)
+            let attributedString = NSAttributedString(string: unwrapedText, attributes: textSetups.realAttributes)
+            let rect = attributedString.boundingRect(with: CGSize(width: textWidth, height: Consts.UIGreed.screenHeight),
+                                                     options: .usesLineFragmentOrigin, context: nil)
+            UIGraphicsBeginImageContext(rect.size)
+            NSString(string: unwrapedText).draw(in: rect, withAttributes: textSetups.realAttributes)
+            image = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
         }
-        
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
+    
         return image
     }
     

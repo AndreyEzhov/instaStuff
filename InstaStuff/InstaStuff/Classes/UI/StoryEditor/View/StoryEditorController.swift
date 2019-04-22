@@ -33,7 +33,7 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
         view.backgroundColor = .white
         view.photoPlaces.forEach {
             ($0 as? PhotoPlace)?.delegate = self
-            ($0 as? TextViewPlace)?.delegate = self
+            ($0 as? TextViewPlace)?.textView.delegate = self
         }
         return view
     }()
@@ -134,9 +134,16 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
             guard let image = item.renderedImage else {
                 return
             }
-            let currentWidth = item.settings.sizeWidth * width
-            let size = CGSize(width: currentWidth,
+            
+            var size: CGSize
+            if item is StoryEditableTextItem {
+                size = image.size
+            } else {
+                let currentWidth = item.settings.sizeWidth * width
+                size = CGSize(width: currentWidth,
                               height: currentWidth / item.settings.ratio)
+            }
+            
             let frame = CGRect(origin: CGPoint(x: -size.width / 2.0, y: -size.height / 2.0), size: size)
             
             if let context = UIGraphicsGetCurrentContext() {
@@ -178,10 +185,11 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
     // MARK: - UITextViewDelegate
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        guard let frame = textView.superview?.convert(textView.frame, to: self.view) else {
+        guard let textView = textView.superview else {
             return
         }
-        let offset = (view.frame.height - frame.maxY) - 400
+        let frame = view.convert(textView.frame, to: self.view)
+        let offset = (view.frame.height - frame.maxY) - 500
         if offset < 0 {
             slideArea.setContentOffset(CGPoint(x: 0, y: -offset), animated: true)
         }
@@ -189,6 +197,10 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
     
     func textViewDidEndEditing(_ textView: UITextView) {
         slideArea.setContentOffset(.zero, animated: true)
+    }
+    
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        return true
     }
     
 }
