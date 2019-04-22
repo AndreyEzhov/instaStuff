@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		121F2ABC226C83C2009721F0 /* Cheque-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 121F2ABB226C83C1009721F0 /* Cheque-Regular.ttf */; };
+		121F2AC5226C8670009721F0 /* Solena-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 121F2ABF226C8670009721F0 /* Solena-Regular.ttf */; };
+		121F2ACD226C8808009721F0 /* Journalism-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 121F2ACC226C8808009721F0 /* Journalism-Regular.ttf */; };
 		12528A6F222B5A5B0040609B /* StoryEditableItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12528A6E222B5A5B0040609B /* StoryEditableItem.swift */; };
 		12528A7F223517F60040609B /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12528A7E223517F60040609B /* Common.swift */; };
 		12528A8222351D3B0040609B /* StuffPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12528A8122351D3B0040609B /* StuffPlace.swift */; };
@@ -77,6 +80,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		121F2ABB226C83C1009721F0 /* Cheque-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Cheque-Regular.ttf"; sourceTree = "<group>"; };
+		121F2ABF226C8670009721F0 /* Solena-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Solena-Regular.ttf"; sourceTree = "<group>"; };
+		121F2ACC226C8808009721F0 /* Journalism-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Journalism-Regular.ttf"; sourceTree = "<group>"; };
 		123B040F2223221500258D34 /* set1 */ = {isa = PBXFileReference; explicitFileType = folder; includeInIndex = 0; path = set1; sourceTree = BUILT_PRODUCTS_DIR; };
 		123B04112223221500258D34 /* ContentInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ContentInfo.plist; sourceTree = "<group>"; };
 		12528A6E222B5A5B0040609B /* StoryEditableItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryEditableItem.swift; sourceTree = "<group>"; };
@@ -172,6 +178,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		121F2ABA226C83C1009721F0 /* Cheque */ = {
+			isa = PBXGroup;
+			children = (
+				121F2ABB226C83C1009721F0 /* Cheque-Regular.ttf */,
+			);
+			path = Cheque;
+			sourceTree = "<group>";
+		};
+		121F2ABD226C8670009721F0 /* Solena */ = {
+			isa = PBXGroup;
+			children = (
+				121F2ABF226C8670009721F0 /* Solena-Regular.ttf */,
+			);
+			path = Solena;
+			sourceTree = "<group>";
+		};
+		121F2ACB226C8808009721F0 /* Journalism */ = {
+			isa = PBXGroup;
+			children = (
+				121F2ACC226C8808009721F0 /* Journalism-Regular.ttf */,
+			);
+			path = Journalism;
+			sourceTree = "<group>";
+		};
 		123B04102223221500258D34 /* set1 */ = {
 			isa = PBXGroup;
 			children = (
@@ -512,6 +542,9 @@
 		ADD7D702225E024600DC8E78 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				121F2ACB226C8808009721F0 /* Journalism */,
+				121F2ABD226C8670009721F0 /* Solena */,
+				121F2ABA226C83C1009721F0 /* Cheque */,
 				ADD7D703225E024F00DC8E78 /* bad-script.regular.ttf */,
 			);
 			path = Fonts;
@@ -649,7 +682,10 @@
 				12C118AA2221C7F700996C20 /* LaunchScreen.storyboard in Resources */,
 				12C118A72221C7F700996C20 /* Assets.xcassets in Resources */,
 				12C118A52221C7F400996C20 /* Main.storyboard in Resources */,
+				121F2ABC226C83C2009721F0 /* Cheque-Regular.ttf in Resources */,
+				121F2ACD226C8808009721F0 /* Journalism-Regular.ttf in Resources */,
 				ADD7D704225E024F00DC8E78 /* bad-script.regular.ttf in Resources */,
+				121F2AC5226C8670009721F0 /* Solena-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

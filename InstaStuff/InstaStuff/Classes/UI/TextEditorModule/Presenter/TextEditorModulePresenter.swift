@@ -36,10 +36,16 @@ enum Aligment: Int, CaseIterable {
 }
 
 enum FontEnum: CaseIterable {
-    case chalkboardSE, didot, futura, baskerville
+    case cheque, solena, journalism, chalkboardSE, didot, futura, baskerville
     
     var name: String {
         switch self {
+        case .cheque:
+            return "CHEQUE"
+        case .solena:
+            return "Solena"
+        case .journalism:
+            return "Journalism"
         case .chalkboardSE:
             return "Chalkboard SE"
         case .didot:

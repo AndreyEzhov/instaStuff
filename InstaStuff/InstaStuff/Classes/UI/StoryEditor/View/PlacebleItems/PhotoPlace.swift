@@ -91,6 +91,10 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
     
     private var image: UIImage?
     
+    private var vibratedX = false
+    
+    private var vibratedY = false
+    
     // MARK: - Construction
     
     init(_ storyEditablePhotoItem: StoryEditablePhotoItem) {
@@ -196,12 +200,73 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
     
     // MARK: - Actions
     
+    private var catchedLocationX: CGFloat? = 0
+    
+    private var catchedLocationY: CGFloat? = 0
+    
     @objc private func panGesture(_ sender: UIPanGestureRecognizer) {
         switch sender.state {
         case .began:
             sender.setTranslation(storyEditablePhotoItem.editablePhotoTransform.currentTranslation, in: self)
+            catchedLocationX = nil
+            catchedLocationY = nil
+            vibratedX = false
+            vibratedY = false
         case .changed:
+            let oldTransform = storyEditablePhotoItem.editablePhotoTransform.transform
             storyEditablePhotoItem.editablePhotoTransform.currentTranslation = sender.translation(in: self)
+            
+            let frame = photoImageView.frame.applying(oldTransform.inverted()).applying(storyEditablePhotoItem.editablePhotoTransform.transform)
+            let space = 10
+            let currentTranslation = storyEditablePhotoItem.editablePhotoTransform.currentTranslation
+            
+            if -space...space ~= Int(frame.minX) {
+                if catchedLocationX == nil {
+                    storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x - frame.minX, y: currentTranslation.y)
+                } else if let catchedLocationX = catchedLocationX {
+                    let difference = catchedLocationX - sender.location(in: self).x
+                    if abs(difference) < CGFloat(space) {
+                                            storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x - frame.minX, y: currentTranslation.y)
+                    } else {
+                                            storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x - frame.minX - difference, y: currentTranslation.y)
+                    }
+                }
+                sender.setTranslation(storyEditablePhotoItem.editablePhotoTransform.currentTranslation, in: self)
+                if !vibratedX {
+                    catchedLocationX = sender.location(in: self).x
+                    vibratedX = true
+                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                }
+            } else if (frame.maxX < (photoContentView.bounds.width + CGFloat(space))) && (frame.maxX > (photoContentView.bounds.width - CGFloat(space))) {
+                if catchedLocationX == nil {
+                    storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x - frame.maxX + photoContentView.bounds.width, y: currentTranslation.y)
+                } else if let catchedLocationX = catchedLocationX {
+                    let difference = catchedLocationX - sender.location(in: self).x
+                    if abs(difference) < CGFloat(space) {
+                        storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x - frame.maxX + photoContentView.bounds.width, y: currentTranslation.y)
+                    } else {
+                        storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x - frame.maxX + photoContentView.bounds.width - difference, y: currentTranslation.y)
+                    }
+                }
+                sender.setTranslation(storyEditablePhotoItem.editablePhotoTransform.currentTranslation, in: self)
+                if !vibratedX {
+                    catchedLocationX = sender.location(in: self).x
+                    vibratedX = true
+                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                }
+            } else {
+                catchedLocationX = nil
+                vibratedX = false
+            }
+            
+            if -5...5 ~= Int(photoImageView.frame.minY) || ((photoImageView.frame.maxY < (photoContentView.bounds.height + 5)) && (photoImageView.frame.maxY > (photoContentView.bounds.height - 5))) {
+                if !vibratedY {
+                    vibratedY = true
+                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                }
+            } else {
+                vibratedY = false
+            }
             updateTransforms()
         default:
             break
@@ -362,7 +427,7 @@ extension PhotoPlace: SliderListener {
                                                                 //kCIInputSaturationKey: 1.0 - 0.07 * value,
                                                                 kCIInputContrastKey: 1.0 - 0.2 * value,
                                                                 //kCIInputBrightnessKey: -0.06 * value,
-                                                                ])
+                    ])
                 let newImage = UIImage(ciImage: outputImage)
                 DispatchQueue.main.async {
                     self.photoImageView.image = newImage
