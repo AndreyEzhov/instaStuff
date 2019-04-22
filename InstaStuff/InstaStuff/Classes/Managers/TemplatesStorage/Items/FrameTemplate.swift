@@ -18,6 +18,8 @@ struct FrameTemplate {
     
     let name: String
     
+    var backgroundColor: UIColor
+    
     let frameAreas: [FrameAreaDescription]
     
     var backgroundImage: UIImage? {

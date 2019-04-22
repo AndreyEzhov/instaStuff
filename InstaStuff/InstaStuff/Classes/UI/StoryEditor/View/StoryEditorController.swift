@@ -74,7 +74,6 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
         let tap = UITapGestureRecognizer()
         view.addGestureRecognizer(tap)
         tap.addTarget(self, action: #selector(tapGesture(_:)))
-        tap.delegate = self
     }
     
     override func viewDidLayoutSubviews() {
@@ -122,7 +121,13 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
         let height = Consts.UIGreed.screenHeight
         let size = CGSize(width: width, height: height)
         UIGraphicsBeginImageContext(size)
+        
         let story = presenter.story
+        
+        story.template.backgroundColor.setFill()
+        let context = UIGraphicsGetCurrentContext()
+        context?.fill(CGRect(origin: .zero, size: size))
+        
         story.template.backgroundImage?.draw(in: CGRect(origin: .zero, size: size))
         
         story.items.forEach { item in
@@ -168,20 +173,6 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
     func photoPlaceDidSelected(_ photoPlace: PhotoPlace, completion: @escaping (UIImage) -> ()) {
         present(imagePicker, animated: true, completion: nil)
         photoDidSelectedBlock = completion
-    }
-    
-    func photoPlaceDidBeginEditing(_ photoPlace: PhotoPlace) {
-        guard let frame = photoPlace.superview?.convert(photoPlace.frame, to: self.view) else {
-            return
-        }
-        let offset = (view.frame.height - frame.maxY) - 160
-        if offset < 0 {
-            slideArea.setContentOffset(CGPoint(x: 0, y: -offset), animated: true)
-        }
-    }
-    
-    func photoPlaceDidEndEditing(_ photoPlace: PhotoPlace) {
-        slideArea.setContentOffset(.zero, animated: true)
     }
     
     // MARK: - UITextViewDelegate

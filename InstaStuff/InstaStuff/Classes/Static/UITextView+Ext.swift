@@ -11,10 +11,7 @@ import UIKit
 extension TextViewPlace {
     
     static let editView: TextEditorModuleController = {
-        let view = Assembly.shared.createTextEditorModuleController(params: TextEditorModulePresenter.Parameters())
-        let safeAreaInsets = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
-        view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: safeAreaInsets + 262)
-        return view
+        return Assembly.shared.createTextEditorModuleController(params: TextEditorModulePresenter.Parameters())
     }()
     
     func addDoneButtonOnKeyboard() {

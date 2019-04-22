@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14490.98" systemVersion="18E226" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14490.99" systemVersion="18E226" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="CDItem" representedClassName="CDItem" isAbstract="YES" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
@@ -39,6 +39,7 @@
         <relationship name="photoItem" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDPhotoItem" inverseName="settings" inverseEntity="CDPhotoItem" syncable="YES"/>
     </entity>
     <entity name="CDTemplate" representedClassName="CDTemplate" syncable="YES" codeGenerationType="class">
+        <attribute name="backgroundColor" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="id" attributeType="String" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <relationship name="items" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="CDItemInTemplate" inverseName="template" inverseEntity="CDItemInTemplate" syncable="YES"/>
@@ -56,7 +57,7 @@
         <element name="CDPhotoItemSettings" positionX="-534.015625" positionY="-134.9765625" width="128" height="105"/>
         <element name="CDSet" positionX="-980.765625" positionY="-121.58984375" width="128" height="103"/>
         <element name="CDSettings" positionX="-433.30859375" positionY="32.97265625" width="128" height="148"/>
-        <element name="CDTemplate" positionX="-708.51171875" positionY="-136.671875" width="128" height="105"/>
+        <element name="CDTemplate" positionX="-708.51171875" positionY="-136.671875" width="128" height="120"/>
         <element name="CDTextItemInTemplate" positionX="-545.8828125" positionY="-228.76171875" width="128" height="45"/>
         <element name="CDViewInTemplate" positionX="-783" positionY="-270" width="128" height="60"/>
     </elements>

@@ -55,35 +55,6 @@ class StoryEditablePhotoItem: StoryEditableItem {
     
     var editablePhotoTransform = EditableTransform()
     
-//    private func photo() -> UIImage? {
-//        if let photo = ((try? self.image.value()) as UIImage??),
-//            let unwrapedPhoto = photo {
-//
-//            let photoRealRatio = unwrapedPhoto.size.width / unwrapedPhoto.size.height
-//
-//            // Если ширина фотки больше чем высота, то число меньше 1
-//            if photoRealRatio > photoItem.photoAreaLocation.ratio {
-//                let height = unwrapedPhoto.size.width / photoItem.photoAreaLocation.ratio
-//                let size = CGSize(width: unwrapedPhoto.size.width, height: height)
-//                UIGraphicsBeginImageContext(size)
-//                unwrapedPhoto.draw(in: CGRect(origin: CGPoint(x: 0, y: (height - unwrapedPhoto.size.height) / 2.0),
-//                                              size: unwrapedPhoto.size))
-//            } else {
-//                let width = unwrapedPhoto.size.height * photoItem.photoAreaLocation.ratio
-//                let size = CGSize(width: width, height: unwrapedPhoto.size.height)
-//                UIGraphicsBeginImageContext(size)
-//                unwrapedPhoto.draw(in: CGRect(origin: CGPoint(x: (width - unwrapedPhoto.size.width) / 2.0, y: 0),
-//                                              size: unwrapedPhoto.size))
-//            }
-//
-//            let image = UIGraphicsGetImageFromCurrentImageContext()
-//            UIGraphicsEndImageContext()
-//            return image
-//        } else {
-//            return nil
-//        }
-//    }
-    
     private func renderedPhoto() -> UIImage? {
         let photoWidth = Consts.UIGreed.screenWidth * photoItem.photoAreaLocation.sizeWidth * settings.sizeWidth
         let photoSize = CGSize(width: photoWidth,

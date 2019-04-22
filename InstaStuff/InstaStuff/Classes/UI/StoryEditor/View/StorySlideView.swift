@@ -10,15 +10,27 @@ import UIKit
 
 typealias UIViewTemplatePlaceble = (UIView & TemplatePlaceble)
 
-class StorySlideView: UIView {
+class StorySlideView: UIView, ColorPickerLostener {
     
     // MARK: - Properties
     
     private let backgroundImageView =  UIImageView()
     
-    private let slide: StoryItem
+    private var slide: StoryItem
     
     private(set) var photoPlaces: [UIViewTemplatePlaceble] = []
+    
+    override var inputView: UIView? {
+        let view = Assembly.shared.createBackgroundModuleControllerController(params: BackgroundModuleControllerPresenter.Parameters())
+        view.delegate = self
+        return view
+    }
+    
+    override var canBecomeFirstResponder: Bool {
+        return _canBecomeFirstResponder
+    }
+    
+    private var _canBecomeFirstResponder = false
     
     // MARK: - Construction
     
@@ -61,6 +73,7 @@ class StorySlideView: UIView {
     }
     
     private func setup() {
+        setupTap()
         clipsToBounds = true
         subviews.forEach { view in
             view.removeFromSuperview()
@@ -89,6 +102,27 @@ class StorySlideView: UIView {
         }
         backgroundImageView.image = slide.template.backgroundImage
         setNeedsUpdateConstraints()
+    }
+    
+    private func setupTap() {
+        let tap = UITapGestureRecognizer()
+        addGestureRecognizer(tap)
+        tap.addTarget(self, action: #selector(editSlideBackground(_:)))
+    }
+    
+    // MARK: - Actions
+    
+    @objc private func editSlideBackground(_ sender: UITapGestureRecognizer) {
+        _canBecomeFirstResponder = true
+        _ = isFirstResponder ? resignFirstResponder() : becomeFirstResponder()
+        _canBecomeFirstResponder = false
+    }
+    
+    // MARK: - ColorPickerLostener
+    
+    func colorDidChanged(_ value: UIColor) {
+        backgroundColor = value
+        slide.template.backgroundColor = value
     }
     
 }

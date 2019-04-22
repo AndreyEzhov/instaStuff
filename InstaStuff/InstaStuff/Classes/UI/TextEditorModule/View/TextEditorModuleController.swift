@@ -8,6 +8,14 @@
 
 import UIKit
 
+private enum Constants {
+    
+    static let stackViewHight: CGFloat = 60
+    
+    static let collectionViewHight: CGFloat = 60
+    
+}
+
 /// Контроллер для экрана «TextEditorModule»
 final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
@@ -15,7 +23,6 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
     
     private(set) var presenter: TextEditorModulePresentable!
     
-    /// Есть ли сториборд
     class func controller(presenter: TextEditorModulePresentable) -> TextEditorModuleController {
         let view = TextEditorModuleController(frame: .zero)
         view.presenter = presenter
@@ -152,6 +159,11 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
         return collectionView
     }()
     
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: UIScreen.main.bounds.width,
+                      height: 2.0 * Constants.stackViewHight + 2.0 * Constants.stackViewHight + 20.0 + (UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0))
+    }
+    
     private lazy var singleSelectionButtons: [UIButton] = [fontSizeButton, kernButton, lineSpacingButton, colorButton]
     
     // MARK: - Construction
@@ -172,27 +184,27 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
         fontsCollectionView.snp.remakeConstraints { maker in
             maker.left.right.equalToSuperview()
             maker.top.equalToSuperview()
-            maker.height.equalTo(60)
+            maker.height.equalTo(Constants.collectionViewHight)
         }
         stackViewFirst.snp.remakeConstraints { maker in
             maker.left.right.equalToSuperview()
             maker.top.equalTo(fontsCollectionView.snp.bottom)
-            maker.height.equalTo(60)
+            maker.height.equalTo(Constants.stackViewHight)
         }
         stackViewSecond.snp.remakeConstraints { maker in
             maker.left.right.equalToSuperview()
             maker.top.equalTo(stackViewFirst.snp.bottom)
-            maker.height.equalTo(60)
+            maker.height.equalTo(Constants.stackViewHight)
         }
         slider.snp.remakeConstraints { maker in
             maker.left.right.equalToSuperview().inset(16)
             maker.top.equalTo(stackViewSecond.snp.bottom)
-            maker.height.equalTo(60)
+            maker.height.equalTo(Constants.stackViewHight)
         }
         colorsCollectionView.snp.remakeConstraints { maker in
             maker.left.right.equalToSuperview()
             maker.top.equalTo(stackViewSecond.snp.bottom)
-            maker.height.equalTo(60)
+            maker.height.equalTo(Constants.collectionViewHight)
         }
         super.updateConstraints()
     }
@@ -241,6 +253,7 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
     }
     
     private func setup() {
+        autoresizingMask = .flexibleHeight
         addSubview(fontsCollectionView)
         addSubview(stackViewFirst)
         addSubview(stackViewSecond)

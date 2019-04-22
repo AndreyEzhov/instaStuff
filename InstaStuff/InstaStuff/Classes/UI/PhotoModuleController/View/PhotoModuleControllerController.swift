@@ -12,6 +12,14 @@ protocol SliderListener: UIView {
     func valueDidChanged(_ value: Float)
 }
 
+private enum Constants {
+    
+    static let sliderHight: CGFloat = 44.0
+    
+    static let doneButtonHight: CGFloat = 44.0
+    
+}
+
 /// Контроллер для экрана «PhotoModuleController»
 final class PhotoModuleControllerController: UIView, PhotoModuleControllerDisplayable {
     
@@ -46,6 +54,11 @@ final class PhotoModuleControllerController: UIView, PhotoModuleControllerDispla
         }
     }
     
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: UIScreen.main.bounds.width,
+                      height: Constants.sliderHight + Constants.doneButtonHight + 20.0 + (UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0))
+    }
+    
     // MARK: - Construction
     
     class func controller(presenter: PhotoModuleControllerPresentable) -> PhotoModuleControllerController {
@@ -71,12 +84,12 @@ final class PhotoModuleControllerController: UIView, PhotoModuleControllerDispla
         doneButton.snp.remakeConstraints { maker in
             maker.top.equalToSuperview()
             maker.right.equalToSuperview().inset(20)
-            maker.height.equalTo(44.0)
+            maker.height.equalTo(Constants.doneButtonHight)
         }
         slideView.snp.remakeConstraints { maker in
             maker.top.equalTo(doneButton.snp.bottom)
             maker.left.right.equalToSuperview().inset(20)
-            maker.height.equalTo(44.0)
+            maker.height.equalTo(Constants.sliderHight)
         }
         super.updateConstraints()
     }
@@ -86,6 +99,7 @@ final class PhotoModuleControllerController: UIView, PhotoModuleControllerDispla
     // MARK: - Private Functions
     
     private func setup() {
+        autoresizingMask = .flexibleHeight
         addSubview(slideView)
         addSubview(doneButton)
         updateConstraintsIfNeeded()

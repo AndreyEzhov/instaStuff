@@ -65,6 +65,7 @@ class TemplatesStorage {
         
         return FrameTemplate(id: templateId,
                              name: name,
+                             backgroundColor: (currentTemplate.backgroundColor as? UIColor) ?? .white,
                              frameAreas: frameAreas)
     }
     

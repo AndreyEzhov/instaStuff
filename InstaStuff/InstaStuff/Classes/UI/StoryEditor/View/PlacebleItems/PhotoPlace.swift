@@ -11,8 +11,6 @@ import RxSwift
 
 protocol PhotoPicker: class {
     func photoPlaceDidSelected(_ photoPlace: PhotoPlace, completion: @escaping (UIImage) -> ())
-    func photoPlaceDidBeginEditing(_ photoPlace: PhotoPlace)
-    func photoPlaceDidEndEditing(_ photoPlace: PhotoPlace)
 }
 
 protocol TemplatePlaceble: class {
@@ -72,7 +70,6 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
         if hasPhoto {
             let view = Assembly.shared.createPhotoModuleControllerController(params: PhotoModuleControllerPresenter.Parameters(initilaValue: photoRedactorValue))
             view.delegate = self
-            view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 140)
             return view
         } else {
             return nil
@@ -213,12 +210,19 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
             vibratedX = false
             vibratedY = false
         case .changed:
+            guard storyEditablePhotoItem.editablePhotoTransform.currentRotation == 0 else {
+                storyEditablePhotoItem.editablePhotoTransform.currentTranslation = sender.translation(in: self)
+                updateTransforms()
+                return
+            }
             let oldTransform = storyEditablePhotoItem.editablePhotoTransform.transform
             storyEditablePhotoItem.editablePhotoTransform.currentTranslation = sender.translation(in: self)
             
             let frame = photoImageView.frame.applying(oldTransform.inverted()).applying(storyEditablePhotoItem.editablePhotoTransform.transform)
             let space = 10
-            let currentTranslation = storyEditablePhotoItem.editablePhotoTransform.currentTranslation
+            var currentTranslation: CGPoint {
+                return storyEditablePhotoItem.editablePhotoTransform.currentTranslation
+            }
             
             if -space...space ~= Int(frame.minX) {
                 if catchedLocationX == nil {
@@ -259,12 +263,42 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
                 vibratedX = false
             }
             
-            if -5...5 ~= Int(photoImageView.frame.minY) || ((photoImageView.frame.maxY < (photoContentView.bounds.height + 5)) && (photoImageView.frame.maxY > (photoContentView.bounds.height - 5))) {
+            if -space...space ~= Int(frame.minY) {
+                if catchedLocationY == nil {
+                    storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x, y: currentTranslation.y - frame.minY)
+                } else if let catchedLocationY = catchedLocationY {
+                    let difference = catchedLocationY - sender.location(in: self).y
+                    if abs(difference) < CGFloat(space) {
+                        storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x, y: currentTranslation.y - frame.minY)
+                    } else {
+                        storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x, y: currentTranslation.y - frame.minY - difference)
+                    }
+                }
+                sender.setTranslation(storyEditablePhotoItem.editablePhotoTransform.currentTranslation, in: self)
                 if !vibratedY {
+                    catchedLocationY = sender.location(in: self).y
+                    vibratedY = true
+                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                }
+            } else if (frame.maxY < (photoContentView.bounds.height + CGFloat(space))) && (frame.maxY > (photoContentView.bounds.height - CGFloat(space))) {
+                if catchedLocationY == nil {
+                    storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x, y: currentTranslation.y - frame.maxY + photoContentView.bounds.height)
+                } else if let catchedLocationY = catchedLocationY {
+                    let difference = catchedLocationY - sender.location(in: self).y
+                    if abs(difference) < CGFloat(space) {
+                        storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x, y: currentTranslation.y - frame.maxY + photoContentView.bounds.height)
+                    } else {
+                        storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x, y: currentTranslation.y - frame.maxY + photoContentView.bounds.height - difference)
+                    }
+                }
+                sender.setTranslation(storyEditablePhotoItem.editablePhotoTransform.currentTranslation, in: self)
+                if !vibratedY {
+                    catchedLocationY = sender.location(in: self).y
                     vibratedY = true
                     UIImpactFeedbackGenerator(style: .light).impactOccurred()
                 }
             } else {
+                catchedLocationY = nil
                 vibratedY = false
             }
             updateTransforms()
@@ -306,6 +340,13 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
             return
         }
         _ = becomeFirstResponder()
+    }
+    
+    @objc private func doubleTapGesture(_ sender: UITapGestureRecognizer) {
+        storyEditablePhotoItem.editablePhotoTransform.identity()
+        UIView.animate(withDuration: 0.3) {
+            self.updateTransforms()
+        }
     }
     
     @objc private func deletePhoto() {
@@ -364,6 +405,12 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
         tap.addTarget(self, action: #selector(tapGesture(_:)))
         tap.delegate = self
         
+        let doubleTap = UITapGestureRecognizer()
+        photoContentView.addGestureRecognizer(doubleTap)
+        doubleTap.numberOfTapsRequired = 2
+        doubleTap.addTarget(self, action: #selector(doubleTapGesture(_:)))
+        doubleTap.delegate = self
+        
         gestures = [pan, rotation, zoom]
     }
     
@@ -394,7 +441,6 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
         let flag = super.resignFirstResponder()
         dashedLayer.lineDashPattern = isFirstResponder ? nil : [2, 2]
         deletePhotoButton.isHidden = !isFirstResponder
-        //delegate?.photoPlaceDidEndEditing(self)
         return flag
     }
     
@@ -402,9 +448,6 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
         let flag = super.becomeFirstResponder()
         dashedLayer.lineDashPattern = isFirstResponder ? nil : [2, 2]
         deletePhotoButton.isHidden = !isFirstResponder
-        if hasPhoto {
-            //delegate?.photoPlaceDidBeginEditing(self)
-        }
         return flag
     }
     

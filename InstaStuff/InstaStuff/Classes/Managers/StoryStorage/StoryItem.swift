@@ -12,7 +12,7 @@ class StoryItem {
     
     // MARK: - Properties
     
-    let template: FrameTemplate
+    var template: FrameTemplate
     
     let items: [StoryEditableItem]
     
