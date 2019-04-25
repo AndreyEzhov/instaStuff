@@ -26,6 +26,8 @@ extension Consts {
         
         static let applicationColor = Colors.r248g242b236
         
+        static let applicationColorSelected = Colors.r219g192b178
+        
         static let applicationTintColor = UIColor.black
         
         static let photoplaceColor = Colors.r219g219b219

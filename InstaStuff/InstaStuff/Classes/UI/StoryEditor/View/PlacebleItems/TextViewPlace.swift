@@ -118,6 +118,7 @@ class TextViewPlace: UIView, TemplatePlaceble {
             textView.resignFirstResponder()
         } else {
             textView.becomeFirstResponder()
+            TextViewPlace.editView.update(colorPickerModule: colorPickerModule)
             TextViewPlace.editView.presenter.textSetups = storyEditableTextItem.textSetups
         }
         isSelected = textView.isFirstResponder

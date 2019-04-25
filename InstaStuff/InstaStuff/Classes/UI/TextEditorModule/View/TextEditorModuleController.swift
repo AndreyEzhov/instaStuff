@@ -323,6 +323,11 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
         presenter.valueDidChanged(slider.value)
     }
     
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        (UIApplication.shared.delegate as? AppDelegate)?.window?.colorCallBack = nil
+        return super.hitTest(point, with: event)
+    }
+    
     // MARK: - UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

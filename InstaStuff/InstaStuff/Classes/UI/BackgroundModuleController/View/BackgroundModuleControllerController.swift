@@ -134,6 +134,11 @@ final class BackgroundModuleControllerController: UIView, BackgroundModuleContro
         super.updateConstraints()
     }
     
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        (UIApplication.shared.delegate as? AppDelegate)?.window?.colorCallBack = nil
+        return super.hitTest(point, with: event)
+    }
+    
     // MARK: - TextEditorModuleDisplayable
     
     // MARK: - Private Functions
@@ -174,20 +179,21 @@ class ColorPickerModule: NSObject, UICollectionViewDelegate, UICollectionViewDat
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let enumColor = colors[indexPath.row]
+        let firstCell = collectionView.cellForItem(at: IndexPath(row: 0, section: 0)) as? ColorCell
         switch enumColor {
         case .empty:
-            let cell = collectionView.cellForItem(at: indexPath)
-            cell?.backgroundColor = Consts.Colors.applicationColor
             let window = (UIApplication.shared.delegate as? AppDelegate)?.window
             window?.colorCallBack = { color in
                 guard let color = color else { return }
                 self.delegate?.colorDidChanged(color)
-                cell?.backgroundColor = .clear
                 self.colors[0] = .empty(color)
-                (cell as? ColorCell)?.updateTintColor(.empty(color))
+                firstCell?.updateTintColor(self.colors[0])
             }
         default:
+            firstCell?.backgroundColor = .clear
+            colors[0] = .empty(.black)
             delegate?.colorDidChanged(colors[indexPath.row].color)
+            firstCell?.updateTintColor(colors[0])
         }
     }
     
