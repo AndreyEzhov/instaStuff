@@ -31,7 +31,7 @@ struct TextSetups {
     
     let kern: CGFloat
     
-    let color: ColorEnum
+    let color: UIColor
     
 }
 
@@ -51,7 +51,7 @@ class TextSetupsEditable {
     
     private(set) var capitalised: Bool = false
     
-    var color: ColorEnum {
+    var color: UIColor {
         didSet {
             attributesSubject.onNext(attributes)
         }
@@ -145,7 +145,7 @@ class TextSetupsEditable {
     func attributes(with coef: CGFloat) -> [NSAttributedString.Key : Any] {
         return [.font: font(with: coef),
                 .kern: kern * coef,
-                .foregroundColor: color.color,
+                .foregroundColor: color,
                 .paragraphStyle: NSParagraphStyle.default {
                     $0.alignment = aligment.textAlignment
                     $0.lineSpacing = lineSpacing * coef

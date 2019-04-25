@@ -21,10 +21,12 @@ class StorySlideView: UIView, ColorPickerLostener {
     private(set) var photoPlaces: [UIViewTemplatePlaceble] = []
     
     override var inputView: UIView? {
-        let view = Assembly.shared.createBackgroundModuleControllerController(params: BackgroundModuleControllerPresenter.Parameters())
+        let view = Assembly.shared.createBackgroundModuleControllerController(params: BackgroundModuleControllerPresenter.Parameters(colorPickerModule: colorPickerModule))
         view.delegate = self
         return view
     }
+    
+    private let colorPickerModule = ColorPickerModule()
     
     override var canBecomeFirstResponder: Bool {
         return _canBecomeFirstResponder

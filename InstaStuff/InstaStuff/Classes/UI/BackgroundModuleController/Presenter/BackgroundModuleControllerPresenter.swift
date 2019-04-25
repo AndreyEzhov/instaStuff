@@ -16,8 +16,8 @@ protocol BackgroundModuleControllerDisplayable: class {
 
 /// Интерфейс презентера
 protocol BackgroundModuleControllerPresentable: class {
+    var colorPickerModule: ColorPickerModule { get }
     var view: BackgroundModuleControllerDisplayable? { get set }
-    var colors: [ColorEnum] { get }
 }
 
 /// Презентер для экрана «BackgroundModuleController»
@@ -29,14 +29,15 @@ final class BackgroundModuleControllerPresenter: BackgroundModuleControllerPrese
     
     /// Параметры экрана
     struct Parameters {
-
+        let colorPickerModule: ColorPickerModule
     }
     
-    let colors: [ColorEnum] = ColorEnum.allCases
+    let colorPickerModule: ColorPickerModule
     
     // MARK: - Construction
     
     init(params: Parameters) {
+        colorPickerModule = params.colorPickerModule
     }
     
     // MARK: - Private Functions

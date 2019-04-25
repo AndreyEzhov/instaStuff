@@ -17,18 +17,11 @@ private enum Constants {
 }
 
 /// Контроллер для экрана «TextEditorModule»
-final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ColorPickerLostener {
     
     // MARK: - Properties
     
     private(set) var presenter: TextEditorModulePresentable!
-    
-    class func controller(presenter: TextEditorModulePresentable) -> TextEditorModuleController {
-        let view = TextEditorModuleController(frame: .zero)
-        view.presenter = presenter
-        presenter.view = view
-        return view
-    }
     
     private lazy var stackViewFirst: UIStackView = {
         let stackView = UIStackView()
@@ -149,8 +142,6 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
         layout.minimumInteritemSpacing = 6
         layout.minimumLineSpacing = 6
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.delegate = self
-        collectionView.dataSource = self
         collectionView.backgroundColor = .clear
         collectionView.allowsMultipleSelection = false
         collectionView.registerClass(for: ColorCell.self)
@@ -162,9 +153,24 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
                       height: 2.0 * Constants.stackViewHight + 2.0 * Constants.stackViewHight + 20.0 + Consts.UIGreed.safeAreaInsetsBottom)
     }
     
+    private var colorPickerModule: ColorPickerModule? {
+        didSet {
+            colorsCollectionView.delegate = colorPickerModule
+            colorsCollectionView.dataSource = colorPickerModule
+            colorPickerModule?.delegate = self
+        }
+    }
+    
     private lazy var singleSelectionButtons: [UIButton] = [fontSizeButton, kernButton, lineSpacingButton, colorButton]
     
     // MARK: - Construction
+    
+    class func controller(presenter: TextEditorModulePresentable) -> TextEditorModuleController {
+        let view = TextEditorModuleController(frame: .zero)
+        view.presenter = presenter
+        presenter.view = view
+        return view
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -177,6 +183,11 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
     }
     
     // MARK: - Life Cycle
+    
+    override func willMove(toSuperview newSuperview: UIView?) {
+        (UIApplication.shared.delegate as? AppDelegate)?.window?.colorCallBack = nil
+        super.willMove(toSuperview: newSuperview)
+    }
     
     override func updateConstraints() {
         fontsCollectionView.snp.remakeConstraints { maker in
@@ -268,6 +279,11 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
     
     // MARK: - Functions
     
+    func update(colorPickerModule: ColorPickerModule) {
+        self.colorPickerModule = colorPickerModule
+        colorsCollectionView.reloadData()
+    }
+    
     // MARK: - Actions
     
     @objc private func makeBold(_ button: UIButton) {
@@ -311,16 +327,14 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard fontsCollectionView === collectionView else {
-            return presenter.colors.count
+            return 0
         }
         return presenter.fonts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard fontsCollectionView === collectionView else {
-            return collectionView.dequeue(indexPath: indexPath, with: { (cell: ColorCell) in
-                cell.setup(with: presenter.colors[indexPath.row])
-            })
+            return UICollectionViewCell()
         }
         return collectionView.dequeue(indexPath: indexPath, with: { (cell: FontCell) in
             cell.setup(with: presenter.fonts[indexPath.row])
@@ -329,7 +343,7 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard fontsCollectionView === collectionView else {
-            return CGSize(width: 34, height: 34)
+            return .zero
         }
         let fontName = presenter.fonts[indexPath.row].name
         let font = UIFont(name: fontName, size: FontCell.Constants.fontSize) ?? UIFont.applicationFontRegular(ofSize: FontCell.Constants.fontSize)
@@ -340,11 +354,16 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard fontsCollectionView === collectionView else {
-            presenter.setColor(at: indexPath.row)
             return
         }
         presenter.setFont(at: indexPath.row)
         updateBoldItalic()
+    }
+    
+    // MARK: - ColorPickerLostener
+    
+    func colorDidChanged(_ value: UIColor) {
+        presenter.setColor(value)
     }
     
 }

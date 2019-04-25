@@ -126,6 +126,7 @@ final class PhotoModuleControllerController: UIView, PhotoModuleControllerDispla
     
     override func willMove(toSuperview newSuperview: UIView?) {
         inputViewCollapser.applyDefaultTransform()
+        (UIApplication.shared.delegate as? AppDelegate)?.window?.colorCallBack = nil
         super.willMove(toSuperview: newSuperview)
     }
     
@@ -175,7 +176,7 @@ class InputViewCollapser {
             inputView.isCollapsed.toggle()
             if inputView.isCollapsed {
                 inputView.collapseButton.transform = .init(rotationAngle: .pi)
-                inputView.superview?.transform = .init(translationX: 0, y: inputView.collapsedHight)
+                inputView.superview?.transform = .init(translationX: 0, y: inputView.frame.height - inputView.collapsedHight)
                 inputView.viewsToHide.forEach {
                     $0.alpha = 0
                     $0.isUserInteractionEnabled = false

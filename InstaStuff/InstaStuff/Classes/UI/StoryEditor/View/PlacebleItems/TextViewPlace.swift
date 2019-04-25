@@ -47,6 +47,8 @@ class TextViewPlace: UIView, TemplatePlaceble {
         }
     }
     
+    let colorPickerModule = ColorPickerModule()
+    
     // MARK: - Construction
     
     init(_ item: StoryEditableTextItem) {

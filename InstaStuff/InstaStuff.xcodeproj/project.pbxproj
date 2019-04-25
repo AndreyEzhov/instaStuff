@@ -68,6 +68,7 @@
 		AD5829E2223C205B0069558B /* TextSetups.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5829E1223C205B0069558B /* TextSetups.swift */; };
 		AD5829E4223D85400069558B /* TextEdibaleItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5829E3223D85400069558B /* TextEdibaleItemModel.swift */; };
 		AD5F429E224186E000C19386 /* NSParagraphStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F429D224186E000C19386 /* NSParagraphStyle.swift */; };
+		AD8BF0092271ECA800F0F1EC /* AppWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8BF0082271ECA800F0F1EC /* AppWindow.swift */; };
 		AD8F6EDD22609D580030537D /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8F6EDC22609D580030537D /* CoreDataStack.swift */; };
 		AD8F6EE02260A1FE0030537D /* Sets.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AD8F6EDE2260A1FE0030537D /* Sets.xcdatamodeld */; };
 		AD8F6EE22260BE4E0030537D /* TemplatesStorage+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8F6EE12260BE4E0030537D /* TemplatesStorage+Ext.swift */; };
@@ -150,6 +151,7 @@
 		AD5829E1223C205B0069558B /* TextSetups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSetups.swift; sourceTree = "<group>"; };
 		AD5829E3223D85400069558B /* TextEdibaleItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEdibaleItemModel.swift; sourceTree = "<group>"; };
 		AD5F429D224186E000C19386 /* NSParagraphStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSParagraphStyle.swift; sourceTree = "<group>"; };
+		AD8BF0082271ECA800F0F1EC /* AppWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppWindow.swift; sourceTree = "<group>"; };
 		AD8F6EDC22609D580030537D /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		AD8F6EDF2260A1FE0030537D /* Sets.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Sets.xcdatamodel; sourceTree = "<group>"; };
 		AD8F6EE12260BE4E0030537D /* TemplatesStorage+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TemplatesStorage+Ext.swift"; sourceTree = "<group>"; };
@@ -255,6 +257,7 @@
 				AD8F6EDB22609D430030537D /* CoreData */,
 				1289FD9E22227A1300CD7F0E /* StoryStorage */,
 				1289FD9822220F0C00CD7F0E /* TemplatesStorage */,
+				AD8BF0082271ECA800F0F1EC /* AppWindow.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -831,6 +834,7 @@
 				12686CE02222FC110005BF27 /* Consts+Custom.swift in Sources */,
 				12C118BD2221C82500996C20 /* Consts.swift in Sources */,
 				1289FD90222208D800CD7F0E /* CreateStoryCell.swift in Sources */,
+				AD8BF0092271ECA800F0F1EC /* AppWindow.swift in Sources */,
 				ADEBBC5C22394CE600D2C566 /* TextEditorModuleController.swift in Sources */,
 				12C118EB2221F23F00996C20 /* MainScreenController.swift in Sources */,
 				AD4C0174223A787900F17FF3 /* TemplatePickerRouter.swift in Sources */,

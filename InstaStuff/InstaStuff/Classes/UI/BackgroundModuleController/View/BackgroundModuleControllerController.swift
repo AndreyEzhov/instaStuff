@@ -23,23 +23,27 @@ private enum Constants {
 }
 
 /// Контроллер для экрана «BackgroundModuleController»
-final class BackgroundModuleControllerController: UIView, BackgroundModuleControllerDisplayable, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, InputViewProtocol {
+final class BackgroundModuleControllerController: UIView, BackgroundModuleControllerDisplayable, InputViewProtocol {
     
     // MARK: - Properties
     
-    weak var delegate: ColorPickerLostener?
+    weak var delegate: ColorPickerLostener? {
+        didSet {
+            presenter.colorPickerModule.delegate = delegate
+        }
+    }
     
     private var presenter: BackgroundModuleControllerPresentable!
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30)
         layout.minimumInteritemSpacing = 6
         layout.minimumLineSpacing = 6
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.delegate = self
-        collectionView.dataSource = self
+        collectionView.delegate = presenter.colorPickerModule
+        collectionView.dataSource = presenter.colorPickerModule
         collectionView.backgroundColor = .clear
         collectionView.allowsMultipleSelection = false
         collectionView.registerClass(for: ColorCell.self)
@@ -76,7 +80,7 @@ final class BackgroundModuleControllerController: UIView, BackgroundModuleContro
     
     var isCollapsed = false
     
-    var collapsedHight: CGFloat = Constants.doneButtonHight + Consts.UIGreed.safeAreaInsetsBottom
+    let collapsedHight: CGFloat = Constants.doneButtonHight + Consts.UIGreed.safeAreaInsetsBottom
     
     private lazy var inputViewCollapser: InputViewCollapser = {
         let collapser = InputViewCollapser()
@@ -107,6 +111,7 @@ final class BackgroundModuleControllerController: UIView, BackgroundModuleContro
     
     override func willMove(toSuperview newSuperview: UIView?) {
         inputViewCollapser.applyDefaultTransform()
+        (UIApplication.shared.delegate as? AppDelegate)?.window?.colorCallBack = nil
         super.willMove(toSuperview: newSuperview)
     }
     
@@ -123,7 +128,7 @@ final class BackgroundModuleControllerController: UIView, BackgroundModuleContro
         }
         collectionView.snp.remakeConstraints { maker in
             maker.top.equalTo(doneButton.snp.bottom).offset(Constants.space)
-            maker.left.right.equalToSuperview().inset(20)
+            maker.left.right.equalToSuperview()
             maker.height.equalTo(Constants.collectionViewHight)
         }
         super.updateConstraints()
@@ -148,21 +153,42 @@ final class BackgroundModuleControllerController: UIView, BackgroundModuleContro
     @objc private func doneButtonAction() {
         delegate?.resignFirstResponder()
     }
+}
+
+
+class ColorPickerModule: NSObject, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
+    weak var delegate: ColorPickerLostener?
+    
+    private var colors: [ColorEnum] = ColorEnum.allCases
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return presenter.colors.count
+        return colors.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         return collectionView.dequeue(indexPath: indexPath, with: { (cell: ColorCell) in
-            cell.setup(with: presenter.colors[indexPath.row])
+            cell.setup(with: colors[indexPath.row])
         })
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.colorDidChanged(presenter.colors[indexPath.row].color)
+        let enumColor = colors[indexPath.row]
+        switch enumColor {
+        case .empty:
+            let cell = collectionView.cellForItem(at: indexPath)
+            cell?.backgroundColor = Consts.Colors.applicationColor
+            let window = (UIApplication.shared.delegate as? AppDelegate)?.window
+            window?.colorCallBack = { color in
+                guard let color = color else { return }
+                self.delegate?.colorDidChanged(color)
+                cell?.backgroundColor = .clear
+                self.colors[0] = .empty(color)
+                (cell as? ColorCell)?.updateTintColor(.empty(color))
+            }
+        default:
+            delegate?.colorDidChanged(colors[indexPath.row].color)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
