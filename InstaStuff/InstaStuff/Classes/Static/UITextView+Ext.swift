@@ -17,11 +17,11 @@ extension TextViewPlace {
     func addDoneButtonOnKeyboard() {
         let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
         doneToolbar.barStyle = .default
-        
-        let changeEdit = UIBarButtonItem(title: Strings.Toolbar.editText, style: .done, target: self, action: #selector(self.changeEditableView))
+
+        let changeEdit = UIBarButtonItem(image: #imageLiteral(resourceName: "Subtraction 1"), style: .done, target: self, action: #selector(self.changeEditableView))
         changeEdit.tintColor = Consts.Colors.text
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let done = UIBarButtonItem(title: Strings.Common.done, style: .done, target: self, action: #selector(self.doneButtonAction))
+        let done = UIBarButtonItem(image: #imageLiteral(resourceName: "badge-check"), style: .done, target: self, action: #selector(self.doneButtonAction))
         done.tintColor = Consts.Colors.text
         
         let items = [changeEdit, flexSpace, done]
@@ -29,7 +29,12 @@ extension TextViewPlace {
         doneToolbar.sizeToFit()
         doneToolbar.isTranslucent = false
         textView.inputAccessoryView = doneToolbar
+        updateToolbarImage()
         updateToolbarColor()
+    }
+    
+    private func updateToolbarImage() {
+        ((textView.inputAccessoryView as? UIToolbar)?.items?.first)?.image = textView.inputView == nil ? #imageLiteral(resourceName: "pencil") : #imageLiteral(resourceName: "Subtraction 1")
     }
     
     @objc private func doneButtonAction() {
@@ -37,7 +42,9 @@ extension TextViewPlace {
     }
     
     @objc private func changeEditableView() {
+        var image: UIImage?
         defer {
+            updateToolbarImage()
             updateToolbarColor()
             textView.reloadInputViews()
         }

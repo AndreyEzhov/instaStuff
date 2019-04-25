@@ -40,10 +40,6 @@ class TextSetupsEditable {
     // MARK: - Properties
     
     var attributes: [NSAttributedString.Key : Any] {
-        return attributes(with: Consts.UIGreed.globalScale)
-    }
-    
-    var realAttributes: [NSAttributedString.Key : Any] {
         return attributes(with: 1)
     }
     
@@ -121,16 +117,6 @@ class TextSetupsEditable {
         updateBoldItalic()
     }
     
-    private func attributes(with coef: CGFloat) -> [NSAttributedString.Key : Any] {
-        return [.font: font(with: coef),
-                .kern: kern * coef,
-                .foregroundColor: color.color,
-                .paragraphStyle: NSParagraphStyle.default {
-                    $0.alignment = aligment.textAlignment
-                    $0.lineSpacing = lineSpacing * coef
-            }]
-    }
-    
     private func font(with coef: CGFloat) -> UIFont {
         var newFont = UIFont(name: fontType.name, size: fontSize * coef) ?? UIFont.systemFont(ofSize: fontSize * coef)
         if textType.contains(.bold) {
@@ -155,6 +141,16 @@ class TextSetupsEditable {
     }
     
     // MARK: - Functions
+    
+    func attributes(with coef: CGFloat) -> [NSAttributedString.Key : Any] {
+        return [.font: font(with: coef),
+                .kern: kern * coef,
+                .foregroundColor: color.color,
+                .paragraphStyle: NSParagraphStyle.default {
+                    $0.alignment = aligment.textAlignment
+                    $0.lineSpacing = lineSpacing * coef
+            }]
+    }
     
     func makeBold() {
         if textType.contains(.bold) {

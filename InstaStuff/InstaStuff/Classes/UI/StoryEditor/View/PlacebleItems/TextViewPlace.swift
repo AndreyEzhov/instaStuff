@@ -21,6 +21,7 @@ class TextViewPlace: UIView, TemplatePlaceble {
         textView.isScrollEnabled = false
         textView.layoutManager.allowsNonContiguousLayout = false
         textView.backgroundColor = .clear
+        textView.autocorrectionType = .no
         return textView
     }()
     

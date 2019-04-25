@@ -19,7 +19,7 @@ extension Consts {
         
         static let safeInsets: CGFloat = ((UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0) + (UIApplication.shared.keyWindow?.safeAreaInsets.top ?? 0))
         
-        static var globalScale: CGFloat = (UIScreen.main.bounds.height - 44 - safeInsets) * 0.95 / screenHeight
+        static let safeAreaInsetsBottom: CGFloat = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
     }
     
     struct Colors {

@@ -34,9 +34,8 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
-        stackView.addArrangedSubview(boldButton)
-        stackView.addArrangedSubview(italicaButton)
         stackView.addArrangedSubview(capitalisedButton)
+        stackView.addArrangedSubview(colorButton)
         stackView.addArrangedSubview(alignmentButton)
         return stackView
     }()
@@ -46,7 +45,6 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.addArrangedSubview(fontSizeButton)
-        stackView.addArrangedSubview(colorButton)
         stackView.addArrangedSubview(kernButton)
         stackView.addArrangedSubview(lineSpacingButton)
         return stackView
@@ -161,7 +159,7 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
     
     override var intrinsicContentSize: CGSize {
         return CGSize(width: UIScreen.main.bounds.width,
-                      height: 2.0 * Constants.stackViewHight + 2.0 * Constants.stackViewHight + 20.0 + (UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0))
+                      height: 2.0 * Constants.stackViewHight + 2.0 * Constants.stackViewHight + 20.0 + Consts.UIGreed.safeAreaInsetsBottom)
     }
     
     private lazy var singleSelectionButtons: [UIButton] = [fontSizeButton, kernButton, lineSpacingButton, colorButton]

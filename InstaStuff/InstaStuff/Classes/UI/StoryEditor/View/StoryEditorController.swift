@@ -55,17 +55,14 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
             maker.top.equalTo(view.snp.topMargin)
             maker.bottom.equalTo(view.snp.bottomMargin)
         }
-        let frame = view.frame
+
         let ratio: CGFloat = 9.0 / 16.0
         
         slideView.snp.remakeConstraints { maker in
-            maker.center.equalToSuperview()
+            maker.centerX.equalToSuperview()
+            maker.centerY.equalToSuperview().inset(-20)
             maker.width.equalTo(slideView.snp.height).multipliedBy(ratio)
-            if (frame.height / frame.width) > ratio {
-                maker.height.equalToSuperview().multipliedBy(0.95)
-            } else {
-                maker.width.equalToSuperview().multipliedBy(0.95)
-            }
+            maker.height.equalTo(slideArea.snp.height).inset(30)
         }
         super.updateViewConstraints()
     }
@@ -131,7 +128,7 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
         story.template.backgroundImage?.draw(in: CGRect(origin: .zero, size: size))
         
         story.items.forEach { item in
-            guard let image = item.renderedImage else {
+            guard let image = item.renderedImage(scale: slideView.frame.width / Consts.UIGreed.screenWidth) else {
                 return
             }
             
@@ -189,10 +186,8 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
             return
         }
         let frame = view.convert(textView.frame, to: self.view)
-        let offset = (view.frame.height - frame.maxY) - 500
-        if offset < 0 {
-            slideArea.setContentOffset(CGPoint(x: 0, y: -offset), animated: true)
-        }
+        let offset = view.frame.midY / 2.0 - frame.midY
+        slideArea.setContentOffset(CGPoint(x: 0, y: -offset), animated: true)
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {

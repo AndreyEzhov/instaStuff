@@ -18,10 +18,12 @@ private enum Constants {
     
     static let doneButtonHight: CGFloat = 44.0
     
+    static let spaceHight: CGFloat = 20.0
+    
 }
 
 /// Контроллер для экрана «PhotoModuleController»
-final class PhotoModuleControllerController: UIView, PhotoModuleControllerDisplayable {
+final class PhotoModuleControllerController: UIView, PhotoModuleControllerDisplayable, InputViewProtocol {
     
     // MARK: - Properties
     
@@ -39,10 +41,10 @@ final class PhotoModuleControllerController: UIView, PhotoModuleControllerDispla
     
     private lazy var doneButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitleColor(Consts.Colors.text, for: .normal)
-        button.setTitle(Strings.Common.done, for: .normal)
+        button.setTitle("", for: .normal)
+        button.setImage(#imageLiteral(resourceName: "badge-check"), for: .normal)
+        button.tintColor = UIColor.black
         button.addTarget(self, action: #selector(doneButtonAction), for: .touchUpInside)
-        button.titleLabel?.font = UIFont.applicationFontSemibold(ofSize: 17.0)
         return button
     }()
     
@@ -56,8 +58,31 @@ final class PhotoModuleControllerController: UIView, PhotoModuleControllerDispla
     
     override var intrinsicContentSize: CGSize {
         return CGSize(width: UIScreen.main.bounds.width,
-                      height: Constants.sliderHight + Constants.doneButtonHight + 20.0 + (UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0))
+                      height: Constants.sliderHight + Constants.doneButtonHight + Constants.spaceHight + Consts.UIGreed.safeAreaInsetsBottom)
     }
+    
+    lazy var collapseButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("", for: .normal)
+        button.setImage(#imageLiteral(resourceName: "arrowBottom"), for: .normal)
+        button.tintColor = UIColor.black
+        button.addTarget(inputViewCollapser, action: #selector(InputViewCollapser.collapseButtonAction), for: .touchUpInside)
+        return button
+    }()
+    
+    var viewsToHide: [UIView] {
+        return [slideView]
+    }
+    
+    var isCollapsed = false
+    
+    var collapsedHight: CGFloat = Constants.doneButtonHight + Consts.UIGreed.safeAreaInsetsBottom
+    
+    private lazy var inputViewCollapser: InputViewCollapser = {
+        let collapser = InputViewCollapser()
+        collapser.inputView = self
+        return collapser
+    }()
     
     // MARK: - Construction
     
@@ -86,12 +111,22 @@ final class PhotoModuleControllerController: UIView, PhotoModuleControllerDispla
             maker.right.equalToSuperview().inset(20)
             maker.height.equalTo(Constants.doneButtonHight)
         }
+        collapseButton.snp.remakeConstraints { maker in
+            maker.top.equalToSuperview()
+            maker.centerX.equalToSuperview()
+            maker.height.equalTo(Constants.doneButtonHight)
+        }
         slideView.snp.remakeConstraints { maker in
             maker.top.equalTo(doneButton.snp.bottom)
             maker.left.right.equalToSuperview().inset(20)
             maker.height.equalTo(Constants.sliderHight)
         }
         super.updateConstraints()
+    }
+    
+    override func willMove(toSuperview newSuperview: UIView?) {
+        inputViewCollapser.applyDefaultTransform()
+        super.willMove(toSuperview: newSuperview)
     }
     
     // MARK: - TextEditorModuleDisplayable
@@ -102,6 +137,7 @@ final class PhotoModuleControllerController: UIView, PhotoModuleControllerDispla
         autoresizingMask = .flexibleHeight
         addSubview(slideView)
         addSubview(doneButton)
+        addSubview(collapseButton)
         updateConstraintsIfNeeded()
         slideView.value = presenter.initilaValue * 100
     }
@@ -116,6 +152,47 @@ final class PhotoModuleControllerController: UIView, PhotoModuleControllerDispla
     
     @objc private func doneButtonAction() {
         delegate?.resignFirstResponder()
+    }
+    
+
+    
+}
+
+protocol InputViewProtocol: UIView {
+    var isCollapsed: Bool { get set }
+    var collapseButton: UIButton { get }
+    var collapsedHight: CGFloat { get }
+    var viewsToHide: [UIView] { get }
+}
+
+class InputViewCollapser {
+    
+    var inputView: InputViewProtocol?
+    
+    @objc func collapseButtonAction() {
+        guard let inputView = inputView else { return }
+        UIView.animate(withDuration: 0.3) {
+            inputView.isCollapsed.toggle()
+            if inputView.isCollapsed {
+                inputView.collapseButton.transform = .init(rotationAngle: .pi)
+                inputView.superview?.transform = .init(translationX: 0, y: inputView.collapsedHight)
+                inputView.viewsToHide.forEach {
+                    $0.alpha = 0
+                    $0.isUserInteractionEnabled = false
+                }
+            } else {
+                inputView.collapseButton.transform = .identity
+                inputView.superview?.transform = .identity
+                inputView.viewsToHide.forEach {
+                    $0.alpha = 1
+                    $0.isUserInteractionEnabled = true
+                }
+            }
+        }
+    }
+    
+    func applyDefaultTransform() {
+        inputView?.superview?.transform = .identity
     }
     
 }

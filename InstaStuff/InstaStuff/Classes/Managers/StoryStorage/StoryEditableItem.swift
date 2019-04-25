@@ -13,7 +13,7 @@ class StoryEditableItem {
     
     let settings: Settings
     
-    var renderedImage: UIImage? {
+    func renderedImage(scale: CGFloat) -> UIImage? {
         return nil
     }
     
@@ -55,7 +55,7 @@ class StoryEditablePhotoItem: StoryEditableItem {
     
     var editablePhotoTransform = EditableTransform()
     
-    private func renderedPhoto() -> UIImage? {
+    private func renderedPhoto(scale: CGFloat) -> UIImage? {
         let photoWidth = Consts.UIGreed.screenWidth * photoItem.photoAreaLocation.sizeWidth * settings.sizeWidth
         let photoSize = CGSize(width: photoWidth,
                                height: photoWidth / photoItem.photoAreaLocation.ratio)
@@ -67,8 +67,8 @@ class StoryEditablePhotoItem: StoryEditableItem {
         
         if let context = UIGraphicsGetCurrentContext(),
             let photo = ((try? self.image.value()) as UIImage??), let unwrapedPhoto = photo {
-            context.translateBy(x: photoSize.width / 2.0 + editablePhotoTransform.currentTranslation.x / Consts.UIGreed.globalScale,
-                                y: photoSize.height / 2.0 + editablePhotoTransform.currentTranslation.y / Consts.UIGreed.globalScale)
+            context.translateBy(x: photoSize.width / 2.0 + editablePhotoTransform.currentTranslation.x / scale,
+                                y: photoSize.height / 2.0 + editablePhotoTransform.currentTranslation.y / scale)
             context.rotate(by: editablePhotoTransform.currentRotation)
             context.scaleBy(x: editablePhotoTransform.currentScale,
                             y: editablePhotoTransform.currentScale)
@@ -82,7 +82,7 @@ class StoryEditablePhotoItem: StoryEditableItem {
         return image
     }
     
-    override var renderedImage: UIImage? {
+    override func renderedImage(scale: CGFloat) -> UIImage? {
         let width = Consts.UIGreed.screenWidth
         let size = CGSize(width: width, height: width / settings.ratio)
         UIGraphicsBeginImageContext(size)
@@ -90,7 +90,7 @@ class StoryEditablePhotoItem: StoryEditableItem {
         let photoWidth = width * photoItem.photoAreaLocation.sizeWidth
         let photoSize = CGSize(width: photoWidth, height: photoWidth / photoItem.photoAreaLocation.ratio)
         
-        if let context = UIGraphicsGetCurrentContext(), let photo = renderedPhoto() {
+        if let context = UIGraphicsGetCurrentContext(), let photo = renderedPhoto(scale: scale) {
             context.saveGState()
             context.translateBy(x: width * photoItem.photoAreaLocation.center.x,
                                 y: size.height * photoItem.photoAreaLocation.center.y)
@@ -128,18 +128,19 @@ class StoryEditableTextItem: StoryEditableItem {
     
     private let bag = DisposeBag()
     
-    override var renderedImage: UIImage? {
+    override func renderedImage(scale: CGFloat) -> UIImage? {
         let width = Consts.UIGreed.screenWidth
         let textWidth = width * settings.sizeWidth
         
         var image: UIImage?
         
         if let unwrapedText = try? self.text.value() {
-            let attributedString = NSAttributedString(string: unwrapedText, attributes: textSetups.realAttributes)
+            let attributes = textSetups.attributes(with: 1 / scale)
+            let attributedString = NSAttributedString(string: unwrapedText, attributes: attributes)
             let rect = attributedString.boundingRect(with: CGSize(width: textWidth, height: Consts.UIGreed.screenHeight),
                                                      options: .usesLineFragmentOrigin, context: nil)
             UIGraphicsBeginImageContext(rect.size)
-            NSString(string: unwrapedText).draw(in: rect, withAttributes: textSetups.realAttributes)
+            NSString(string: unwrapedText).draw(in: rect, withAttributes: attributes)
             image = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
         }
@@ -162,7 +163,7 @@ class StoryEditableTextItem: StoryEditableItem {
 
 class StoryEditableStuffItem: StoryEditableItem {
     
-    override var renderedImage: UIImage? {
+    override func renderedImage(scale: CGFloat) -> UIImage? {
         return stuffItem.stuffImage
     }
     
@@ -176,7 +177,7 @@ class StoryEditableStuffItem: StoryEditableItem {
 
 class StoryEditableViewItem: StoryEditableItem {
     
-    override var renderedImage: UIImage? {
+    override func renderedImage(scale: CGFloat) -> UIImage? {
         let width = Consts.UIGreed.screenWidth
         let viewWidth = width * settings.sizeWidth
         let viewSize = CGSize(width: viewWidth,

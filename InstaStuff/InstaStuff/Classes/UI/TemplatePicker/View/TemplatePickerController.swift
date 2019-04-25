@@ -21,7 +21,7 @@ final class TemplatePickerController: BaseViewController<TemplatePickerPresentab
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 16
         layout.minimumInteritemSpacing = 24
-        layout.sectionInset = UIEdgeInsets(top: 40, left: 56, bottom: 40, right: 56)
+        layout.sectionInset = UIEdgeInsets(top: 40, left: 30, bottom: 40, right: 30)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -129,8 +129,7 @@ final class TemplatePickerController: BaseViewController<TemplatePickerPresentab
         case setsCollectionView:
             return CGSize(width: 48, height: 48)
         case framesCollectionView:
-            let cellWidth = (width - horisontalInsets) / 2.0
-            return CGSize(width: cellWidth, height: cellWidth * 16.0 / 9.0)
+            return CGSize(width: 140, height: 210)
         default:
             return .zero
         }

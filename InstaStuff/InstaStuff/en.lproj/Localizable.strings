@@ -7,8 +7,4 @@
 
 // MARK: - Text Editor Toolbar
 
-"toolbar.edit-text" = "Edit text";
-
 // MARK: - Common
-
-"common.done" = "Done";

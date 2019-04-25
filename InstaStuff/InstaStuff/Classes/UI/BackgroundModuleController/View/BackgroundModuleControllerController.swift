@@ -23,7 +23,7 @@ private enum Constants {
 }
 
 /// Контроллер для экрана «BackgroundModuleController»
-final class BackgroundModuleControllerController: UIView, BackgroundModuleControllerDisplayable, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+final class BackgroundModuleControllerController: UIView, BackgroundModuleControllerDisplayable, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, InputViewProtocol {
     
     // MARK: - Properties
     
@@ -49,7 +49,8 @@ final class BackgroundModuleControllerController: UIView, BackgroundModuleContro
     private lazy var doneButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitleColor(Consts.Colors.text, for: .normal)
-        button.setTitle(Strings.Common.done, for: .normal)
+        button.setImage(#imageLiteral(resourceName: "badge-check"), for: .normal)
+        button.tintColor = UIColor.black
         button.addTarget(self, action: #selector(doneButtonAction), for: .touchUpInside)
         button.titleLabel?.font = UIFont.applicationFontSemibold(ofSize: 17.0)
         return button
@@ -57,8 +58,31 @@ final class BackgroundModuleControllerController: UIView, BackgroundModuleContro
     
     override var intrinsicContentSize: CGSize {
         return CGSize(width: UIScreen.main.bounds.width,
-                      height: Constants.collectionViewHight + Constants.space + Constants.doneButtonHight + 20.0 + (UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0))
+                      height: Constants.collectionViewHight + Constants.space + Constants.doneButtonHight + 20.0 + Consts.UIGreed.safeAreaInsetsBottom)
     }
+    
+    lazy var collapseButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("", for: .normal)
+        button.setImage(#imageLiteral(resourceName: "arrowBottom"), for: .normal)
+        button.tintColor = UIColor.black
+        button.addTarget(inputViewCollapser, action: #selector(InputViewCollapser.collapseButtonAction), for: .touchUpInside)
+        return button
+    }()
+    
+    var viewsToHide: [UIView] {
+        return [collectionView]
+    }
+    
+    var isCollapsed = false
+    
+    var collapsedHight: CGFloat = Constants.doneButtonHight + Consts.UIGreed.safeAreaInsetsBottom
+    
+    private lazy var inputViewCollapser: InputViewCollapser = {
+        let collapser = InputViewCollapser()
+        collapser.inputView = self
+        return collapser
+    }()
     
     // MARK: - Construction
     
@@ -81,10 +105,20 @@ final class BackgroundModuleControllerController: UIView, BackgroundModuleContro
 
     // MARK: - Life Cycle
     
+    override func willMove(toSuperview newSuperview: UIView?) {
+        inputViewCollapser.applyDefaultTransform()
+        super.willMove(toSuperview: newSuperview)
+    }
+    
     override func updateConstraints() {
         doneButton.snp.remakeConstraints { maker in
             maker.top.equalToSuperview()
             maker.right.equalToSuperview().inset(20)
+            maker.height.equalTo(Constants.doneButtonHight)
+        }
+        collapseButton.snp.remakeConstraints { maker in
+            maker.top.equalToSuperview()
+            maker.centerX.equalToSuperview()
             maker.height.equalTo(Constants.doneButtonHight)
         }
         collectionView.snp.remakeConstraints { maker in
@@ -103,6 +137,7 @@ final class BackgroundModuleControllerController: UIView, BackgroundModuleContro
         autoresizingMask = .flexibleHeight
         addSubview(collectionView)
         addSubview(doneButton)
+        addSubview(collapseButton)
         updateConstraintsIfNeeded()
     }
     

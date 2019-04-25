@@ -188,11 +188,11 @@ final class TextEditorModulePresenter: TextEditorModulePresentable {
         var model: SliderModel?
         switch type {
         case .fontSize:
-            model = SliderModel(minValue: 30, maxValue: 200, value: textSetups?.fontSize)
+            model = SliderModel(minValue: 20, maxValue: 80, value: textSetups?.fontSize)
         case .kern:
-            model = SliderModel(minValue: -8, maxValue: 15, value: textSetups?.kern)
+            model = SliderModel(minValue: -8, maxValue: 30, value: textSetups?.kern)
         case .lineSpacing:
-            model = SliderModel(minValue: -40, maxValue: 100, value: textSetups?.lineSpacing)
+            model = SliderModel(minValue: -20, maxValue: 40, value: textSetups?.lineSpacing)
         case .color:
             model = nil
         }
