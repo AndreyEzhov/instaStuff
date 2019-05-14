@@ -61,12 +61,18 @@
 		AD4C0176223A787900F17FF3 /* TemplatePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4C0171223A787900F17FF3 /* TemplatePickerController.swift */; };
 		AD4C0179223A82D900F17FF3 /* SetCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4C0177223A82D900F17FF3 /* SetCollectionViewCell.swift */; };
 		AD4C017A223A82D900F17FF3 /* TemplateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4C0178223A82D900F17FF3 /* TemplateCollectionViewCell.swift */; };
+		AD516E62228AD02E0072539A /* ConstructorSlideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD516E61228AD02E0072539A /* ConstructorSlideView.swift */; };
+		AD516E64228AEA380072539A /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD516E63228AEA380072539A /* MenuView.swift */; };
 		AD52373F224256DA003649AD /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD52373E224256DA003649AD /* ColorCell.swift */; };
 		AD5829DD223BFCB80069558B /* PhotoModuleControllerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5829D6223BFCB80069558B /* PhotoModuleControllerPresenter.swift */; };
 		AD5829DE223BFCB80069558B /* PhotoModuleControllerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5829D8223BFCB80069558B /* PhotoModuleControllerAssembly.swift */; };
 		AD5829E0223BFCB80069558B /* PhotoModuleControllerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5829DB223BFCB80069558B /* PhotoModuleControllerController.swift */; };
 		AD5829E2223C205B0069558B /* TextSetups.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5829E1223C205B0069558B /* TextSetups.swift */; };
 		AD5829E4223D85400069558B /* TextEdibaleItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5829E3223D85400069558B /* TextEdibaleItemModel.swift */; };
+		AD5EA707228ABD5C00704218 /* ConstructorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5EA700228ABD5C00704218 /* ConstructorPresenter.swift */; };
+		AD5EA708228ABD5C00704218 /* ConstructorAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5EA702228ABD5C00704218 /* ConstructorAssembly.swift */; };
+		AD5EA709228ABD5C00704218 /* ConstructorRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5EA703228ABD5C00704218 /* ConstructorRouter.swift */; };
+		AD5EA70A228ABD5C00704218 /* ConstructorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5EA705228ABD5C00704218 /* ConstructorController.swift */; };
 		AD5F429E224186E000C19386 /* NSParagraphStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F429D224186E000C19386 /* NSParagraphStyle.swift */; };
 		AD8BF0092271ECA800F0F1EC /* AppWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8BF0082271ECA800F0F1EC /* AppWindow.swift */; };
 		AD8F6EDD22609D580030537D /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8F6EDC22609D580030537D /* CoreDataStack.swift */; };
@@ -144,12 +150,18 @@
 		AD4C0171223A787900F17FF3 /* TemplatePickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemplatePickerController.swift; sourceTree = "<group>"; };
 		AD4C0177223A82D900F17FF3 /* SetCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetCollectionViewCell.swift; sourceTree = "<group>"; };
 		AD4C0178223A82D900F17FF3 /* TemplateCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemplateCollectionViewCell.swift; sourceTree = "<group>"; };
+		AD516E61228AD02E0072539A /* ConstructorSlideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructorSlideView.swift; sourceTree = "<group>"; };
+		AD516E63228AEA380072539A /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		AD52373E224256DA003649AD /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
 		AD5829D6223BFCB80069558B /* PhotoModuleControllerPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoModuleControllerPresenter.swift; sourceTree = "<group>"; };
 		AD5829D8223BFCB80069558B /* PhotoModuleControllerAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoModuleControllerAssembly.swift; sourceTree = "<group>"; };
 		AD5829DB223BFCB80069558B /* PhotoModuleControllerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoModuleControllerController.swift; sourceTree = "<group>"; };
 		AD5829E1223C205B0069558B /* TextSetups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSetups.swift; sourceTree = "<group>"; };
 		AD5829E3223D85400069558B /* TextEdibaleItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEdibaleItemModel.swift; sourceTree = "<group>"; };
+		AD5EA700228ABD5C00704218 /* ConstructorPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstructorPresenter.swift; sourceTree = "<group>"; };
+		AD5EA702228ABD5C00704218 /* ConstructorAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstructorAssembly.swift; sourceTree = "<group>"; };
+		AD5EA703228ABD5C00704218 /* ConstructorRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstructorRouter.swift; sourceTree = "<group>"; };
+		AD5EA705228ABD5C00704218 /* ConstructorController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstructorController.swift; sourceTree = "<group>"; };
 		AD5F429D224186E000C19386 /* NSParagraphStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSParagraphStyle.swift; sourceTree = "<group>"; };
 		AD8BF0082271ECA800F0F1EC /* AppWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppWindow.swift; sourceTree = "<group>"; };
 		AD8F6EDC22609D580030537D /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
@@ -351,6 +363,7 @@
 		12C118C92221F1AD00996C20 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				AD5EA6FC228ABD5C00704218 /* Constructor */,
 				AD37C8AC226DE54500C7FF5F /* BackgroundModuleController */,
 				AD5829D2223BFCB80069558B /* PhotoModuleController */,
 				AD4C0168223A787900F17FF3 /* TemplatePicker */,
@@ -566,6 +579,51 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		AD5EA6FC228ABD5C00704218 /* Constructor */ = {
+			isa = PBXGroup;
+			children = (
+				AD5EA6FD228ABD5C00704218 /* Resources */,
+				AD5EA6FF228ABD5C00704218 /* Presenter */,
+				AD5EA701228ABD5C00704218 /* Model */,
+				AD5EA704228ABD5C00704218 /* View */,
+			);
+			path = Constructor;
+			sourceTree = "<group>";
+		};
+		AD5EA6FD228ABD5C00704218 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		AD5EA6FF228ABD5C00704218 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				AD5EA700228ABD5C00704218 /* ConstructorPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		AD5EA701228ABD5C00704218 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				AD5EA702228ABD5C00704218 /* ConstructorAssembly.swift */,
+				AD5EA703228ABD5C00704218 /* ConstructorRouter.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		AD5EA704228ABD5C00704218 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				AD5EA705228ABD5C00704218 /* ConstructorController.swift */,
+				AD516E61228AD02E0072539A /* ConstructorSlideView.swift */,
+				AD516E63228AEA380072539A /* MenuView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		AD8F6EDB22609D430030537D /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
@@ -761,6 +819,7 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-InstaStuff/Pods-InstaStuff-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxRelay/RxRelay.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
@@ -769,6 +828,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxRelay.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
@@ -805,8 +865,10 @@
 			files = (
 				12C118C32221C82500996C20 /* UINavigationController+Analytics.swift in Sources */,
 				AD4C0175223A787900F17FF3 /* TemplatePickerAssembly.swift in Sources */,
+				AD516E64228AEA380072539A /* MenuView.swift in Sources */,
 				AD5829DE223BFCB80069558B /* PhotoModuleControllerAssembly.swift in Sources */,
 				128186B5222483A700E48646 /* Strings.swift in Sources */,
+				AD5EA70A228ABD5C00704218 /* ConstructorController.swift in Sources */,
 				AD5829E0223BFCB80069558B /* PhotoModuleControllerController.swift in Sources */,
 				ADEBBC6222398F9700D2C566 /* UITextView+Ext.swift in Sources */,
 				AD4C017A223A82D900F17FF3 /* TemplateCollectionViewCell.swift in Sources */,
@@ -814,7 +876,9 @@
 				12C118C62221C82500996C20 /* RequestInfo.swift in Sources */,
 				AD4C0176223A787900F17FF3 /* TemplatePickerController.swift in Sources */,
 				ADEBBC5A22394CE600D2C566 /* TextEditorModuleAssembly.swift in Sources */,
+				AD5EA708228ABD5C00704218 /* ConstructorAssembly.swift in Sources */,
 				12C118EA2221F23F00996C20 /* StoryPickerRouter.swift in Sources */,
+				AD5EA709228ABD5C00704218 /* ConstructorRouter.swift in Sources */,
 				12C118C22221C82500996C20 /* Router.swift in Sources */,
 				AD5829E2223C205B0069558B /* TextSetups.swift in Sources */,
 				12C118E42221F23F00996C20 /* StoryEditorRouter.swift in Sources */,
@@ -834,6 +898,8 @@
 				12686CE02222FC110005BF27 /* Consts+Custom.swift in Sources */,
 				12C118BD2221C82500996C20 /* Consts.swift in Sources */,
 				1289FD90222208D800CD7F0E /* CreateStoryCell.swift in Sources */,
+				AD5EA707228ABD5C00704218 /* ConstructorPresenter.swift in Sources */,
+				AD516E62228AD02E0072539A /* ConstructorSlideView.swift in Sources */,
 				AD8BF0092271ECA800F0F1EC /* AppWindow.swift in Sources */,
 				ADEBBC5C22394CE600D2C566 /* TextEditorModuleController.swift in Sources */,
 				12C118EB2221F23F00996C20 /* MainScreenController.swift in Sources */,

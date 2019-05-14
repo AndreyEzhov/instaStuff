@@ -49,6 +49,7 @@ final class MainScreenController: BaseViewController<MainScreenPresentable>, Mai
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "plusIcon"), for: .normal)
         button.backgroundColor = .white
+        button.addTarget(self, action: #selector(routeToConstructor), for: .touchUpInside)
         return button
     }()
     
@@ -150,6 +151,10 @@ final class MainScreenController: BaseViewController<MainScreenPresentable>, Mai
     
     @objc private func routeToTemplates() {
         navigationController?.router.routeToTemplatePicker(params: TemplatePickerPresenter.Parameters())
+    }
+    
+    @objc private func routeToConstructor() {
+        navigationController?.router.routeToConstructor(params: ConstructorPresenter.Parameters())
     }
     
 }

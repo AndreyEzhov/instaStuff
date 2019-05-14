@@ -67,12 +67,6 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
         super.updateViewConstraints()
     }
     
-    private func setupTap() {
-        let tap = UITapGestureRecognizer()
-        view.addGestureRecognizer(tap)
-        tap.addTarget(self, action: #selector(tapGesture(_:)))
-    }
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         slideView.dropShadow()
@@ -94,6 +88,12 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
         view.addSubview(slideArea)
         slideArea.addSubview(slideView)
         view.setNeedsUpdateConstraints()
+    }
+    
+    private func setupTap() {
+        let tap = UITapGestureRecognizer()
+        view.addGestureRecognizer(tap)
+        tap.addTarget(self, action: #selector(tapGesture(_:)))
     }
     
     // MARK: - Functions
