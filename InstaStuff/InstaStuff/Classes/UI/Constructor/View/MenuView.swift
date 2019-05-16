@@ -71,7 +71,7 @@ class MenuView: UIView {
         addSubview(stackView)
         stackView.snp.remakeConstraints { maker in
             maker.left.right.equalToSuperview()
-            maker.top.equalToSuperview().offset(44)
+            maker.top.equalToSuperview()
             maker.bottom.equalToSuperview().offset(Consts.UIGreed.safeAreaInsetsBottom)
         }
     }

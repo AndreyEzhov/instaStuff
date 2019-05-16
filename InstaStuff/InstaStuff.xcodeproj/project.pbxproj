@@ -63,6 +63,7 @@
 		AD4C017A223A82D900F17FF3 /* TemplateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4C0178223A82D900F17FF3 /* TemplateCollectionViewCell.swift */; };
 		AD516E62228AD02E0072539A /* ConstructorSlideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD516E61228AD02E0072539A /* ConstructorSlideView.swift */; };
 		AD516E64228AEA380072539A /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD516E63228AEA380072539A /* MenuView.swift */; };
+		AD516E70228BF80F0072539A /* PhotoPlaceConstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD516E6F228BF80F0072539A /* PhotoPlaceConstructor.swift */; };
 		AD52373F224256DA003649AD /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD52373E224256DA003649AD /* ColorCell.swift */; };
 		AD5829DD223BFCB80069558B /* PhotoModuleControllerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5829D6223BFCB80069558B /* PhotoModuleControllerPresenter.swift */; };
 		AD5829DE223BFCB80069558B /* PhotoModuleControllerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5829D8223BFCB80069558B /* PhotoModuleControllerAssembly.swift */; };
@@ -87,6 +88,7 @@
 		ADEBBC5C22394CE600D2C566 /* TextEditorModuleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEBBC5722394CE600D2C566 /* TextEditorModuleController.swift */; };
 		ADEBBC60223959A500D2C566 /* FontCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEBBC5F223959A500D2C566 /* FontCell.swift */; };
 		ADEBBC6222398F9700D2C566 /* UITextView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEBBC6122398F9700D2C566 /* UITextView+Ext.swift */; };
+		ADF16703228D6AA4002D00A7 /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF16702228D6AA4002D00A7 /* EditView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -152,6 +154,7 @@
 		AD4C0178223A82D900F17FF3 /* TemplateCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemplateCollectionViewCell.swift; sourceTree = "<group>"; };
 		AD516E61228AD02E0072539A /* ConstructorSlideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructorSlideView.swift; sourceTree = "<group>"; };
 		AD516E63228AEA380072539A /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
+		AD516E6F228BF80F0072539A /* PhotoPlaceConstructor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPlaceConstructor.swift; sourceTree = "<group>"; };
 		AD52373E224256DA003649AD /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
 		AD5829D6223BFCB80069558B /* PhotoModuleControllerPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoModuleControllerPresenter.swift; sourceTree = "<group>"; };
 		AD5829D8223BFCB80069558B /* PhotoModuleControllerAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoModuleControllerAssembly.swift; sourceTree = "<group>"; };
@@ -176,6 +179,7 @@
 		ADEBBC5722394CE600D2C566 /* TextEditorModuleController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEditorModuleController.swift; sourceTree = "<group>"; };
 		ADEBBC5F223959A500D2C566 /* FontCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontCell.swift; sourceTree = "<group>"; };
 		ADEBBC6122398F9700D2C566 /* UITextView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Ext.swift"; sourceTree = "<group>"; };
+		ADF16702228D6AA4002D00A7 /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
 		BE8890ED00D814BB3024EB3B /* Pods_InstaStuff.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InstaStuff.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -246,6 +250,7 @@
 				12528A8122351D3B0040609B /* StuffPlace.swift */,
 				ADEBBC4322393DA900D2C566 /* TextViewPlace.swift */,
 				ADBF3ECE225A4D830008A543 /* ViewPlace.swift */,
+				AD516E6F228BF80F0072539A /* PhotoPlaceConstructor.swift */,
 			);
 			path = PlacebleItems;
 			sourceTree = "<group>";
@@ -620,6 +625,7 @@
 				AD5EA705228ABD5C00704218 /* ConstructorController.swift */,
 				AD516E61228AD02E0072539A /* ConstructorSlideView.swift */,
 				AD516E63228AEA380072539A /* MenuView.swift */,
+				ADF16702228D6AA4002D00A7 /* EditView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -874,6 +880,7 @@
 				AD4C017A223A82D900F17FF3 /* TemplateCollectionViewCell.swift in Sources */,
 				1289FDA422227A5100CD7F0E /* StoryItem.swift in Sources */,
 				12C118C62221C82500996C20 /* RequestInfo.swift in Sources */,
+				AD516E70228BF80F0072539A /* PhotoPlaceConstructor.swift in Sources */,
 				AD4C0176223A787900F17FF3 /* TemplatePickerController.swift in Sources */,
 				ADEBBC5A22394CE600D2C566 /* TextEditorModuleAssembly.swift in Sources */,
 				AD5EA708228ABD5C00704218 /* ConstructorAssembly.swift in Sources */,
@@ -904,6 +911,7 @@
 				ADEBBC5C22394CE600D2C566 /* TextEditorModuleController.swift in Sources */,
 				12C118EB2221F23F00996C20 /* MainScreenController.swift in Sources */,
 				AD4C0174223A787900F17FF3 /* TemplatePickerRouter.swift in Sources */,
+				ADF16703228D6AA4002D00A7 /* EditView.swift in Sources */,
 				128186B32224839C00E48646 /* Strings+Ext.swift in Sources */,
 				12C118BE2221C82500996C20 /* TypeCast.swift in Sources */,
 				ADBF3ECF225A4D830008A543 /* ViewPlace.swift in Sources */,

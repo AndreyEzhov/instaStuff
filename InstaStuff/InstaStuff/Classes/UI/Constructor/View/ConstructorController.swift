@@ -24,6 +24,7 @@ final class ConstructorController: BaseViewController<ConstructorPresentable>, C
     
     private lazy var slideView: ConstructorSlideView = {
         let view = ConstructorSlideView()
+        view.clipsToBounds = true
         view.backgroundColor = .white
         return view
     }()
@@ -61,7 +62,7 @@ final class ConstructorController: BaseViewController<ConstructorPresentable>, C
         slideArea.snp.remakeConstraints { maker in
             maker.left.right.equalToSuperview()
             maker.top.equalTo(view.snp.topMargin)
-            maker.bottom.equalTo(view.snp.bottomMargin)
+            maker.bottom.equalTo(menuView.snp.top)
         }
         
         let ratio: CGFloat = 9.0 / 16.0
@@ -75,7 +76,7 @@ final class ConstructorController: BaseViewController<ConstructorPresentable>, C
         
         menuView.snp.remakeConstraints { maker in
             maker.left.right.bottom.equalToSuperview()
-            maker.height.equalTo(114 + Consts.UIGreed.safeAreaInsetsBottom)
+            maker.height.equalTo(44 + Consts.UIGreed.safeAreaInsetsBottom)
         }
         
         super.updateViewConstraints()
@@ -127,14 +128,14 @@ extension ConstructorController: MenuViewProtocol {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            let settings = Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 0.8, angle: 0, ratio: pickedImage.size.width/pickedImage.size.height)
+            let settings = Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 1, angle: 0, ratio: pickedImage.size.width/pickedImage.size.height)
             let photoItem = PhotoItem(frameName: "1", photoAreaLocation: settings)
-            let settingsPhoto = Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 1, angle: 0, ratio: pickedImage.size.width/pickedImage.size.height)
-            let photoitem = ConstructorPhotoPlace(photoItem,
-                                                  customSettings: nil,
-                                                  settings: settingsPhoto)
+            let settingsPhoto = Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 0.8, angle: 0, ratio: pickedImage.size.width/pickedImage.size.height)
+            let photoitem = StoryEditablePhotoItem(photoItem,
+                                                   customSettings: nil,
+                                                   settings: settingsPhoto)
             photoitem.update(image: pickedImage)
-            let photoPlace = PhotoPlace(photoitem)
+            let photoPlace = PhotoPlaceConstructor(photoitem)
             
             self.slideView.add(photoPlace)
         }

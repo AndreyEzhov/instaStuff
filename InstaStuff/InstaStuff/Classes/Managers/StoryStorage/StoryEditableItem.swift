@@ -13,6 +13,8 @@ class StoryEditableItem {
     
     let settings: Settings
     
+    var editableTransform = EditableTransform()
+    
     func renderedImage(scale: CGFloat) -> UIImage? {
         return nil
     }

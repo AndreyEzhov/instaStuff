@@ -1,39 +1,27 @@
 //
-//  PhotoPlace.swift
+//  PhotoPlaceConstructor.swift
 //  InstaStuff
 //
-//  Created by Андрей Ежов on 24.02.2019.
+//  Created by aezhov on 15/05/2019.
 //  Copyright © 2019 Андрей Ежов. All rights reserved.
 //
 
 import UIKit
 import RxSwift
 
-@objc protocol ConstructorItemDelegate: class {
-    @objc func removeItem()
-    @objc func editItem()
-    @objc func itemToTop()
-    @objc func itemToBackground()
-}
-
-protocol PhotoPicker: class {
-    func photoPlaceDidSelected(_ photoPlace: PhotoPlace, completion: @escaping (UIImage) -> ())
-}
-
-protocol TemplatePlaceble: class {
-    var storyEditableItem: StoryEditableItem { get }
-    func selectAsEditable(delegate: ConstructorItemDelegate)
-    func selectAsNotEditable()
-}
-
-extension TemplatePlaceble {
-    func selectAsEditable(delegate: ConstructorItemDelegate) { }
-    func selectAsNotEditable() { }
-}
-
-class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
+class PhotoPlaceConstructor: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
+    
+    enum Mode {
+        case none, selcted, edited
+    }
     
     // MARK: - Properties
+    
+    var mode = Mode.none {
+        didSet {
+            updateMode()
+        }
+    }
     
     var storyEditableItem: StoryEditableItem {
         return storyEditablePhotoItem
@@ -67,32 +55,9 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
         return imageView
     }()
     
-    private lazy var deletePhotoButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(#imageLiteral(resourceName: "closeButton"), for: .normal)
-        button.addTarget(self, action: #selector(deletePhoto), for: .touchUpInside)
-        return button
-    }()
-    
-    override var canBecomeFirstResponder: Bool {
-        return true
-    }
-    
     private var photoRedactorValue: Float = 0
     
-    override var inputView: UIView? {
-        if hasPhoto {
-            let view = Assembly.shared.createPhotoModuleControllerController(params: PhotoModuleControllerPresenter.Parameters(initilaValue: photoRedactorValue))
-            view.delegate = self
-            return view
-        } else {
-            return nil
-        }
-    }
-    
     private let bag = DisposeBag()
-    
-    weak var delegate: PhotoPicker?
     
     private var gestures: [UIGestureRecognizer] = []
     
@@ -151,24 +116,6 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
         }
         framePlace.snp.remakeConstraints { maker in
             maker.edges.equalToSuperview()
-        }
-        let closeButtonPosition = storyEditablePhotoItem.customSettings?.closeButtonPosition ?? PhotoItemCustomSettings.CloseButtonPosition.rightTop
-        deletePhotoButton.snp.remakeConstraints { maker in
-            switch closeButtonPosition {
-            case .leftTop:
-                maker.top.equalTo(photoContentView.snp.top)
-                maker.left.equalTo(photoContentView.snp.left)
-            case .leftBottom:
-                maker.bottom.equalTo(photoContentView.snp.bottom)
-                maker.left.equalTo(photoContentView.snp.left)
-            case .rightTop:
-                maker.top.equalTo(photoContentView.snp.top)
-                maker.right.equalTo(photoContentView.snp.right)
-            case .rightBottom:
-                maker.bottom.equalTo(photoContentView.snp.bottom)
-                maker.right.equalTo(photoContentView.snp.right)
-            }
-            maker.size.equalTo(CGSize(width: 30, height: 30))
         }
     }
     
@@ -244,9 +191,9 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
                 } else if let catchedLocationX = catchedLocationX {
                     let difference = catchedLocationX - sender.location(in: self).x
                     if abs(difference) < CGFloat(space) {
-                                            storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x - frame.minX, y: currentTranslation.y)
+                        storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x - frame.minX, y: currentTranslation.y)
                     } else {
-                                            storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x - frame.minX - difference, y: currentTranslation.y)
+                        storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x - frame.minX - difference, y: currentTranslation.y)
                     }
                 }
                 sender.setTranslation(storyEditablePhotoItem.editablePhotoTransform.currentTranslation, in: self)
@@ -348,9 +295,6 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
     @objc private func tapGesture(_ sender: UITapGestureRecognizer) {
         guard sender.state == .ended else { return }
         guard hasPhoto else {
-            delegate?.photoPlaceDidSelected(self) { image in
-                self.storyEditablePhotoItem.update(image: image)
-            }
             return
         }
         _ = becomeFirstResponder()
@@ -363,11 +307,6 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
         }
     }
     
-    @objc private func deletePhoto() {
-        storyEditablePhotoItem.update(image: nil)
-        updateTransforms()
-    }
-    
     // MARK: - Private Functions
     
     private func setup() {
@@ -375,7 +314,6 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
         addSubview(photoContentView)
         photoContentView.addSubview(photoImageView)
         addSubview(framePlace)
-        addSubview(deletePhotoButton)
         layer.addSublayer(dashedLayer)
         
         storyEditablePhotoItem.image.subscribe(onNext: { [weak self] image in
@@ -393,8 +331,8 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
         }).disposed(by: bag)
         framePlace.image = storyEditablePhotoItem.photoItem.framePlaceImage
         
-        clipsToBounds = true
-        deletePhotoButton.isHidden = true
+        clipsToBounds = false
+        updateMode()
         updateConstraintsIfNeeded()
     }
     
@@ -439,6 +377,7 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
     }
     
     override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return false
         if gestureRecognizer is UITapGestureRecognizer {
             return true
         }
@@ -449,48 +388,24 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
         }
     }
     
-    // MARK: - UIResponder
-    
-    override func resignFirstResponder() -> Bool {
-        let flag = super.resignFirstResponder()
-        dashedLayer.lineDashPattern = isFirstResponder ? nil : [2, 2]
-        deletePhotoButton.isHidden = !isFirstResponder
-        return flag
-    }
-    
-    override func becomeFirstResponder() -> Bool {
-        let flag = super.becomeFirstResponder()
-        dashedLayer.lineDashPattern = isFirstResponder ? nil : [2, 2]
-        deletePhotoButton.isHidden = !isFirstResponder
-        return flag
-    }
-    
-}
-
-let queue = DispatchQueue(label: "myImageQueue", qos: .background)
-
-extension PhotoPlace: SliderListener {
-    
-    func valueDidChanged(_ value: Float) {
-        DispatchQueue.global(qos: .background).async {
-            self.photoRedactorValue = value
-            guard let imageOpt = ((try? self.storyEditablePhotoItem.image.value()) as UIImage??), let image = imageOpt else {
-                return
-            }
-            if let originalImage = CIImage(image: image) {
-                let outputImage = originalImage.applyingFilter("CIColorControls",
-                                                               parameters: [
-                                                                kCIInputImageKey: originalImage,
-                                                                //kCIInputSaturationKey: 1.0 - 0.07 * value,
-                                                                kCIInputContrastKey: 1.0 - 0.2 * value,
-                                                                //kCIInputBrightnessKey: -0.06 * value,
-                    ])
-                let newImage = UIImage(ciImage: outputImage)
-                DispatchQueue.main.async {
-                    self.photoImageView.image = newImage
-                }
-            }
+    func selectAsEditable(delegate: ConstructorItemDelegate) {
+        if mode == .none {
+            mode = .selcted
         }
     }
     
+    func selectAsNotEditable() {
+        mode = .none
+    }
+    
+    func updateMode() {
+        switch mode {
+        case .selcted:
+            break
+        case .none:
+            break
+        case .edited:
+            break
+        }
+    }
 }
