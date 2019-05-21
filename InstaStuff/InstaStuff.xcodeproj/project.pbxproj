@@ -53,6 +53,9 @@
 		AD37C8B4226DE54500C7FF5F /* BackgroundModuleControllerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD37C8AF226DE54500C7FF5F /* BackgroundModuleControllerPresenter.swift */; };
 		AD37C8B5226DE54500C7FF5F /* BackgroundModuleControllerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD37C8B1226DE54500C7FF5F /* BackgroundModuleControllerAssembly.swift */; };
 		AD37C8B6226DE54500C7FF5F /* BackgroundModuleControllerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD37C8B3226DE54500C7FF5F /* BackgroundModuleControllerController.swift */; };
+		AD493BE82292E778006B1524 /* ConstructorPhotoEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD493BE72292E777006B1524 /* ConstructorPhotoEditView.swift */; };
+		AD493BEA2292EA84006B1524 /* EditViewPeresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD493BE92292EA84006B1524 /* EditViewPeresenter.swift */; };
+		AD493BEC2294396D006B1524 /* FrameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD493BEB2294396D006B1524 /* FrameCell.swift */; };
 		AD4C0163223A53D000F17FF3 /* UINavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4C0162223A53D000F17FF3 /* UINavigationBar.swift */; };
 		AD4C0165223A5CC300F17FF3 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4C0164223A5CC300F17FF3 /* UIView.swift */; };
 		AD4C0173223A787900F17FF3 /* TemplatePickerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4C016C223A787900F17FF3 /* TemplatePickerPresenter.swift */; };
@@ -88,7 +91,6 @@
 		ADEBBC5C22394CE600D2C566 /* TextEditorModuleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEBBC5722394CE600D2C566 /* TextEditorModuleController.swift */; };
 		ADEBBC60223959A500D2C566 /* FontCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEBBC5F223959A500D2C566 /* FontCell.swift */; };
 		ADEBBC6222398F9700D2C566 /* UITextView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEBBC6122398F9700D2C566 /* UITextView+Ext.swift */; };
-		ADF16703228D6AA4002D00A7 /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF16702228D6AA4002D00A7 /* EditView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -144,6 +146,9 @@
 		AD37C8AF226DE54500C7FF5F /* BackgroundModuleControllerPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundModuleControllerPresenter.swift; sourceTree = "<group>"; };
 		AD37C8B1226DE54500C7FF5F /* BackgroundModuleControllerAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundModuleControllerAssembly.swift; sourceTree = "<group>"; };
 		AD37C8B3226DE54500C7FF5F /* BackgroundModuleControllerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundModuleControllerController.swift; sourceTree = "<group>"; };
+		AD493BE72292E777006B1524 /* ConstructorPhotoEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructorPhotoEditView.swift; sourceTree = "<group>"; };
+		AD493BE92292EA84006B1524 /* EditViewPeresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewPeresenter.swift; sourceTree = "<group>"; };
+		AD493BEB2294396D006B1524 /* FrameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameCell.swift; sourceTree = "<group>"; };
 		AD4C0162223A53D000F17FF3 /* UINavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationBar.swift; sourceTree = "<group>"; };
 		AD4C0164223A5CC300F17FF3 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		AD4C016C223A787900F17FF3 /* TemplatePickerPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemplatePickerPresenter.swift; sourceTree = "<group>"; };
@@ -179,7 +184,6 @@
 		ADEBBC5722394CE600D2C566 /* TextEditorModuleController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEditorModuleController.swift; sourceTree = "<group>"; };
 		ADEBBC5F223959A500D2C566 /* FontCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontCell.swift; sourceTree = "<group>"; };
 		ADEBBC6122398F9700D2C566 /* UITextView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Ext.swift"; sourceTree = "<group>"; };
-		ADF16702228D6AA4002D00A7 /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
 		BE8890ED00D814BB3024EB3B /* Pods_InstaStuff.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InstaStuff.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -606,6 +610,7 @@
 			isa = PBXGroup;
 			children = (
 				AD5EA700228ABD5C00704218 /* ConstructorPresenter.swift */,
+				AD493BE92292EA84006B1524 /* EditViewPeresenter.swift */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";
@@ -625,7 +630,8 @@
 				AD5EA705228ABD5C00704218 /* ConstructorController.swift */,
 				AD516E61228AD02E0072539A /* ConstructorSlideView.swift */,
 				AD516E63228AEA380072539A /* MenuView.swift */,
-				ADF16702228D6AA4002D00A7 /* EditView.swift */,
+				AD493BE72292E777006B1524 /* ConstructorPhotoEditView.swift */,
+				AD493BEB2294396D006B1524 /* FrameCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -877,6 +883,7 @@
 				AD5EA70A228ABD5C00704218 /* ConstructorController.swift in Sources */,
 				AD5829E0223BFCB80069558B /* PhotoModuleControllerController.swift in Sources */,
 				ADEBBC6222398F9700D2C566 /* UITextView+Ext.swift in Sources */,
+				AD493BE82292E778006B1524 /* ConstructorPhotoEditView.swift in Sources */,
 				AD4C017A223A82D900F17FF3 /* TemplateCollectionViewCell.swift in Sources */,
 				1289FDA422227A5100CD7F0E /* StoryItem.swift in Sources */,
 				12C118C62221C82500996C20 /* RequestInfo.swift in Sources */,
@@ -884,6 +891,7 @@
 				AD4C0176223A787900F17FF3 /* TemplatePickerController.swift in Sources */,
 				ADEBBC5A22394CE600D2C566 /* TextEditorModuleAssembly.swift in Sources */,
 				AD5EA708228ABD5C00704218 /* ConstructorAssembly.swift in Sources */,
+				AD493BEC2294396D006B1524 /* FrameCell.swift in Sources */,
 				12C118EA2221F23F00996C20 /* StoryPickerRouter.swift in Sources */,
 				AD5EA709228ABD5C00704218 /* ConstructorRouter.swift in Sources */,
 				12C118C22221C82500996C20 /* Router.swift in Sources */,
@@ -911,13 +919,13 @@
 				ADEBBC5C22394CE600D2C566 /* TextEditorModuleController.swift in Sources */,
 				12C118EB2221F23F00996C20 /* MainScreenController.swift in Sources */,
 				AD4C0174223A787900F17FF3 /* TemplatePickerRouter.swift in Sources */,
-				ADF16703228D6AA4002D00A7 /* EditView.swift in Sources */,
 				128186B32224839C00E48646 /* Strings+Ext.swift in Sources */,
 				12C118BE2221C82500996C20 /* TypeCast.swift in Sources */,
 				ADBF3ECF225A4D830008A543 /* ViewPlace.swift in Sources */,
 				12C118E92221F23F00996C20 /* StoryPickerAssembly.swift in Sources */,
 				1289FDA022227A2C00CD7F0E /* StoryStorage.swift in Sources */,
 				AD52373F224256DA003649AD /* ColorCell.swift in Sources */,
+				AD493BEA2292EA84006B1524 /* EditViewPeresenter.swift in Sources */,
 				AD8F6EE02260A1FE0030537D /* Sets.xcdatamodeld in Sources */,
 				AD4C0173223A787900F17FF3 /* TemplatePickerPresenter.swift in Sources */,
 				128186BD2224877000E48646 /* StoryCell.swift in Sources */,

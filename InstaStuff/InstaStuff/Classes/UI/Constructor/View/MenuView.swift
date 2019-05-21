@@ -65,15 +65,15 @@ class MenuView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        stackView.frame = CGRect.init(x: 0, y: 0, width: bounds.width, height: bounds.height - Consts.UIGreed.safeAreaInsetsBottom)
+    }
+    
     // MARK: - Private Functions
     
     private func setup() {
         addSubview(stackView)
-        stackView.snp.remakeConstraints { maker in
-            maker.left.right.equalToSuperview()
-            maker.top.equalToSuperview()
-            maker.bottom.equalToSuperview().offset(Consts.UIGreed.safeAreaInsetsBottom)
-        }
     }
     
     // MARK: - Functions

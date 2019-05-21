@@ -12,32 +12,61 @@ class ConstructorSlideView: UIView, UIGestureRecognizerDelegate, ConstructorItem
     
     // MARK: - Properties
     
+    private lazy var deleteButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "deleteItem"), for: .normal)
+        button.addTarget(target, action: #selector(removeItem), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var editButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "editItem"), for: .normal)
+        button.addTarget(target, action: #selector(editItem), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var toTopButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "moveToBack"), for: .normal)
+        button.addTarget(target, action: #selector(itemToTop), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var toBackgroundButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "moveToFront"), for: .normal)
+        button.addTarget(target, action: #selector(itemToBackground), for: .touchUpInside)
+        return button
+    }()
+    
+    private var editButtons = [UIButton]()
+    
     private let contentView: UIImageView = {
         let view = UIImageView()
+        view.isUserInteractionEnabled = true
         view.clipsToBounds = true
         view.backgroundColor = .white
         return view
     }()
     
-    private var items: [UIViewTemplatePlaceble] = []
+    private(set) var items: [UIViewTemplatePlaceble] = []
     
-    private var editableView: UIViewTemplatePlaceble? {
+    private(set) var editableView: UIViewTemplatePlaceble? {
         didSet {
             guard oldValue !== editableView else {
                 return
             }
             oldValue?.selectAsNotEditable()
-            editView.removeFromSuperview()
+            editButtons.forEach { $0.removeFromSuperview() }
+            editViewPeresenter.endEditing()
             guard let editableView = editableView else { return }
-            addSubview(editView)
+            editButtons.forEach { addSubview($0) }
             updateTransforms(for: editableView)
         }
     }
     
-    private var editView: EditView = {
-        let view = EditView()
-        return view
-    }()
+    private let editViewPeresenter: EditViewPeresenter
     
     private lazy var customTap: UITapGestureRecognizer = {
         let tap = UITapGestureRecognizer()
@@ -46,10 +75,14 @@ class ConstructorSlideView: UIView, UIGestureRecognizerDelegate, ConstructorItem
         return tap
     }()
     
+    private var customGestures = [UIGestureRecognizer]()
+    
     // MARK: - Construction
     
-    init() {
+    init(editViewPeresenter: EditViewPeresenter) {
+        self.editViewPeresenter = editViewPeresenter
         super.init(frame: .zero)
+        editViewPeresenter.slideView = self
         setup()
         addGestures()
     }
@@ -61,7 +94,7 @@ class ConstructorSlideView: UIView, UIGestureRecognizerDelegate, ConstructorItem
     // MARK: - Private Functions
     
     private func setup() {
-        editView.setup(target: self)
+        editButtons = [deleteButton, editButton, toTopButton, toBackgroundButton]
         addSubview(contentView)
         contentView.snp.remakeConstraints { maker in
             maker.edges.equalToSuperview()
@@ -79,23 +112,41 @@ class ConstructorSlideView: UIView, UIGestureRecognizerDelegate, ConstructorItem
         zoom.addTarget(self, action: #selector(zoomGesture(_:)))
         zoom.delegate = self
         
+        let rotation = UIRotationGestureRecognizer()
+        addGestureRecognizer(rotation)
+        rotation.addTarget(self, action: #selector(rotateGesture(_:)))
+        rotation.delegate = self
+        
+        customGestures = [pan, zoom, customTap, rotation]
+        
         addGestureRecognizer(customTap)
     }
     
     private func updateTransforms(for view: UIViewTemplatePlaceble) {
         view.transform = view.storyEditableItem.editableTransform.transform
-        guard let superview = superview else { return }
-        let origin = CGPoint(x: max(-30, view.frame.minX - 30),
-                             y: max(-30, view.frame.minY - 30))
-        let originRight = CGPoint(x: min(bounds.width + 30, view.frame.maxX + 30),
-                                  y: min(bounds.height + 30, view.frame.maxY + 30))
-        editView.frame = CGRect(origin: origin,
-                                size: CGSize(width: originRight.x - origin.x,
-                                             height: originRight.y - origin.y))
+        let buttonSize: CGFloat = Consts.UIGreed.editButtonsSize
+        editButton.frame = CGRect(x: max(-buttonSize, view.frame.minX - buttonSize),
+                                    y: max(-buttonSize, view.frame.minY - buttonSize),
+                                    width: buttonSize,
+                                    height: buttonSize)
+        toTopButton.frame = CGRect(x: max(-buttonSize, view.frame.minX - buttonSize),
+                                   y: min(bounds.height, view.frame.maxY),
+                                   width: buttonSize,
+                                   height: buttonSize)
+        deleteButton.frame = CGRect(x: min(view.frame.maxX, bounds.maxX),
+                                    y: max(-buttonSize, view.frame.minY - buttonSize),
+                                    width: buttonSize,
+                                    height: buttonSize)
+        toBackgroundButton.frame = CGRect(x: min(view.frame.maxX, bounds.maxX),
+                                   y: min(bounds.height, view.frame.maxY),
+                                   width: buttonSize,
+                                   height: buttonSize)
     }
     
     private func view(from sender: UIGestureRecognizer) -> UIViewTemplatePlaceble? {
-        return items.filter({ view in view.frame.contains(sender.location(in: contentView)) }).last
+        return items.filter({ view in
+            view.point(inside: contentView.convert(sender.location(in: contentView), to: view), with: nil)
+        }).last
     }
     
     private func updateConstratints(_ placebleView: UIViewTemplatePlaceble) {
@@ -114,6 +165,13 @@ class ConstructorSlideView: UIView, UIGestureRecognizerDelegate, ConstructorItem
         contentView.addSubview(placebleView)
         items.append(placebleView)
         updateConstratints(placebleView)
+    }
+    
+    func updateEditableView() {
+        guard let editableView = editableView else { return }
+        updateConstratints(editableView)
+        layoutIfNeeded()
+        updateTransforms(for: editableView)
     }
     
     // MARK: - Actions
@@ -154,22 +212,49 @@ class ConstructorSlideView: UIView, UIGestureRecognizerDelegate, ConstructorItem
         }
     }
     
+    @objc private func rotateGesture(_ sender: UIRotationGestureRecognizer) {
+        switch sender.state {
+        case .began:
+            guard let item = view(from: sender) else {
+                editableView = nil
+                return
+            }
+            editableView = item
+            sender.rotation = item.storyEditableItem.editableTransform.currentRotation
+        case .changed:
+            guard let editableView = editableView else { return }
+            editableView.storyEditableItem.editableTransform.currentRotation = sender.rotation
+            updateTransforms(for: editableView)
+        default:
+            break
+        }
+    }
+    
     @objc private func tapGesture(_ sender: UITapGestureRecognizer) {
         guard sender.state == .ended else { return }
         editableView = view(from: sender)
         editableView?.selectAsEditable(delegate: self)
     }
     
+    // MARK: - UIGestureRecognizerDelegate
+    
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if !customGestures.contains(gestureRecognizer), !editViewPeresenter.isEditing {
+            return false
+        }
+        if editViewPeresenter.isEditing, customGestures.contains(gestureRecognizer), gestureRecognizer !== customTap {
+            return false
+        }
         guard gestureRecognizer === customTap else {
             return true
         }
-        guard let superview = editView.superview else {
-            return true
-        }
-        return editView.subviews.first { button -> Bool in
-            return editView.convert(button.frame, to: self).contains(touch.location(in: self))
+        return editButtons.first { button -> Bool in
+            return button.superview != nil && button.frame.contains(touch.location(in: self))
         } == nil
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return gestureRecognizer.view === otherGestureRecognizer.view
     }
     
     // MARK: - ConstructorItemDelegate
@@ -183,7 +268,7 @@ class ConstructorSlideView: UIView, UIGestureRecognizerDelegate, ConstructorItem
     }
     
     func editItem() {
-        
+        editViewPeresenter.beginEdit()
     }
     
     func itemToTop() {
@@ -209,8 +294,9 @@ class ConstructorSlideView: UIView, UIGestureRecognizerDelegate, ConstructorItem
     }
     
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        return editView.frame.contains(point) || super.point(inside: point, with: event)
+        return super.point(inside: point, with: event) || editButtons.first(where: { button in
+            button.frame.contains(point)
+        }) != nil
     }
-    
     
 }

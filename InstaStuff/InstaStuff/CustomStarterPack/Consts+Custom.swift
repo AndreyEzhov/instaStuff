@@ -11,6 +11,8 @@ import UIKit
 extension Consts {
     
     struct UIGreed {
+        static let editButtonsSize: CGFloat = 30
+        
         static let photoRatio: CGFloat = 9.0 / 16.0
         
         static let screenWidth: CGFloat = 1080

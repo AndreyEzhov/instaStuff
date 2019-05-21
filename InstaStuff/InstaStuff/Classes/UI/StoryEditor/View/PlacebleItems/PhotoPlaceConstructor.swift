@@ -27,7 +27,7 @@ class PhotoPlaceConstructor: UIViewTemplatePlaceble, UIGestureRecognizerDelegate
         return storyEditablePhotoItem
     }
     
-    let storyEditablePhotoItem: StoryEditablePhotoItem
+    private(set) var storyEditablePhotoItem: StoryEditablePhotoItem
     
     private lazy var photoContentView: UIView = {
         let view = UIView()
@@ -60,10 +60,6 @@ class PhotoPlaceConstructor: UIViewTemplatePlaceble, UIGestureRecognizerDelegate
     private let bag = DisposeBag()
     
     private var gestures: [UIGestureRecognizer] = []
-    
-    private var hasPhoto: Bool {
-        return image != nil
-    }
     
     private var image: UIImage?
     
@@ -154,6 +150,14 @@ class PhotoPlaceConstructor: UIViewTemplatePlaceble, UIGestureRecognizerDelegate
         hPath.close()
         hPath.lineWidth = vPath.lineWidth
         hPath.stroke()
+    }
+    
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+        guard let superView = superview?.superview as? UIGestureRecognizerDelegate else {
+            return
+        }
+        gestures.forEach { $0.delegate = superView }
     }
     
     // MARK: - Actions
@@ -292,14 +296,6 @@ class PhotoPlaceConstructor: UIViewTemplatePlaceble, UIGestureRecognizerDelegate
         }
     }
     
-    @objc private func tapGesture(_ sender: UITapGestureRecognizer) {
-        guard sender.state == .ended else { return }
-        guard hasPhoto else {
-            return
-        }
-        _ = becomeFirstResponder()
-    }
-    
     @objc private func doubleTapGesture(_ sender: UITapGestureRecognizer) {
         storyEditablePhotoItem.editablePhotoTransform.identity()
         UIView.animate(withDuration: 0.3) {
@@ -340,22 +336,14 @@ class PhotoPlaceConstructor: UIViewTemplatePlaceble, UIGestureRecognizerDelegate
         let pan = UIPanGestureRecognizer()
         photoContentView.addGestureRecognizer(pan)
         pan.addTarget(self, action: #selector(panGesture(_:)))
-        pan.delegate = self
         
         let rotation = UIRotationGestureRecognizer()
         photoContentView.addGestureRecognizer(rotation)
         rotation.addTarget(self, action: #selector(rotateGesture(_:)))
-        rotation.delegate = self
         
         let zoom = UIPinchGestureRecognizer()
         photoContentView.addGestureRecognizer(zoom)
         zoom.addTarget(self, action: #selector(zoomGesture(_:)))
-        zoom.delegate = self
-        
-        let tap = UITapGestureRecognizer()
-        photoContentView.addGestureRecognizer(tap)
-        tap.addTarget(self, action: #selector(tapGesture(_:)))
-        tap.delegate = self
         
         let doubleTap = UITapGestureRecognizer()
         photoContentView.addGestureRecognizer(doubleTap)
@@ -370,23 +358,7 @@ class PhotoPlaceConstructor: UIViewTemplatePlaceble, UIGestureRecognizerDelegate
         photoImageView.transform = storyEditablePhotoItem.editablePhotoTransform.transform
     }
     
-    // MARK: - UIGestureRecognizerDelegate
-    
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return gestures.contains(gestureRecognizer) && gestures.contains(otherGestureRecognizer)
-    }
-    
-    override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        return false
-        if gestureRecognizer is UITapGestureRecognizer {
-            return true
-        }
-        if isFirstResponder {
-            return gestures.contains(gestureRecognizer)
-        } else {
-            return !gestures.contains(gestureRecognizer)
-        }
-    }
+    // MARK: - Functions
     
     func selectAsEditable(delegate: ConstructorItemDelegate) {
         if mode == .none {
@@ -407,5 +379,11 @@ class PhotoPlaceConstructor: UIViewTemplatePlaceble, UIGestureRecognizerDelegate
         case .edited:
             break
         }
+    }
+    
+    func modify(with settings: PhotoPlaceConstructorSettings) {
+        storyEditablePhotoItem.photoItem = settings.photoItem
+        storyEditablePhotoItem.settings = settings.settings
+        updateConstraints()
     }
 }

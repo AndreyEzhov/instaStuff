@@ -32,6 +32,9 @@ struct PhotoItem {
     var framePlaceImage: UIImage? {
         return UIImage(named: frameName + "_frameplace")
     }
+    var preview: UIImage? {
+        return UIImage(named: frameName + "_preview")
+    }
 }
 
 struct PhotoItemCustomSettings {

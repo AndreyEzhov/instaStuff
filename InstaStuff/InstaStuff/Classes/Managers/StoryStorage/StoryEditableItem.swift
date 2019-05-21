@@ -11,7 +11,7 @@ import RxSwift
 
 class StoryEditableItem {
     
-    let settings: Settings
+    var settings: Settings
     
     var editableTransform = EditableTransform()
     
@@ -49,7 +49,7 @@ struct EditableTransform {
 
 class StoryEditablePhotoItem: StoryEditableItem {
     
-    let photoItem: PhotoItem
+    var photoItem: PhotoItem
     
     let customSettings: PhotoItemCustomSettings?
     
