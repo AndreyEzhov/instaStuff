@@ -6,7 +6,7 @@ class Assembly {
     
     static let shared = Assembly()
     
-    lazy var templatesStorage = TemplatesStorage()
+    var templatesStorage = TemplatesStorage()
     
     lazy var storyStorage = StoryStorage()
     

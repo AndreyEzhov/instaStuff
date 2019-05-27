@@ -50,13 +50,19 @@ struct TextItem {
     let defautText: String
 }
 
-struct StuffItem {
+struct StuffItem: PreviewProtocol {
     typealias Id = String
     
-    let stuffName: PhotoItem.Id
+    let stuffId: StuffItem.Id
     
-    var stuffImage: UIImage? {
+    let stuffName: String
+    
+    var stuffImage: UIImage! {
         return UIImage(named: stuffName)
+    }
+    
+    var preview: UIImage? {
+        return stuffImage
     }
 }
 

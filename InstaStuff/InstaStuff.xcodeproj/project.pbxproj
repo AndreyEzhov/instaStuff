@@ -53,8 +53,9 @@
 		AD37C8B4226DE54500C7FF5F /* BackgroundModuleControllerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD37C8AF226DE54500C7FF5F /* BackgroundModuleControllerPresenter.swift */; };
 		AD37C8B5226DE54500C7FF5F /* BackgroundModuleControllerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD37C8B1226DE54500C7FF5F /* BackgroundModuleControllerAssembly.swift */; };
 		AD37C8B6226DE54500C7FF5F /* BackgroundModuleControllerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD37C8B3226DE54500C7FF5F /* BackgroundModuleControllerController.swift */; };
+		AD4785F7229C19AB0038EB04 /* StuffItemsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4785F6229C19AB0038EB04 /* StuffItemsPresenter.swift */; };
 		AD493BE82292E778006B1524 /* ConstructorPhotoEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD493BE72292E777006B1524 /* ConstructorPhotoEditView.swift */; };
-		AD493BEA2292EA84006B1524 /* EditViewPeresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD493BE92292EA84006B1524 /* EditViewPeresenter.swift */; };
+		AD493BEA2292EA84006B1524 /* EditViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD493BE92292EA84006B1524 /* EditViewPresenter.swift */; };
 		AD493BEC2294396D006B1524 /* FrameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD493BEB2294396D006B1524 /* FrameCell.swift */; };
 		AD4C0163223A53D000F17FF3 /* UINavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4C0162223A53D000F17FF3 /* UINavigationBar.swift */; };
 		AD4C0165223A5CC300F17FF3 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4C0164223A5CC300F17FF3 /* UIView.swift */; };
@@ -97,8 +98,6 @@
 		121F2ABB226C83C1009721F0 /* Cheque-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Cheque-Regular.ttf"; sourceTree = "<group>"; };
 		121F2ABF226C8670009721F0 /* Solena-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Solena-Regular.ttf"; sourceTree = "<group>"; };
 		121F2ACC226C8808009721F0 /* Journalism-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Journalism-Regular.ttf"; sourceTree = "<group>"; };
-		123B040F2223221500258D34 /* set1 */ = {isa = PBXFileReference; explicitFileType = folder; includeInIndex = 0; path = set1; sourceTree = BUILT_PRODUCTS_DIR; };
-		123B04112223221500258D34 /* ContentInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ContentInfo.plist; sourceTree = "<group>"; };
 		12528A6E222B5A5B0040609B /* StoryEditableItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryEditableItem.swift; sourceTree = "<group>"; };
 		12528A7E223517F60040609B /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		12528A8122351D3B0040609B /* StuffPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StuffPlace.swift; sourceTree = "<group>"; };
@@ -146,8 +145,9 @@
 		AD37C8AF226DE54500C7FF5F /* BackgroundModuleControllerPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundModuleControllerPresenter.swift; sourceTree = "<group>"; };
 		AD37C8B1226DE54500C7FF5F /* BackgroundModuleControllerAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundModuleControllerAssembly.swift; sourceTree = "<group>"; };
 		AD37C8B3226DE54500C7FF5F /* BackgroundModuleControllerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundModuleControllerController.swift; sourceTree = "<group>"; };
+		AD4785F6229C19AB0038EB04 /* StuffItemsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StuffItemsPresenter.swift; sourceTree = "<group>"; };
 		AD493BE72292E777006B1524 /* ConstructorPhotoEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructorPhotoEditView.swift; sourceTree = "<group>"; };
-		AD493BE92292EA84006B1524 /* EditViewPeresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewPeresenter.swift; sourceTree = "<group>"; };
+		AD493BE92292EA84006B1524 /* EditViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewPresenter.swift; sourceTree = "<group>"; };
 		AD493BEB2294396D006B1524 /* FrameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameCell.swift; sourceTree = "<group>"; };
 		AD4C0162223A53D000F17FF3 /* UINavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationBar.swift; sourceTree = "<group>"; };
 		AD4C0164223A5CC300F17FF3 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
@@ -196,13 +196,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		96381DEEE412F4985D15C0DB /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -228,14 +221,6 @@
 				121F2ACC226C8808009721F0 /* Journalism-Regular.ttf */,
 			);
 			path = Journalism;
-			sourceTree = "<group>";
-		};
-		123B04102223221500258D34 /* set1 */ = {
-			isa = PBXGroup;
-			children = (
-				123B04112223221500258D34 /* ContentInfo.plist */,
-			);
-			path = set1;
 			sourceTree = "<group>";
 		};
 		12528A7D223517DF0040609B /* Items */ = {
@@ -308,7 +293,6 @@
 			isa = PBXGroup;
 			children = (
 				12C1189E2221C7F400996C20 /* InstaStuff */,
-				123B04102223221500258D34 /* set1 */,
 				12C1189D2221C7F400996C20 /* Products */,
 				A8B4A8B4AEEC0A1F3F105BC0 /* Pods */,
 				45B43933B6DDAB74246CF953 /* Frameworks */,
@@ -319,7 +303,6 @@
 			isa = PBXGroup;
 			children = (
 				12C1189C2221C7F400996C20 /* InstaStuff.app */,
-				123B040F2223221500258D34 /* set1 */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -610,7 +593,8 @@
 			isa = PBXGroup;
 			children = (
 				AD5EA700228ABD5C00704218 /* ConstructorPresenter.swift */,
-				AD493BE92292EA84006B1524 /* EditViewPeresenter.swift */,
+				AD493BE92292EA84006B1524 /* EditViewPresenter.swift */,
+				AD4785F6229C19AB0038EB04 /* StuffItemsPresenter.swift */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";
@@ -705,22 +689,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		123B040E2223221500258D34 /* set1 */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 123B04142223221500258D34 /* Build configuration list for PBXNativeTarget "set1" */;
-			buildPhases = (
-				123B040D2223221500258D34 /* Resources */,
-				96381DEEE412F4985D15C0DB /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = set1;
-			productName = set1;
-			productReference = 123B040F2223221500258D34 /* set1 */;
-			productType = "com.apple.product-type.in-app-purchase-content";
-		};
 		12C1189B2221C7F400996C20 /* InstaStuff */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 12C118AE2221C7F700996C20 /* Build configuration list for PBXNativeTarget "InstaStuff" */;
@@ -751,9 +719,6 @@
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = "Андрей Ежов";
 				TargetAttributes = {
-					123B040E2223221500258D34 = {
-						CreatedOnToolsVersion = 10.1;
-					};
 					12C1189B2221C7F400996C20 = {
 						CreatedOnToolsVersion = 10.1;
 						LastSwiftMigration = 1020;
@@ -775,19 +740,11 @@
 			projectRoot = "";
 			targets = (
 				12C1189B2221C7F400996C20 /* InstaStuff */,
-				123B040E2223221500258D34 /* set1 */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		123B040D2223221500258D34 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		12C1189A2221C7F400996C20 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -885,6 +842,7 @@
 				ADEBBC6222398F9700D2C566 /* UITextView+Ext.swift in Sources */,
 				AD493BE82292E778006B1524 /* ConstructorPhotoEditView.swift in Sources */,
 				AD4C017A223A82D900F17FF3 /* TemplateCollectionViewCell.swift in Sources */,
+				AD4785F7229C19AB0038EB04 /* StuffItemsPresenter.swift in Sources */,
 				1289FDA422227A5100CD7F0E /* StoryItem.swift in Sources */,
 				12C118C62221C82500996C20 /* RequestInfo.swift in Sources */,
 				AD516E70228BF80F0072539A /* PhotoPlaceConstructor.swift in Sources */,
@@ -925,7 +883,7 @@
 				12C118E92221F23F00996C20 /* StoryPickerAssembly.swift in Sources */,
 				1289FDA022227A2C00CD7F0E /* StoryStorage.swift in Sources */,
 				AD52373F224256DA003649AD /* ColorCell.swift in Sources */,
-				AD493BEA2292EA84006B1524 /* EditViewPeresenter.swift in Sources */,
+				AD493BEA2292EA84006B1524 /* EditViewPresenter.swift in Sources */,
 				AD8F6EE02260A1FE0030537D /* Sets.xcdatamodeld in Sources */,
 				AD4C0173223A787900F17FF3 /* TemplatePickerPresenter.swift in Sources */,
 				128186BD2224877000E48646 /* StoryCell.swift in Sources */,
@@ -984,30 +942,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		123B04122223221500258D34 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6PJ2XVG4Y2;
-				INFOPLIST_FILE = set1/ContentInfo.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/InAppPurchaseContent";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = "";
-			};
-			name = Debug;
-		};
-		123B04132223221500258D34 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6PJ2XVG4Y2;
-				INFOPLIST_FILE = set1/ContentInfo.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/InAppPurchaseContent";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = "";
-			};
-			name = Release;
-		};
 		12C118AC2221C7F700996C20 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1169,15 +1103,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		123B04142223221500258D34 /* Build configuration list for PBXNativeTarget "set1" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				123B04122223221500258D34 /* Debug */,
-				123B04132223221500258D34 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		12C118972221C7F400996C20 /* Build configuration list for PBXProject "InstaStuff" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -54,19 +54,25 @@ class ConstructorSlideView: UIView, UIGestureRecognizerDelegate, ConstructorItem
     
     private(set) var editableView: UIViewTemplatePlaceble? {
         didSet {
+            if oldValue == nil {
+                parentView.endEditing()
+            }
             guard oldValue !== editableView else {
                 return
             }
             oldValue?.selectAsNotEditable()
             editButtons.forEach { $0.removeFromSuperview() }
-            editViewPeresenter.endEditing()
+            parentView.endEditing()
             guard let editableView = editableView else { return }
             editButtons.forEach { addSubview($0) }
+            if !(editableView is PhotoPlaceConstructor) {
+                editButton.removeFromSuperview()
+            }
             updateTransforms(for: editableView)
         }
     }
     
-    private let editViewPeresenter: EditViewPeresenter
+    private let editViewPeresenter: EditViewPresenter
     
     private lazy var customTap: UITapGestureRecognizer = {
         let tap = UITapGestureRecognizer()
@@ -77,10 +83,13 @@ class ConstructorSlideView: UIView, UIGestureRecognizerDelegate, ConstructorItem
     
     private var customGestures = [UIGestureRecognizer]()
     
+    private let parentView: ConstructorController
+    
     // MARK: - Construction
     
-    init(editViewPeresenter: EditViewPeresenter) {
+    init(editViewPeresenter: EditViewPresenter, parentView: ConstructorController) {
         self.editViewPeresenter = editViewPeresenter
+        self.parentView = parentView
         super.init(frame: .zero)
         editViewPeresenter.slideView = self
         setup()
@@ -165,6 +174,9 @@ class ConstructorSlideView: UIView, UIGestureRecognizerDelegate, ConstructorItem
         contentView.addSubview(placebleView)
         items.append(placebleView)
         updateConstratints(placebleView)
+        if editableView !== placebleView {
+            editableView = nil
+        }
     }
     
     func updateEditableView() {

@@ -17,14 +17,33 @@ class TemplatesStorage {
     
     private(set) var templateSets: [TemplateSet] = []
     
+    private(set) var stuffItems: [StuffItem] = []
+    
     // MARK: - Consruction
     
     init() {
         fillCoreData()
+        setupStuffItems()
         setupSets()
     }
     
     // MARK: - Private Functions
+    
+    private func setupStuffItems() {
+        let setFetch: NSFetchRequest<CDStuffItem> = CDStuffItem.fetchRequest()
+        setFetch.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
+        do {
+            let results = try coreDataStack.managedContext.fetch(setFetch)
+            stuffItems = results.compactMap { cdStuffItem -> StuffItem? in
+                guard let id = cdStuffItem.id, let name = cdStuffItem.name else {
+                    return nil
+                }
+                return StuffItem(stuffId: id, stuffName: name)
+            }
+        } catch let error as NSError {
+            print("Fetch error: \(error) description: \(error.userInfo)")
+        }
+    }
     
     private func setupSets() {
         let setFetch: NSFetchRequest<CDSet> = CDSet.fetchRequest()

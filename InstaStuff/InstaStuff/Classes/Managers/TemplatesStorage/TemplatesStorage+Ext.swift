@@ -23,8 +23,9 @@ extension TemplatesStorage {
         let CDTemplateFetch: NSFetchRequest<CDTemplate> = CDTemplate.fetchRequest()
         let CDTextItemFetch: NSFetchRequest<CDViewInTemplate> = CDViewInTemplate.fetchRequest()
         let CDTextItemInTemplateFetch: NSFetchRequest<CDTextItemInTemplate> = CDTextItemInTemplate.fetchRequest()
+        let CDStuffItemFetch: NSFetchRequest<CDStuffItem> = CDStuffItem.fetchRequest()
         
-        [CDItemFetch, CDItemInTemplateFetch, CDPhotoItemFetch, CDPhotoItemInTemplateFetch, CDPhotoItemSettingsFetch, CDSetFetch, CDSettingsFetch, CDTemplateFetch, CDTextItemFetch, CDTextItemInTemplateFetch].forEach { fetch in
+        [CDItemFetch, CDItemInTemplateFetch, CDPhotoItemFetch, CDPhotoItemInTemplateFetch, CDPhotoItemSettingsFetch, CDSetFetch, CDSettingsFetch, CDTemplateFetch, CDTextItemFetch, CDTextItemInTemplateFetch, CDStuffItemFetch].forEach { fetch in
             let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetch as! NSFetchRequest<NSFetchRequestResult>)
             do {
                 try coreDataStack.managedContext.execute(deleteRequest)
@@ -42,6 +43,16 @@ extension TemplatesStorage {
             set.templates = NSOrderedSet(array: tupple.3)
         }
         coreDataStack.saveContext()
+        
+        fillWithStuff(cdStuffItemFetch: CDStuffItemFetch)
+    }
+    
+    func fillWithStuff(cdStuffItemFetch: NSFetchRequest<CDStuffItem>) {
+        [("1", "stuff_1"), ("2", "stuff_2"), ("3", "stuff_3"), ("4", "stuff_4")].forEach { args in
+            let stuff = CDStuffItem(context: coreDataStack.managedContext)
+            stuff.id = args.0
+            stuff.name = args.1
+        }
     }
 
     func set1template1() -> CDTemplate {

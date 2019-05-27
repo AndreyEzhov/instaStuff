@@ -13,9 +13,23 @@ private enum Constants {
 }
 
 
-struct PhotoPlaceConstructorSettings {
+struct PhotoPlaceConstructorSettings: PreviewProtocol {
     let photoItem: PhotoItem
     let settings: Settings
+    var preview: UIImage? {
+        return photoItem.preview
+    }
+}
+
+protocol PreviewProtocol {
+    var preview: UIImage? { get }
+}
+
+protocol CunstructorEditViewProtocol {
+    var dataSource: [PreviewProtocol] { get }
+    func select(at index: Int)
+    func beginEdit()
+    func endEditing()
 }
 
 class ConstructorPhotoEditView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -37,23 +51,16 @@ class ConstructorPhotoEditView: UIView, UICollectionViewDataSource, UICollection
         return collectionView
     }()
     
-    private let peresenter: EditViewPeresenter
-    
-    private let photoItems: [PhotoPlaceConstructorSettings]
+    var presenter: CunstructorEditViewProtocol {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
     
     // MARK: - Construction
     
-    init(peresenter: EditViewPeresenter) {
-        self.peresenter = peresenter
-        photoItems = [
-            PhotoPlaceConstructorSettings(photoItem: PhotoItem(frameName: "square", photoAreaLocation: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 1, angle: 0, ratio: 1)),
-                                          settings: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 0.8, angle: 0, ratio: 1))
-            ,
-            PhotoPlaceConstructorSettings(photoItem: PhotoItem(frameName: "1_to_2", photoAreaLocation: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 1, angle: 0, ratio: 2)),
-                                          settings: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 0.8, angle: 0, ratio: 2)),
-            PhotoPlaceConstructorSettings(photoItem: PhotoItem(frameName: "2_to_1", photoAreaLocation: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 1, angle: 0, ratio: 0.5)),
-                                          settings: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 0.4, angle: 0, ratio: 0.5))
-        ]
+    init(presenter: CunstructorEditViewProtocol) {
+        self.presenter = presenter
         super.init(frame: .zero)
         setup()
     }
@@ -81,17 +88,17 @@ class ConstructorPhotoEditView: UIView, UICollectionViewDataSource, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photoItems.count
+        return presenter.dataSource.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         return collectionView.dequeue(indexPath: indexPath, with: { (cell: FrameCell) in
-            cell.setup(with: photoItems[indexPath.row].photoItem)
+            cell.setup(with: presenter.dataSource[indexPath.row].preview)
         })
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        peresenter.modify(with: photoItems[indexPath.row])
+        presenter.select(at: indexPath.row)
     }
 
 }

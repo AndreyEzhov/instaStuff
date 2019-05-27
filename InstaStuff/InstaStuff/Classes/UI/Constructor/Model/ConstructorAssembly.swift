@@ -24,7 +24,7 @@ extension Assembly: ConstructorAssembly {
     ///
     /// - Returns: View Controller
     func createConstructorController(params: ConstructorPresenter.Parameters) -> UIViewController {
-        let presenter = ConstructorPresenter(params: params)
+        let presenter = ConstructorPresenter(params: params, templatesStorage: templatesStorage)
         return ConstructorController.controller(presenter: presenter)
     }
     

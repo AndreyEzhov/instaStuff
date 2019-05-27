@@ -37,8 +37,8 @@ class FrameCell: UICollectionViewCell {
     
     // MARK: - Functions
 
-    func setup(with item: PhotoItem) {
-        imageView.image = item.preview
+    func setup(with preview: UIImage?) {
+        imageView.image = preview
     }
 
 }

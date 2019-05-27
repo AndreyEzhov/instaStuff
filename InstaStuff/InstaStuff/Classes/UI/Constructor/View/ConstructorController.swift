@@ -19,9 +19,7 @@ final class ConstructorController: BaseViewController<ConstructorPresentable>, C
     
     /// Есть ли сториборд
     override class var hasStoryboard: Bool { return false }
-    
-    private let editViewPeresenter = EditViewPeresenter()
-    
+        
     private lazy var slideArea: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.isScrollEnabled = false
@@ -29,9 +27,10 @@ final class ConstructorController: BaseViewController<ConstructorPresentable>, C
     }()
     
     private lazy var slideView: ConstructorSlideView = {
-        let view = ConstructorSlideView(editViewPeresenter: editViewPeresenter)
+        let view = ConstructorSlideView(editViewPeresenter: presenter.editViewPeresenter, parentView: self)
         view.clipsToBounds = true
         view.backgroundColor = .white
+        presenter.stuffItemsPresenter.slideView = view
         return view
     }()
     
@@ -43,7 +42,7 @@ final class ConstructorController: BaseViewController<ConstructorPresentable>, C
     }()
     
     private lazy var constructorPhotoEditView: ConstructorPhotoEditView = {
-        let view = ConstructorPhotoEditView(peresenter: editViewPeresenter)
+        let view = ConstructorPhotoEditView(presenter: presenter.editViewPeresenter)
         view.backgroundColor = Consts.Colors.applicationColor
         return view
     }()
@@ -68,8 +67,9 @@ final class ConstructorController: BaseViewController<ConstructorPresentable>, C
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        editViewPeresenter.delegate = self
-        setupPhotoEditMenu(hidden: true, animated: false)
+        presenter.editViewPeresenter.delegate = self
+        presenter.stuffItemsPresenter.delegate = self
+        setupPhotoEditMenu(hidden: true, animated: false, sender: presenter.editViewPeresenter)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "export"), style: .plain, target: self, action: #selector(exportImage))
     }
     
@@ -116,7 +116,15 @@ final class ConstructorController: BaseViewController<ConstructorPresentable>, C
     
     // MARK: - Functions
     
-    func setupPhotoEditMenu(hidden: Bool, animated: Bool) {
+    var currentPresenter: CunstructorEditViewProtocol?
+    
+    func endEditing() {
+        currentPresenter?.endEditing()
+    }
+    
+    func setupPhotoEditMenu(hidden: Bool, animated: Bool, sender: CunstructorEditViewProtocol) {
+        constructorPhotoEditView.presenter = sender
+        currentPresenter = sender
         UIView.animate(withDuration: animated ? 0.3 : 0) {
             self.constructorPhotoEditView.transform = hidden ? CGAffineTransform(translationX: 0, y: Constatns.constructorPhotoEditViewhight + Consts.UIGreed.safeAreaInsetsBottom) : .identity
         }
@@ -197,7 +205,7 @@ final class ConstructorController: BaseViewController<ConstructorPresentable>, C
 extension ConstructorController: MenuViewProtocol {
     
     func addPhotoAction(_ sender: UIButton) {
-        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum){
+        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
             imagePicker.delegate = self
             imagePicker.sourceType = .savedPhotosAlbum
             imagePicker.allowsEditing = false
@@ -206,7 +214,7 @@ extension ConstructorController: MenuViewProtocol {
     }
     
     func addItemAction(_ sender: UIButton) {
-        
+        setupPhotoEditMenu(hidden: false, animated: true, sender: presenter.stuffItemsPresenter)
     }
     
     func addTextAction(_ sender: UIButton) {
