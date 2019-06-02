@@ -218,7 +218,12 @@ extension ConstructorController: MenuViewProtocol {
     }
     
     func addTextAction(_ sender: UIButton) {
-        
+        let textSetups = TextSetups(textType: TextSetups.TextType.none, aligment: .center, fontSize: 20, lineSpacing: 1, fontType: .futura, kern: 1, color: .black)
+        let textItem = TextItem(textSetups: textSetups, defautText: "Type your text")
+        let settings = Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 0.8, angle: 0, ratio: 2)
+        let storyEditableTextItem = StoryEditableTextItem(textItem, settings: settings)
+        let textViewPlace = TextViewPlace(storyEditableTextItem)
+        slideView.add(textViewPlace)
     }
     
     func changeBackgroundAction(_ sender: UIButton) {

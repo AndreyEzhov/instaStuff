@@ -10,9 +10,9 @@ import UIKit
 
 struct Settings {
     let center: CGPoint
-    let sizeWidth: CGFloat
+    var sizeWidth: CGFloat
     let angle: CGFloat
-    let ratio: CGFloat
+    var ratio: CGFloat
 }
 
 struct FrameAreaDescription {

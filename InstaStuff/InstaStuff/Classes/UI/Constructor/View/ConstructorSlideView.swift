@@ -65,7 +65,7 @@ class ConstructorSlideView: UIView, UIGestureRecognizerDelegate, ConstructorItem
             parentView.endEditing()
             guard let editableView = editableView else { return }
             editButtons.forEach { addSubview($0) }
-            if !(editableView is PhotoPlaceConstructor) {
+            if (editableView is StuffPlace) {
                 editButton.removeFromSuperview()
             }
             updateTransforms(for: editableView)
@@ -188,6 +188,10 @@ class ConstructorSlideView: UIView, UIGestureRecognizerDelegate, ConstructorItem
     
     // MARK: - Actions
     
+    private var xD: CGFloat = 0
+    
+    private var yD: CGFloat = 0
+    
     @objc private func zoomGesture(_ sender: UIPinchGestureRecognizer) {
         switch sender.state {
         case .began:
@@ -196,11 +200,37 @@ class ConstructorSlideView: UIView, UIGestureRecognizerDelegate, ConstructorItem
                 return
             }
             editableView = item
-            sender.scale = item.storyEditableItem.editableTransform.currentScale
+            if item is TextViewPlace {
+                let A = sender.location(ofTouch: 0, in: self)
+                let B = sender.location(ofTouch: 1, in: self)
+                xD = abs( A.x - B.x )
+                yD = abs( A.y - B.y )
+            } else {
+                sender.scale = item.storyEditableItem.editableTransform.currentScale
+            }
         case .changed:
             guard let editableView = editableView else { return }
-            editableView.storyEditableItem.editableTransform.currentScale = sender.scale
-            updateTransforms(for: editableView)
+            if editableView is TextViewPlace {
+                if sender.numberOfTouches < 2 {
+                    return
+                }
+                let A = sender.location(ofTouch: 0, in: self)
+                let B = sender.location(ofTouch: 1, in: self)
+                let xD = abs( A.x - B.x )
+                let yD = abs( A.y - B.y )
+                let currentWidth = editableView.storyEditableItem.settings.sizeWidth
+                let width = currentWidth - ((self.xD - xD) / self.bounds.width)
+                let hight = currentWidth / editableView.storyEditableItem.settings.ratio - ((self.yD - yD) / self.bounds.height)
+                editableView.storyEditableItem.settings.sizeWidth = width
+                editableView.storyEditableItem.settings.ratio = width / hight
+                self.xD = xD
+                self.yD = yD
+                updateConstratints(editableView)
+                updateTransforms(for: editableView)
+            } else {
+                editableView.storyEditableItem.editableTransform.currentScale = sender.scale
+                updateTransforms(for: editableView)
+            }
         default:
             break
         }
@@ -280,7 +310,11 @@ class ConstructorSlideView: UIView, UIGestureRecognizerDelegate, ConstructorItem
     }
     
     func editItem() {
-        editViewPeresenter.beginEdit()
+        if let textView = editableView as? TextViewPlace {
+            textView.textView.becomeFirstResponder()
+        } else {
+            editViewPeresenter.beginEdit()
+        }
     }
     
     func itemToTop() {
