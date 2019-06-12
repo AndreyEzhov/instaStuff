@@ -371,4 +371,8 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
         presenter.setColor(value)
     }
     
+    func checkMarkTouch() {
+        resignFirstResponder()
+    }
+    
 }

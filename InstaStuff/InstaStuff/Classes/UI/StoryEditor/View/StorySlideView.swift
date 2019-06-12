@@ -127,4 +127,8 @@ class StorySlideView: UIView, ColorPickerLostener {
         slide.template.backgroundColor = value
     }
     
+    func checkMarkTouch() {
+        resignFirstResponder()
+    }
+    
 }

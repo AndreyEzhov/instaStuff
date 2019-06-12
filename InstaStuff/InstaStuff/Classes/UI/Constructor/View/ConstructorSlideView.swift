@@ -186,6 +186,11 @@ class ConstructorSlideView: UIView, UIGestureRecognizerDelegate, ConstructorItem
         updateTransforms(for: editableView)
     }
     
+    func setColor(_ value: UIColor) {
+        backgroundColor = value
+        contentView.backgroundColor = value
+    }
+    
     // MARK: - Actions
     
     private var xD: CGFloat = 0
@@ -201,8 +206,8 @@ class ConstructorSlideView: UIView, UIGestureRecognizerDelegate, ConstructorItem
             }
             editableView = item
             if item is TextViewPlace {
-                let A = sender.location(ofTouch: 0, in: self)
-                let B = sender.location(ofTouch: 1, in: self)
+                let A = sender.location(ofTouch: 0, in: editableView)
+                let B = sender.location(ofTouch: 1, in: editableView)
                 xD = abs( A.x - B.x )
                 yD = abs( A.y - B.y )
             } else {
@@ -214,8 +219,8 @@ class ConstructorSlideView: UIView, UIGestureRecognizerDelegate, ConstructorItem
                 if sender.numberOfTouches < 2 {
                     return
                 }
-                let A = sender.location(ofTouch: 0, in: self)
-                let B = sender.location(ofTouch: 1, in: self)
+                let A = sender.location(ofTouch: 0, in: editableView)
+                let B = sender.location(ofTouch: 1, in: editableView)
                 let xD = abs( A.x - B.x )
                 let yD = abs( A.y - B.y )
                 let currentWidth = editableView.storyEditableItem.settings.sizeWidth
@@ -346,3 +351,6 @@ class ConstructorSlideView: UIView, UIGestureRecognizerDelegate, ConstructorItem
     }
     
 }
+
+
+

@@ -8,8 +8,9 @@
 
 import UIKit
 
-protocol ColorPickerLostener: UIView {
+protocol ColorPickerLostener: class {
     func colorDidChanged(_ value: UIColor)
+    func checkMarkTouch()
 }
 
 private enum Constants {
@@ -156,7 +157,7 @@ final class BackgroundModuleControllerController: UIView, BackgroundModuleContro
     // MARK: - Actions
     
     @objc private func doneButtonAction() {
-        delegate?.resignFirstResponder()
+        delegate?.checkMarkTouch()
     }
 }
 

@@ -13,7 +13,7 @@ private struct Constatns {
 }
 
 /// Контроллер для экрана «Constructor»
-final class ConstructorController: BaseViewController<ConstructorPresentable>, ConstructorDisplayable, UIImagePickerControllerDelegate, UINavigationControllerDelegate, EditViewPeresenterDelegate {
+final class ConstructorController: BaseViewController<ConstructorPresentable>, ConstructorDisplayable, UIImagePickerControllerDelegate, UINavigationControllerDelegate, EditViewPeresenterDelegate, ColorPickerLostener {
     
     // MARK: - Properties
     
@@ -26,7 +26,7 @@ final class ConstructorController: BaseViewController<ConstructorPresentable>, C
         return scrollView
     }()
     
-    private lazy var slideView: ConstructorSlideView = {
+    private(set) lazy var slideView: ConstructorSlideView = {
         let view = ConstructorSlideView(editViewPeresenter: presenter.editViewPeresenter, parentView: self)
         view.clipsToBounds = true
         view.backgroundColor = .white
@@ -55,6 +55,13 @@ final class ConstructorController: BaseViewController<ConstructorPresentable>, C
         return imagePicker
     }()
     
+    private(set) lazy var colorPicker: UIView = {
+        let view = Assembly.shared.createBackgroundModuleControllerController(params: BackgroundModuleControllerPresenter.Parameters(colorPickerModule: ColorPickerModule()))
+        view.delegate = self
+        view.collapseButton.isHidden = true
+        return view
+    }()
+    
     // MARK: - Life Cycle
     
     override func viewDidLayoutSubviews() {
@@ -70,6 +77,7 @@ final class ConstructorController: BaseViewController<ConstructorPresentable>, C
         presenter.editViewPeresenter.delegate = self
         presenter.stuffItemsPresenter.delegate = self
         setupPhotoEditMenu(hidden: true, animated: false, sender: presenter.editViewPeresenter)
+        setupColorEditMenu(hidden: true, animated: false)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "export"), style: .plain, target: self, action: #selector(exportImage))
     }
     
@@ -93,6 +101,11 @@ final class ConstructorController: BaseViewController<ConstructorPresentable>, C
             maker.height.equalTo(44 + Consts.UIGreed.safeAreaInsetsBottom)
         }
         
+        colorPicker.snp.remakeConstraints { maker in
+            maker.left.right.bottom.equalToSuperview()
+            maker.size.equalTo(colorPicker.intrinsicContentSize)
+        }
+        
         constructorPhotoEditView.snp.remakeConstraints { maker in
             maker.left.right.bottom.equalToSuperview()
             maker.height.equalTo(Constatns.constructorPhotoEditViewhight + Consts.UIGreed.safeAreaInsetsBottom)
@@ -110,6 +123,7 @@ final class ConstructorController: BaseViewController<ConstructorPresentable>, C
         view.addSubview(slideArea)
         slideArea.addSubview(slideView)
         view.addSubview(menuView)
+        view.addSubview(colorPicker)
         view.addSubview(constructorPhotoEditView)
         view.setNeedsUpdateConstraints()
     }
@@ -128,7 +142,12 @@ final class ConstructorController: BaseViewController<ConstructorPresentable>, C
         UIView.animate(withDuration: animated ? 0.3 : 0) {
             self.constructorPhotoEditView.transform = hidden ? CGAffineTransform(translationX: 0, y: Constatns.constructorPhotoEditViewhight + Consts.UIGreed.safeAreaInsetsBottom) : .identity
         }
-        
+    }
+    
+    func setupColorEditMenu(hidden: Bool, animated: Bool) {
+        UIView.animate(withDuration: animated ? 0.3 : 0) {
+            self.colorPicker.transform = hidden ? CGAffineTransform(translationX: 0, y: self.colorPicker.intrinsicContentSize.height) : .identity
+        }
     }
     
     // MARK: - Actions
@@ -154,7 +173,7 @@ final class ConstructorController: BaseViewController<ConstructorPresentable>, C
         
         //let story = presenter.story
         
-        //story.template.backgroundColor.setFill()
+        (slideView.backgroundColor ?? .white).setFill()
         UIColor.white.setFill()
         let context = UIGraphicsGetCurrentContext()
         context?.fill(CGRect(origin: .zero, size: size))
@@ -215,6 +234,7 @@ extension ConstructorController: MenuViewProtocol {
     
     func addItemAction(_ sender: UIButton) {
         setupPhotoEditMenu(hidden: false, animated: true, sender: presenter.stuffItemsPresenter)
+        setupColorEditMenu(hidden: true, animated: true)
     }
     
     func addTextAction(_ sender: UIButton) {
@@ -227,7 +247,8 @@ extension ConstructorController: MenuViewProtocol {
     }
     
     func changeBackgroundAction(_ sender: UIButton) {
-        
+        setupPhotoEditMenu(hidden: true, animated: true, sender: presenter.stuffItemsPresenter)
+        setupColorEditMenu(hidden: false, animated: true)
     }
     
     // MARK: - UIImagePickerControllerDelegate
@@ -252,5 +273,15 @@ extension ConstructorController: MenuViewProtocol {
         picker.dismiss(animated: true, completion: nil)
     }
     
+    
+    // MARK: - ColorPickerLostener
+    
+    func colorDidChanged(_ value: UIColor) {
+        slideView.setColor(value)
+    }
+    
+    func checkMarkTouch() {
+        setupColorEditMenu(hidden: true, animated: true)
+    }
     
 }
