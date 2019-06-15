@@ -18,7 +18,7 @@ private enum Constants {
 
 /// Контроллер для экрана «TextEditorModule»
 final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ColorPickerLostener {
-    
+
     // MARK: - Properties
     
     private(set) var presenter: TextEditorModulePresentable!
@@ -375,4 +375,7 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
         resignFirstResponder()
     }
     
+    func placePipette(completion: @escaping (UIColor?) -> ()) {
+        
+    }
 }

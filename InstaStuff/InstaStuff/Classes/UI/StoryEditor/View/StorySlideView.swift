@@ -131,4 +131,7 @@ class StorySlideView: UIView, ColorPickerLostener {
         resignFirstResponder()
     }
     
+    func placePipette(completion: @escaping (UIColor?) -> ()) {
+        
+    }
 }

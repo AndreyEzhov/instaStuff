@@ -62,6 +62,12 @@ final class ConstructorController: BaseViewController<ConstructorPresentable>, C
         return view
     }()
     
+    private(set) lazy var pipette: PipetteSubview = {
+        let view = PipetteSubview()
+        view.view = slideView
+        return view
+    }()
+    
     // MARK: - Life Cycle
     
     override func viewDidLayoutSubviews() {
@@ -284,4 +290,11 @@ extension ConstructorController: MenuViewProtocol {
         setupColorEditMenu(hidden: true, animated: true)
     }
     
+    func placePipette(completion: @escaping (UIColor?) -> ()) {
+        guard pipette.superview == nil else { return }
+        slideArea.addSubview(pipette)
+        pipette.view = slideView
+        pipette.completion = completion
+        pipette.frame = slideView.frame
+    }
 }

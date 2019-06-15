@@ -11,6 +11,7 @@ import UIKit
 protocol ColorPickerLostener: class {
     func colorDidChanged(_ value: UIColor)
     func checkMarkTouch()
+    func placePipette(completion: @escaping (UIColor?) -> ())
 }
 
 private enum Constants {
@@ -183,8 +184,7 @@ class ColorPickerModule: NSObject, UICollectionViewDelegate, UICollectionViewDat
         let firstCell = collectionView.cellForItem(at: IndexPath(row: 0, section: 0)) as? ColorCell
         switch enumColor {
         case .empty:
-            let window = (UIApplication.shared.delegate as? AppDelegate)?.window
-            window?.colorCallBack = { color in
+            delegate?.placePipette { color in
                 guard let color = color else { return }
                 self.delegate?.colorDidChanged(color)
                 self.colors[0] = .empty(color)

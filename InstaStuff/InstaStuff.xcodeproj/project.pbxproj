@@ -50,6 +50,7 @@
 		12C118EB2221F23F00996C20 /* MainScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C118E12221F23F00996C20 /* MainScreenController.swift */; };
 		12C118EE2221F2A800996C20 /* Assembley.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C118ED2221F2A800996C20 /* Assembley.swift */; };
 		7DEFE247B3723333BC11FA6E /* Pods_InstaStuff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE8890ED00D814BB3024EB3B /* Pods_InstaStuff.framework */; };
+		AD2CEEBB22B51D5B00EBF54C /* PipetteSubview.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD2CEEBA22B51D5B00EBF54C /* PipetteSubview.swift */; };
 		AD37C8B4226DE54500C7FF5F /* BackgroundModuleControllerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD37C8AF226DE54500C7FF5F /* BackgroundModuleControllerPresenter.swift */; };
 		AD37C8B5226DE54500C7FF5F /* BackgroundModuleControllerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD37C8B1226DE54500C7FF5F /* BackgroundModuleControllerAssembly.swift */; };
 		AD37C8B6226DE54500C7FF5F /* BackgroundModuleControllerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD37C8B3226DE54500C7FF5F /* BackgroundModuleControllerController.swift */; };
@@ -142,6 +143,7 @@
 		12C118ED2221F2A800996C20 /* Assembley.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembley.swift; sourceTree = "<group>"; };
 		6662B9FA7CD63E622B09F60A /* Pods-InstaStuff.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstaStuff.release.xcconfig"; path = "Pods/Target Support Files/Pods-InstaStuff/Pods-InstaStuff.release.xcconfig"; sourceTree = "<group>"; };
 		72ACFA6D5F2C70196A7DD76B /* Pods-InstaStuff.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstaStuff.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InstaStuff/Pods-InstaStuff.debug.xcconfig"; sourceTree = "<group>"; };
+		AD2CEEBA22B51D5B00EBF54C /* PipetteSubview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipetteSubview.swift; sourceTree = "<group>"; };
 		AD37C8AF226DE54500C7FF5F /* BackgroundModuleControllerPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundModuleControllerPresenter.swift; sourceTree = "<group>"; };
 		AD37C8B1226DE54500C7FF5F /* BackgroundModuleControllerAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundModuleControllerAssembly.swift; sourceTree = "<group>"; };
 		AD37C8B3226DE54500C7FF5F /* BackgroundModuleControllerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundModuleControllerController.swift; sourceTree = "<group>"; };
@@ -496,6 +498,7 @@
 			isa = PBXGroup;
 			children = (
 				AD37C8B3226DE54500C7FF5F /* BackgroundModuleControllerController.swift */,
+				AD2CEEBA22B51D5B00EBF54C /* PipetteSubview.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -879,6 +882,7 @@
 				AD4C0174223A787900F17FF3 /* TemplatePickerRouter.swift in Sources */,
 				128186B32224839C00E48646 /* Strings+Ext.swift in Sources */,
 				12C118BE2221C82500996C20 /* TypeCast.swift in Sources */,
+				AD2CEEBB22B51D5B00EBF54C /* PipetteSubview.swift in Sources */,
 				ADBF3ECF225A4D830008A543 /* ViewPlace.swift in Sources */,
 				12C118E92221F23F00996C20 /* StoryPickerAssembly.swift in Sources */,
 				1289FDA022227A2C00CD7F0E /* StoryStorage.swift in Sources */,
