@@ -191,6 +191,10 @@ class ConstructorSlideView: UIView, UIGestureRecognizerDelegate, ConstructorItem
         contentView.backgroundColor = value
     }
     
+    func removeSelection() {
+        editableView = nil
+    }
+    
     // MARK: - Actions
     
     private var xD: CGFloat = 0

@@ -70,7 +70,7 @@ class PipetteSubview: UIView {
         pixelView.snp.remakeConstraints { maker in
             maker.center.equalToSuperview()
             maker.size.equalTo(CGSize.init(width: 6, height: 6))
-            maker.top.equalTo(displayView.snp.bottom).offset(10)
+            maker.top.equalTo(displayView.snp.bottom).offset(30)
         }
         super.updateConstraints()
     }
@@ -99,6 +99,7 @@ class PipetteSubview: UIView {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         completion?(pixelView.backgroundColor)
+        view?.removeFromSuperview()
         removeFromSuperview()
     }
     
@@ -111,6 +112,7 @@ class PipetteSubview: UIView {
             updateColor()
         case .ended:
             completion?(pixelView.backgroundColor)
+            view?.removeFromSuperview()
             removeFromSuperview()
         default:
             break

@@ -292,9 +292,26 @@ extension ConstructorController: MenuViewProtocol {
     
     func placePipette(completion: @escaping (UIColor?) -> ()) {
         guard pipette.superview == nil else { return }
+        slideView.removeSelection()
+        
+        let image = slideView.snapshot()
+        let view = UIImageView(image: image)
+        
+        slideArea.addSubview(view)
         slideArea.addSubview(pipette)
-        pipette.view = slideView
+        pipette.view = view
         pipette.completion = completion
         pipette.frame = slideView.frame
+        view.frame = slideView.frame
+    }
+}
+
+extension UIView {
+    func snapshot() -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(self.bounds.size, true, UIScreen.main.scale)
+        self.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let img = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return img!
     }
 }
