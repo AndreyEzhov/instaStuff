@@ -22,7 +22,7 @@ class SetCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = Consts.Colors.r112g112b112
         label.textAlignment = .center
-        label.font = UIFont(name: UIFont.chalkboard, size: 8)
+        label.font = UIFont.applicationFontRegular(ofSize: 8)
         return label
     }()
     

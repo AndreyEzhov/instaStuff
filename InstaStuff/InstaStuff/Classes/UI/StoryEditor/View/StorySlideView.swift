@@ -34,6 +34,8 @@ class StorySlideView: UIView, ColorPickerLostener {
     
     private var _canBecomeFirstResponder = false
     
+    weak var pippeteDelegate: PippeteDelegate?
+    
     // MARK: - Construction
     
     init(slide: StoryItem) {
@@ -132,6 +134,6 @@ class StorySlideView: UIView, ColorPickerLostener {
     }
     
     func placePipette(completion: @escaping (UIColor?) -> ()) {
-        
+        pippeteDelegate?.placePipette(completion: completion)
     }
 }

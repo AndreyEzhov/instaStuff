@@ -30,6 +30,7 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
     
     private lazy var slideView: StorySlideView = {
         let view = StorySlideView(slide: presenter.story)
+        view.pippeteDelegate = self
         view.backgroundColor = .white
         view.photoPlaces.forEach {
             ($0 as? PhotoPlace)?.delegate = self
@@ -88,6 +89,7 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
         view.addSubview(slideArea)
         slideArea.addSubview(slideView)
         view.setNeedsUpdateConstraints()
+        TextViewPlace.editView.pippeteDelegate = self
     }
     
     private func setupTap() {
@@ -196,6 +198,30 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
     
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         return true
+    }
+    
+    private(set) lazy var pipette: PipetteSubview = {
+        let view = PipetteSubview()
+        return view
+    }()
+    
+}
+
+
+extension StoryEditorController: PippeteDelegate {
+    
+    func placePipette(completion: @escaping (UIColor?) -> ()) {
+        guard pipette.superview == nil else { return }
+        
+        let image = slideView.snapshot()
+        let view = UIImageView(image: image)
+        
+        slideArea.addSubview(view)
+        slideArea.addSubview(pipette)
+        pipette.view = view
+        pipette.completion = completion
+        pipette.frame = slideView.frame
+        view.frame = slideView.frame
     }
     
 }

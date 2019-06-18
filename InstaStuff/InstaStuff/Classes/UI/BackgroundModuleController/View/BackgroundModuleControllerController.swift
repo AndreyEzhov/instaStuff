@@ -8,9 +8,13 @@
 
 import UIKit
 
-protocol ColorPickerLostener: class {
+protocol ColorPickerLostener: PippeteDelegate {
     func colorDidChanged(_ value: UIColor)
     func checkMarkTouch()
+    
+}
+
+protocol PippeteDelegate: class {
     func placePipette(completion: @escaping (UIColor?) -> ())
 }
 

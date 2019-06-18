@@ -21,7 +21,7 @@ final class MainScreenController: BaseViewController<MainScreenPresentable>, Mai
     
     private lazy var chooseTemplateLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: UIFont.chalkboard, size: 16)
+        label.font = UIFont.applicationFontRegular(ofSize: 16)
         label.text = Strings.Mail.chooseBestReadyTemplate
         label.numberOfLines = 0
         label.textAlignment = .center
@@ -38,7 +38,7 @@ final class MainScreenController: BaseViewController<MainScreenPresentable>, Mai
     
     private lazy var chooseConstructorLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: UIFont.chalkboard, size: 16)
+        label.font = UIFont.applicationFontRegular(ofSize: 16)
         label.text = Strings.Mail.createYourUnicHistory
         label.numberOfLines = 0
         label.textAlignment = .center

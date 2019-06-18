@@ -148,6 +148,8 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
         return collectionView
     }()
     
+    weak var pippeteDelegate: PippeteDelegate?
+    
     override var intrinsicContentSize: CGSize {
         return CGSize(width: UIScreen.main.bounds.width,
                       height: 2.0 * Constants.stackViewHight + 2.0 * Constants.stackViewHight + 20.0 + Consts.UIGreed.safeAreaInsetsBottom)
@@ -376,6 +378,6 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
     }
     
     func placePipette(completion: @escaping (UIColor?) -> ()) {
-        
+        pippeteDelegate?.placePipette(completion: completion)
     }
 }
