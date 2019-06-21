@@ -100,15 +100,3 @@ class BaseViewController<T>: UIViewController, View {
         print("deinit \(className(self.classForCoder))")
     }
 }
-
-
-extension UIViewController {
-    
-    // MARK: - Functions
-    
-    public class func instantiateFromStoryboard() -> Self {
-        let storyboardName = className(self)
-        let controller = UIStoryboard(name: storyboardName, bundle: nil).instantiateInitialViewController()
-        return typeCast(controller, type: self)!
-    }
-}

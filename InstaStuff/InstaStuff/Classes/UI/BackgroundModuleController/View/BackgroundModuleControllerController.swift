@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol ColorPickerLostener: PippeteDelegate {
+protocol ColorPickerListener: PippeteDelegate {
     func colorDidChanged(_ value: UIColor)
     func checkMarkTouch()
     
@@ -33,7 +33,7 @@ final class BackgroundModuleControllerController: UIView, BackgroundModuleContro
     
     // MARK: - Properties
     
-    weak var delegate: ColorPickerLostener? {
+    weak var delegate: ColorPickerListener? {
         didSet {
             presenter.colorPickerModule.delegate = delegate
         }
@@ -169,7 +169,7 @@ final class BackgroundModuleControllerController: UIView, BackgroundModuleContro
 
 class ColorPickerModule: NSObject, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    weak var delegate: ColorPickerLostener?
+    weak var delegate: ColorPickerListener?
     
     private var colors: [ColorEnum] = ColorEnum.allCases
     

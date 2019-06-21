@@ -9,7 +9,20 @@
 import UIKit
 
 protocol EditViewPeresenterDelegate: class {
-    func setupPhotoEditMenu(hidden: Bool, animated: Bool, sender: CunstructorEditViewProtocol)
+    func setupColorEditMenu(hidden: Bool, animated: Bool, with modules: [EditModule])
+}
+
+struct PhotoPlaceConstructorSettings: PreviewProtocol {
+    let photoItem: PhotoItem
+    let settings: Settings
+    var preview: UIImage? {
+        return photoItem.preview
+    }
+}
+
+protocol CunstructorEditViewProtocol {
+    func beginEdit()
+    func endEditing()
 }
 
 class EditViewPresenter: CunstructorEditViewProtocol {
@@ -20,45 +33,61 @@ class EditViewPresenter: CunstructorEditViewProtocol {
     
     private(set) var isEditing: Bool = false
     
-    weak var slideView: ConstructorSlideView?
-    
-    let photoItems: [PhotoPlaceConstructorSettings]
-    
-    var dataSource: [PreviewProtocol] {
-        return photoItems
+    weak var slideView: ConstructorSlideView? {
+        didSet {
+            shapeEditModuleController.presenter.slideView = slideView
+            frameEditModuleController.presenter.slideView = slideView
+        }
     }
+    
+    weak var sliderListener: SliderListener? {
+        didSet {
+            sliderEditModuleController.presenter.sliderListener = sliderListener
+        }
+    }
+    
+    private let modules: [EditModule]
+    
+    private let shapeEditModuleController: ItemEditModuleController
+    
+    private let frameEditModuleController: ItemEditModuleController
+    
+    private let sliderEditModuleController: SliderEditModuleController
     
     // MARK: - Construction
     
     init() {
-        photoItems = [
-            PhotoPlaceConstructorSettings(photoItem: PhotoItem(frameName: "square", photoAreaLocation: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 1, angle: 0, ratio: 1)),
-                                          settings: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 0.8, angle: 0, ratio: 1))
-            ,
-            PhotoPlaceConstructorSettings(photoItem: PhotoItem(frameName: "1_to_2", photoAreaLocation: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 1, angle: 0, ratio: 2)),
-                                          settings: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 0.8, angle: 0, ratio: 2)),
-            PhotoPlaceConstructorSettings(photoItem: PhotoItem(frameName: "2_to_1", photoAreaLocation: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 1, angle: 0, ratio: 0.5)),
-                                          settings: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 0.4, angle: 0, ratio: 0.5))
-        ]
+        shapeEditModuleController = Assembly.shared.createShapeEditModuleController(params: ShapeEditModulePresenter.Parameters(numberOfRows: 1))
+        let moduleShape = EditModule(estimatedHeight: 60, controller: shapeEditModuleController)
+        frameEditModuleController = Assembly.shared.createFrameEditModuleController(params: FrameEditModulePresenter.Parameters(numberOfRows: 1))
+        let moduleFrame = EditModule(estimatedHeight: 60, controller: frameEditModuleController)
+        sliderEditModuleController = Assembly.shared.createSliderEditModuleController(params: SliderEditModulePresenter.Parameters(value: 0))
+        let moduleSlider = EditModule(estimatedHeight: 40, controller: sliderEditModuleController)
+        modules = [moduleShape, moduleFrame, moduleSlider]
     }
     
     // MARK: - Functions
     
     func beginEdit() {
         isEditing = true
-        delegate?.setupPhotoEditMenu(hidden: false, animated: true, sender: self)
+        delegate?.setupColorEditMenu(hidden: false, animated: true, with: modules)
     }
     
     func endEditing() {
         isEditing = false
-        delegate?.setupPhotoEditMenu(hidden: true, animated: true, sender: self)
+        delegate?.setupColorEditMenu(hidden: true, animated: true, with: [])
     }
     
-    func select(at index: Int) {
-        guard let photoPlaceConstructor = slideView?.editableView as? PhotoPlaceConstructor else { return }
-        let photoItem = photoItems[index]
-        photoPlaceConstructor.modify(with: photoItem)
-        slideView?.updateEditableView()
-    }
+}
 
+extension EditViewPresenter: EditorToolbarProtocol {
+    
+    @objc func collapseTouch() {
+        endEditing()
+    }
+    
+    @objc func doneTouch() {
+        endEditing()
+    }
+    
 }

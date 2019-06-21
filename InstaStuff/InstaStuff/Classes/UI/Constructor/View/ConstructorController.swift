@@ -13,13 +13,17 @@ private struct Constatns {
 }
 
 /// Контроллер для экрана «Constructor»
-final class ConstructorController: BaseViewController<ConstructorPresentable>, ConstructorDisplayable, UIImagePickerControllerDelegate, UINavigationControllerDelegate, EditViewPeresenterDelegate, ColorPickerLostener {
-    
+final class ConstructorController: BaseViewController<ConstructorPresentable>, ConstructorDisplayable, UIImagePickerControllerDelegate, UINavigationControllerDelegate, EditViewPeresenterDelegate, ColorPickerListener {
+
     // MARK: - Properties
+    
+    deinit {
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
     
     /// Есть ли сториборд
     override class var hasStoryboard: Bool { return false }
-        
+    
     private lazy var slideArea: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.isScrollEnabled = false
@@ -27,10 +31,9 @@ final class ConstructorController: BaseViewController<ConstructorPresentable>, C
     }()
     
     private(set) lazy var slideView: ConstructorSlideView = {
-        let view = ConstructorSlideView(editViewPeresenter: presenter.editViewPeresenter, parentView: self)
+        let view = ConstructorSlideView(editViewPeresenter: presenter.editViewPeresenter)
         view.clipsToBounds = true
         view.backgroundColor = .white
-        presenter.stuffItemsPresenter.slideView = view
         return view
     }()
     
@@ -38,12 +41,6 @@ final class ConstructorController: BaseViewController<ConstructorPresentable>, C
         let view = MenuView()
         view.backgroundColor = Consts.Colors.applicationColor
         view.setupActions(for: self)
-        return view
-    }()
-    
-    private lazy var constructorPhotoEditView: ConstructorPhotoEditView = {
-        let view = ConstructorPhotoEditView(presenter: presenter.editViewPeresenter)
-        view.backgroundColor = Consts.Colors.applicationColor
         return view
     }()
     
@@ -55,10 +52,12 @@ final class ConstructorController: BaseViewController<ConstructorPresentable>, C
         return imagePicker
     }()
     
-    private(set) lazy var colorPicker: UIView = {
-        let view = Assembly.shared.createBackgroundModuleControllerController(params: BackgroundModuleControllerPresenter.Parameters(colorPickerModule: ColorPickerModule()))
-        view.delegate = self
-        view.collapseButton.isHidden = true
+    private let editorController = Assembly.shared.createEditorController(params: EditorPresenter.Parameters())
+    
+    private(set) lazy var editorView: UIView = {
+        let view = UIView()
+        editorController.presenter.editorToolbarDelegate = presenter.editViewPeresenter
+        embedChildViewController(editorController, toView: view)
         return view
     }()
     
@@ -75,15 +74,14 @@ final class ConstructorController: BaseViewController<ConstructorPresentable>, C
         slideView.layoutIfNeeded()
         menuView.layoutIfNeeded()
         slideView.dropShadow()
+        presenter.editViewPeresenter.delegate = self
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         setup()
-        presenter.editViewPeresenter.delegate = self
-        presenter.stuffItemsPresenter.delegate = self
-        setupPhotoEditMenu(hidden: true, animated: false, sender: presenter.editViewPeresenter)
-        setupColorEditMenu(hidden: true, animated: false)
+        setupColorEditMenu(hidden: true, animated: false, with: [])
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "export"), style: .plain, target: self, action: #selector(exportImage))
     }
     
@@ -107,16 +105,11 @@ final class ConstructorController: BaseViewController<ConstructorPresentable>, C
             maker.height.equalTo(44 + Consts.UIGreed.safeAreaInsetsBottom)
         }
         
-        colorPicker.snp.remakeConstraints { maker in
+        editorView.snp.remakeConstraints { maker in
             maker.left.right.bottom.equalToSuperview()
-            maker.size.equalTo(colorPicker.intrinsicContentSize)
+            maker.size.equalTo(editorController.contentSize)
         }
-        
-        constructorPhotoEditView.snp.remakeConstraints { maker in
-            maker.left.right.bottom.equalToSuperview()
-            maker.height.equalTo(Constatns.constructorPhotoEditViewhight + Consts.UIGreed.safeAreaInsetsBottom)
-        }
-        
+
         super.updateViewConstraints()
     }
     
@@ -129,30 +122,21 @@ final class ConstructorController: BaseViewController<ConstructorPresentable>, C
         view.addSubview(slideArea)
         slideArea.addSubview(slideView)
         view.addSubview(menuView)
-        view.addSubview(colorPicker)
-        view.addSubview(constructorPhotoEditView)
+        view.addSubview(editorView)
         view.setNeedsUpdateConstraints()
     }
     
     // MARK: - Functions
     
-    var currentPresenter: CunstructorEditViewProtocol?
-    
-    func endEditing() {
-        currentPresenter?.endEditing()
-    }
-    
-    func setupPhotoEditMenu(hidden: Bool, animated: Bool, sender: CunstructorEditViewProtocol) {
-        constructorPhotoEditView.presenter = sender
-        currentPresenter = sender
-        UIView.animate(withDuration: animated ? 0.3 : 0) {
-            self.constructorPhotoEditView.transform = hidden ? CGAffineTransform(translationX: 0, y: Constatns.constructorPhotoEditViewhight + Consts.UIGreed.safeAreaInsetsBottom) : .identity
+    func setupColorEditMenu(hidden: Bool, animated: Bool, with modules: [EditModule]) {
+        editorController.presenter?.update(with: modules)
+        editorView.snp.remakeConstraints { maker in
+            maker.left.right.bottom.equalToSuperview()
+            maker.height.equalTo(editorController.contentSize.height + view.safeAreaInsets.bottom)
         }
-    }
-    
-    func setupColorEditMenu(hidden: Bool, animated: Bool) {
+        view.layoutSubviews()
         UIView.animate(withDuration: animated ? 0.3 : 0) {
-            self.colorPicker.transform = hidden ? CGAffineTransform(translationX: 0, y: self.colorPicker.intrinsicContentSize.height) : .identity
+            self.editorView.transform = hidden ? CGAffineTransform(translationX: 0, y: self.editorController.contentSize.height + self.view.safeAreaInsets.bottom) : .identity
         }
     }
     
@@ -194,12 +178,16 @@ final class ConstructorController: BaseViewController<ConstructorPresentable>, C
             }
             
             var size: CGSize
+            var isRound = false
             if item is StoryEditableTextItem {
                 size = image.size
             } else {
                 let currentWidth = item.settings.sizeWidth * width
                 size = CGSize(width: currentWidth,
                               height: currentWidth / item.settings.ratio)
+                if let photo = item as? StoryEditablePhotoItem, photo.photoItem.frameName.contains("round") {
+                    isRound = true
+                }
             }
             
             let frame = CGRect(origin: CGPoint(x: -size.width / 2.0, y: -size.height / 2.0), size: size)
@@ -212,6 +200,14 @@ final class ConstructorController: BaseViewController<ConstructorPresentable>, C
                                                            y: item.editableTransform.currentTranslation.y / scale))
                 context.concatenate(CGAffineTransform(rotationAngle: item.editableTransform.currentRotation))
                 context.concatenate(CGAffineTransform(scaleX: item.editableTransform.currentScale, y: item.editableTransform.currentScale))
+
+                if isRound {
+                    let path = UIBezierPath(roundedRect: frame, cornerRadius: frame.width / 2.0)
+                    context.beginPath()
+                    context.addPath(path.cgPath)
+                    context.closePath()
+                    context.clip()
+                }
                 image.draw(in: frame)
                 context.restoreGState()
             }
@@ -224,8 +220,14 @@ final class ConstructorController: BaseViewController<ConstructorPresentable>, C
         }
     }
     
+    
 }
 
+extension ConstructorController: UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+}
 
 extension ConstructorController: MenuViewProtocol {
     
@@ -239,8 +241,10 @@ extension ConstructorController: MenuViewProtocol {
     }
     
     func addItemAction(_ sender: UIButton) {
-        setupPhotoEditMenu(hidden: false, animated: true, sender: presenter.stuffItemsPresenter)
-        setupColorEditMenu(hidden: true, animated: true)
+        let controller = Assembly.shared.createItemEditModuleController(params: ItemEditModulePresenter.Parameters(numberOfRows: 2))
+        controller.presenter.slideView = slideView
+        let module = EditModule(estimatedHeight: 120, controller: controller)
+        setupColorEditMenu(hidden: false, animated: true, with: [module])
     }
     
     func addTextAction(_ sender: UIButton) {
@@ -253,8 +257,8 @@ extension ConstructorController: MenuViewProtocol {
     }
     
     func changeBackgroundAction(_ sender: UIButton) {
-        setupPhotoEditMenu(hidden: true, animated: true, sender: presenter.stuffItemsPresenter)
-        setupColorEditMenu(hidden: false, animated: true)
+        let module = EditModule(estimatedHeight: 60, controller: Assembly.shared.createColorEditModuleController(params: ColorEditModulePresenter.Parameters(delegate: self)))
+        setupColorEditMenu(hidden: false, animated: true, with: [module])
     }
     
     // MARK: - UIImagePickerControllerDelegate
@@ -280,14 +284,14 @@ extension ConstructorController: MenuViewProtocol {
     }
     
     
-    // MARK: - ColorPickerLostener
+    // MARK: - ColorPickerListener
     
     func colorDidChanged(_ value: UIColor) {
         slideView.setColor(value)
     }
     
     func checkMarkTouch() {
-        setupColorEditMenu(hidden: true, animated: true)
+        setupColorEditMenu(hidden: true, animated: true, with: [])
     }
     
     func placePipette(completion: @escaping (UIColor?) -> ()) {
@@ -315,3 +319,5 @@ extension UIView {
         return img!
     }
 }
+
+

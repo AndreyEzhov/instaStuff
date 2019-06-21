@@ -17,7 +17,7 @@ private enum Constants {
 }
 
 /// Контроллер для экрана «TextEditorModule»
-final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ColorPickerLostener {
+final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ColorPickerListener {
 
     // MARK: - Properties
     

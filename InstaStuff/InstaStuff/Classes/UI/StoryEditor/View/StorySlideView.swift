@@ -10,7 +10,7 @@ import UIKit
 
 typealias UIViewTemplatePlaceble = (UIView & TemplatePlaceble)
 
-class StorySlideView: UIView, ColorPickerLostener {
+class StorySlideView: UIView, ColorPickerListener {
     
     // MARK: - Properties
     

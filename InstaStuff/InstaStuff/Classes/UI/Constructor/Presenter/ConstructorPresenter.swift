@@ -16,7 +16,6 @@ protocol ConstructorDisplayable: View {
 /// Интерфейс презентера
 protocol ConstructorPresentable: Presenter {
     var editViewPeresenter: EditViewPresenter { get }
-    var stuffItemsPresenter: StuffItemsPresenter { get }
 }
 
 /// Презентер для экрана «Constructor»
@@ -35,8 +34,6 @@ final class ConstructorPresenter: ConstructorPresentable {
     
     let editViewPeresenter = EditViewPresenter()
     
-    let stuffItemsPresenter: StuffItemsPresenter
-    
     // MARK: - Properties
     
     weak var view: View?
@@ -45,7 +42,6 @@ final class ConstructorPresenter: ConstructorPresentable {
     
     init(params: Parameters, templatesStorage: TemplatesStorage) {
         self.templatesStorage = templatesStorage
-        stuffItemsPresenter = StuffItemsPresenter(templatesStorage: templatesStorage)
     }
     
     // MARK: - Private Functions

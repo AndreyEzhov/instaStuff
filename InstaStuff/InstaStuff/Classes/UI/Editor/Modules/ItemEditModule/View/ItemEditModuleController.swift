@@ -1,47 +1,35 @@
 //
-//  ConstructorPhotoEditView.swift
+//  ItemEditModuleController.swift
 //  InstaStuff
 //
-//  Created by aezhov on 20/05/2019.
+//  Created by aezhov on 18/06/2019.
 //  Copyright © 2019 Андрей Ежов. All rights reserved.
 //
 
 import UIKit
 
-private enum Constants {
-    static let sectionInset: CGFloat = 10
-}
-
-
-struct PhotoPlaceConstructorSettings: PreviewProtocol {
-    let photoItem: PhotoItem
-    let settings: Settings
-    var preview: UIImage? {
-        return photoItem.preview
-    }
-}
-
 protocol PreviewProtocol {
     var preview: UIImage? { get }
 }
 
-protocol CunstructorEditViewProtocol {
-    var dataSource: [PreviewProtocol] { get }
-    func select(at index: Int)
-    func beginEdit()
-    func endEditing()
+private enum Constants {
+    static let sectionInset: CGFloat = 10
 }
 
-class ConstructorPhotoEditView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+/// Контроллер для экрана «ItemEditModule»
+final class ItemEditModuleController: BaseViewController<ItemEditModulePresentable>, ItemEditModuleDisplayable, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
     // MARK: - Properties
+
+    /// Есть ли сториборд
+    override class var hasStoryboard: Bool { return false }
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.sectionInset = UIEdgeInsets(top: Constants.sectionInset, left: Constants.sectionInset, bottom: Constants.sectionInset, right: Constants.sectionInset)
-        layout.minimumInteritemSpacing = Constants.sectionInset
-        layout.minimumLineSpacing = Constants.sectionInset
+        layout.sectionInset = UIEdgeInsets(top: 0, left: Constants.sectionInset, bottom: 0, right: Constants.sectionInset)
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         collectionView.allowsMultipleSelection = false
@@ -50,40 +38,35 @@ class ConstructorPhotoEditView: UIView, UICollectionViewDataSource, UICollection
         collectionView.registerClass(for: FrameCell.self)
         return collectionView
     }()
-    
-    var presenter: CunstructorEditViewProtocol {
-        didSet {
-            collectionView.reloadData()
-        }
+
+    // MARK: - Life Cycle
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        collectionView.frame = view.bounds
     }
-    
-    // MARK: - Construction
-    
-    init(presenter: CunstructorEditViewProtocol) {
-        self.presenter = presenter
-        super.init(frame: .zero)
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
         setup()
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    private func setup() {
+        view.addSubview(collectionView)
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        collectionView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height - Consts.UIGreed.safeAreaInsetsBottom - 60)
-    }
+    // MARK: - ItemEditModuleDisplayable
     
     // MARK: - Private Functions
     
-    private func setup() {
-        addSubview(collectionView)
-    }
+    // MARK: - Functions
+
+    // MARK: - Actions
     
     // MARK: - UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let height = (collectionView.bounds.height - 3 * Constants.sectionInset) / 2.0
+        let height = collectionView.bounds.height / CGFloat(presenter.numberOfRows)
         return CGSize(width: height, height: height)
     }
     

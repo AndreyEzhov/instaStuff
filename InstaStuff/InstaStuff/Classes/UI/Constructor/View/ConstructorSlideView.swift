@@ -55,20 +55,21 @@ class ConstructorSlideView: UIView, UIGestureRecognizerDelegate, ConstructorItem
     private(set) var editableView: UIViewTemplatePlaceble? {
         didSet {
             if oldValue == nil {
-                parentView.endEditing()
+                editViewPeresenter.endEditing()
             }
             guard oldValue !== editableView else {
                 return
             }
             oldValue?.selectAsNotEditable()
             editButtons.forEach { $0.removeFromSuperview() }
-            parentView.endEditing()
+            editViewPeresenter.endEditing()
             guard let editableView = editableView else { return }
             editButtons.forEach { addSubview($0) }
             if (editableView is StuffPlace) {
                 editButton.removeFromSuperview()
             }
             updateTransforms(for: editableView)
+            editViewPeresenter.sliderListener = editableView as? PhotoPlaceConstructor
         }
     }
     
@@ -83,13 +84,10 @@ class ConstructorSlideView: UIView, UIGestureRecognizerDelegate, ConstructorItem
     
     private var customGestures = [UIGestureRecognizer]()
     
-    private let parentView: ConstructorController
-    
     // MARK: - Construction
     
-    init(editViewPeresenter: EditViewPresenter, parentView: ConstructorController) {
+    init(editViewPeresenter: EditViewPresenter) {
         self.editViewPeresenter = editViewPeresenter
-        self.parentView = parentView
         super.init(frame: .zero)
         editViewPeresenter.slideView = self
         setup()
@@ -322,7 +320,11 @@ class ConstructorSlideView: UIView, UIGestureRecognizerDelegate, ConstructorItem
         if let textView = editableView as? TextViewPlace {
             textView.textView.becomeFirstResponder()
         } else {
-            editViewPeresenter.beginEdit()
+            if editViewPeresenter.isEditing {
+                editViewPeresenter.endEditing()
+            } else {
+                editViewPeresenter.beginEdit()
+            }
         }
     }
     

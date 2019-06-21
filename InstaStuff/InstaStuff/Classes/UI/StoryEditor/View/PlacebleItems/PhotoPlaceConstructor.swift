@@ -9,6 +9,30 @@
 import UIKit
 import RxSwift
 
+extension PhotoPlaceConstructor: SliderListener {
+    
+    func valueDidChanged(_ value: Float) {
+        DispatchQueue.global(qos: .background).async {
+            self.photoRedactorValue = value
+            guard let imageOpt = ((try? self.storyEditablePhotoItem.image.value()) as UIImage??), let image = imageOpt else {
+                return
+            }
+            if let originalImage = CIImage(image: image) {
+                let outputImage = originalImage.applyingFilter("CISepiaTone",
+                                                               parameters: [
+                                                                kCIInputImageKey: originalImage,
+                                                                kCIInputIntensityKey: Float(Int(value * 100)) / 100,
+                    ])
+                let newImage = UIImage(ciImage: outputImage)
+                DispatchQueue.main.async {
+                    self.photoImageView.image = newImage
+                }
+            }
+        }
+    }
+    
+}
+
 class PhotoPlaceConstructor: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
     
     enum Mode {
@@ -85,7 +109,15 @@ class PhotoPlaceConstructor: UIViewTemplatePlaceble, UIGestureRecognizerDelegate
     override func layoutSubviews() {
         super.layoutSubviews()
         dashedLayer.frame = photoContentView.frame
-        dashedLayer.path = UIBezierPath(rect: dashedLayer.bounds).cgPath
+        if round {
+            photoContentView.layer.cornerRadius = photoContentView.bounds.width / 2.0
+        } else {
+            photoContentView.layer.cornerRadius = 0
+        }
+        layer.cornerRadius = photoContentView.layer.cornerRadius
+        let roundedRect = dashedLayer.bounds.insetBy(dx: 1 / UIScreen.main.scale / 2.0, dy: 1 / UIScreen.main.scale / 2.0)
+        dashedLayer.path = UIBezierPath(roundedRect: roundedRect, cornerRadius: photoContentView.layer.cornerRadius == 0 ? 0 : roundedRect.width / 2.0).cgPath
+        setNeedsDisplay()
     }
     
     override func updateConstraints() {
@@ -117,6 +149,7 @@ class PhotoPlaceConstructor: UIViewTemplatePlaceble, UIGestureRecognizerDelegate
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
+        layer.masksToBounds = true
         let location = storyEditablePhotoItem.photoItem.photoAreaLocation
         Consts.Colors.photoplaceColor.setFill()
         let realCenterX = location.center.x * rect.width
@@ -381,9 +414,17 @@ class PhotoPlaceConstructor: UIViewTemplatePlaceble, UIGestureRecognizerDelegate
         }
     }
     
+    var round = false
+    
     func modify(with settings: PhotoPlaceConstructorSettings) {
+        if settings.photoItem.frameName.contains("round") {
+            round = true
+        } else {
+            round = false
+        }
         storyEditablePhotoItem.photoItem = settings.photoItem
         storyEditablePhotoItem.settings = settings.settings
+        framePlace.image = storyEditablePhotoItem.photoItem.framePlaceImage
         updateConstraints()
     }
 }

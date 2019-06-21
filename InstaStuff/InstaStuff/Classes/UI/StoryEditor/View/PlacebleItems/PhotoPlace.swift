@@ -478,12 +478,10 @@ extension PhotoPlace: SliderListener {
                 return
             }
             if let originalImage = CIImage(image: image) {
-                let outputImage = originalImage.applyingFilter("CIColorControls",
+                let outputImage = originalImage.applyingFilter("CISepiaTone",
                                                                parameters: [
                                                                 kCIInputImageKey: originalImage,
-                                                                //kCIInputSaturationKey: 1.0 - 0.07 * value,
-                                                                kCIInputContrastKey: 1.0 - 0.2 * value,
-                                                                //kCIInputBrightnessKey: -0.06 * value,
+                                                                kCIInputIntensityKey: Float(Int(value * 100)) / 100,
                     ])
                 let newImage = UIImage(ciImage: outputImage)
                 DispatchQueue.main.async {
