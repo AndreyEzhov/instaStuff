@@ -2,28 +2,31 @@
 
 | Название поля | Тип данных | Описание |
 |---|---|---|
-| Buy ID | String | Id для покупки |
-| InternalName | String | Внутреннее название |
-| Name | String | Отображаемоем пользователю название |
-| Templates | [Template]| Массив темплейтов входящих в этот |
+| buyId | String | Id для покупки |
+| internalName | String | Внутреннее название |
+| name | String | Отображаемоем пользователю название |
+| templates | [Template] | Массив темплейтов входящих в этот |
+| themeColor | UIColor | Цвет сета |
 
 
 ## Template - Шаблон
 
 | Название поля | Тип данных | Описание |
 |---|---|---|
-| Buy ID | String | Id для покупки |
-| InternalName | String | Внутреннее название |
-| Elements | [TemplateItem] | Айтемы из которых состоит шаблон |
+| buyId | String | Id для покупки |
+| internalName | String | Внутреннее название |
+| elements | [TemplateItem] | Айтемы из которых состоит шаблон |
+| backGroundColor | UIColor | Цвет фона |
+| backGroundImage | String | Название картинки фона |
 
 
 ## TemplateItem - Айтем для шаблона
 
 | Название поля | Тип данных | Описание |
 |---|---|---|
-| InternalName | String | Внутреннее название |
-| Settings | TemplateSettings | Настройки этого элемента в шаблоне |
-| Element | AbstractItem | Какой-то айтем: рамка, тест и т.д. |
+| internalName | String | Внутреннее название |
+| settings | TemplateSettings | Настройки этого элемента в шаблоне |
+| element | AbstractTemplateItem | Какой-то айтем: рамка, тест и т.д. |
 
 
 ## TemplateSettings - настройки элемента в конкретном шаблоне
@@ -36,12 +39,50 @@
 | widthScale | Float | На сколько ширина элемента меньше ширины слайда |
 
 
+## AbstractTemplateItem - Абстрактный класс для всех айтемов в шаблоне
+
+| Название поля | Тип данных | Описание |
+|---|---|---|
+| item | AbstractItem | Какой-то айтем: рамка, тест и т.д. |
+
+
+## PhotoFrameInTemplate - Рамка для фотографий в шаблоне
+
+| Название поля | Тип данных | Описание |
+|---|---|---|
+| item | PhotoFrameItem | Рамка |
+| plusLocationX | Float | Позиция плюса по Х |
+| plusLocationY | Float | Позиция плюса по Y |
+| closeButtonPosition | Int | Нахождения крестика 1 - справа вверху, 2 - справа внизу, 3 - слева внизу, 4 - слева вверху |
+
+
+## StuffItemInTemplate - Скотчики в шаблоне
+
+| Название поля | Тип данных | Описание |
+|---|---|---|
+| item | StuffItem | Скотчик |
+
+
+## TextItemInTemplate - Текстовая рамка в шаблоне
+
+| Название поля | Тип данных | Описание |
+|---|---|---|
+
+
+## ViewInTemplate - Просто вьюха в шаблоне
+
+| Название поля | Тип данных | Описание |
+|---|---|---|
+| backGroundColor | UIColor | Цвет фона |
+| backGroundImage | String | Название картинки фона |
+
+
 ## AbstractItem - Абстрактный класс для всех айтемов
 
 | Название поля | Тип данных | Описание |
 |---|---|---|
-| Buy ID | String | Id для покупки |
-| InternalName | String | Внутреннее название |
+| buyId | String | Id для покупки |
+| internalName | String | Внутреннее название |
 
 
 ## StuffItem - Скотчик/Лепесток прочий элемент являщийся картинкой
