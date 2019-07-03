@@ -13,7 +13,6 @@
 
 | Название поля | Тип данных | Описание |
 |---|---|---|
-| buyId | String | Id для покупки |
 | internalName | String | Внутреннее название |
 | elements | [TemplateItem] | Айтемы из которых состоит шаблон |
 | backGroundColor | UIColor | Цвет фона |
