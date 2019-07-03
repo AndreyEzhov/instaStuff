@@ -7,6 +7,7 @@
 | name | String | Отображаемоем пользователю название |
 | templates | [Template] | Массив темплейтов входящих в этот |
 | themeColor | UIColor | Цвет сета |
+| priority | Int | Приоритет отображения |
 
 
 ## Template - Шаблон
