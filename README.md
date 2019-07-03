@@ -13,7 +13,6 @@
 
 | Название поля | Тип данных | Описание |
 |---|---|---|
-| internalName | String | Внутреннее название |
 | elements | [TemplateItem] | Айтемы из которых состоит шаблон |
 | backGroundColor | UIColor | Цвет фона |
 | backGroundImage | String | Название картинки фона |
