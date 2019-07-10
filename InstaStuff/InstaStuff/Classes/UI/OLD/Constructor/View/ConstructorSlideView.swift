@@ -130,7 +130,7 @@ class ConstructorSlideView: UIView, UIGestureRecognizerDelegate, ConstructorItem
     }
     
     private func updateTransforms(for view: UIViewTemplatePlaceble) {
-        view.transform = view.storyEditableItem.editableTransform.transform
+        //view.transform = view.storyEditableItem.editableTransform.transform
         let buttonSize: CGFloat = Consts.UIGreed.editButtonsSize
         editButton.frame = CGRect(x: max(-buttonSize, view.frame.minX - buttonSize),
                                     y: max(-buttonSize, view.frame.minY - buttonSize),
@@ -157,13 +157,13 @@ class ConstructorSlideView: UIView, UIGestureRecognizerDelegate, ConstructorItem
     }
     
     private func updateConstratints(_ placebleView: UIViewTemplatePlaceble) {
-        let settings = placebleView.storyEditableItem.settings
-        placebleView.snp.remakeConstraints { maker in
-            maker.centerX.equalToSuperview().multipliedBy(settings.center.x * 2.0)
-            maker.centerY.equalToSuperview().multipliedBy(settings.center.y * 2.0)
-            maker.width.equalToSuperview().multipliedBy(settings.sizeWidth)
-            maker.width.equalTo(placebleView.snp.height).multipliedBy(settings.ratio)
-        }
+//        let settings = placebleView.storyEditableItem.settings
+//        placebleView.snp.remakeConstraints { maker in
+//            maker.centerX.equalToSuperview().multipliedBy(settings.center.x * 2.0)
+//            maker.centerY.equalToSuperview().multipliedBy(settings.center.y * 2.0)
+//            maker.width.equalToSuperview().multipliedBy(settings.sizeWidth)
+//            maker.width.equalTo(placebleView.snp.height).multipliedBy(settings.ratio)
+//        }
     }
     
     // MARK: - Functions
@@ -200,47 +200,47 @@ class ConstructorSlideView: UIView, UIGestureRecognizerDelegate, ConstructorItem
     private var yD: CGFloat = 0
     
     @objc private func zoomGesture(_ sender: UIPinchGestureRecognizer) {
-        switch sender.state {
-        case .began:
-            guard let item = view(from: sender) else {
-                editableView = nil
-                return
-            }
-            editableView = item
-            if item is TextViewPlace {
-                let A = sender.location(ofTouch: 0, in: editableView)
-                let B = sender.location(ofTouch: 1, in: editableView)
-                xD = abs( A.x - B.x )
-                yD = abs( A.y - B.y )
-            } else {
-                sender.scale = item.storyEditableItem.editableTransform.currentScale
-            }
-        case .changed:
-            guard let editableView = editableView else { return }
-            if editableView is TextViewPlace {
-                if sender.numberOfTouches < 2 {
-                    return
-                }
-                let A = sender.location(ofTouch: 0, in: editableView)
-                let B = sender.location(ofTouch: 1, in: editableView)
-                let xD = abs( A.x - B.x )
-                let yD = abs( A.y - B.y )
-                let currentWidth = editableView.storyEditableItem.settings.sizeWidth
-                let width = currentWidth - ((self.xD - xD) / self.bounds.width)
-                let hight = currentWidth / editableView.storyEditableItem.settings.ratio - ((self.yD - yD) / self.bounds.height)
-                editableView.storyEditableItem.settings.sizeWidth = width
-                editableView.storyEditableItem.settings.ratio = width / hight
-                self.xD = xD
-                self.yD = yD
-                updateConstratints(editableView)
-                updateTransforms(for: editableView)
-            } else {
-                editableView.storyEditableItem.editableTransform.currentScale = sender.scale
-                updateTransforms(for: editableView)
-            }
-        default:
-            break
-        }
+//        switch sender.state {
+//        case .began:
+//            guard let item = view(from: sender) else {
+//                editableView = nil
+//                return
+//            }
+//            editableView = item
+//            if item is TextViewPlace {
+//                let A = sender.location(ofTouch: 0, in: editableView)
+//                let B = sender.location(ofTouch: 1, in: editableView)
+//                xD = abs( A.x - B.x )
+//                yD = abs( A.y - B.y )
+//            } else {
+//                sender.scale = item.storyEditableItem.editableTransform.currentScale
+//            }
+//        case .changed:
+//            guard let editableView = editableView else { return }
+//            if editableView is TextViewPlace {
+//                if sender.numberOfTouches < 2 {
+//                    return
+//                }
+//                let A = sender.location(ofTouch: 0, in: editableView)
+//                let B = sender.location(ofTouch: 1, in: editableView)
+//                let xD = abs( A.x - B.x )
+//                let yD = abs( A.y - B.y )
+//                let currentWidth = editableView.storyEditableItem.settings.sizeWidth
+//                let width = currentWidth - ((self.xD - xD) / self.bounds.width)
+//                let hight = currentWidth / editableView.storyEditableItem.settings.ratio - ((self.yD - yD) / self.bounds.height)
+//                editableView.storyEditableItem.settings.sizeWidth = width
+//                editableView.storyEditableItem.settings.ratio = width / hight
+//                self.xD = xD
+//                self.yD = yD
+//                updateConstratints(editableView)
+//                updateTransforms(for: editableView)
+//            } else {
+//                editableView.storyEditableItem.editableTransform.currentScale = sender.scale
+//                updateTransforms(for: editableView)
+//            }
+//        default:
+//            break
+//        }
     }
     
     @objc private func panGesture(_ sender: UIPanGestureRecognizer) {
@@ -251,10 +251,10 @@ class ConstructorSlideView: UIView, UIGestureRecognizerDelegate, ConstructorItem
                 return
             }
             editableView = item
-            sender.setTranslation(item.storyEditableItem.editableTransform.currentTranslation, in: contentView)
+            //sender.setTranslation(item.storyEditableItem.editableTransform.currentTranslation, in: contentView)
         case .changed:
             guard let editableView = editableView else { return }
-            editableView.storyEditableItem.editableTransform.currentTranslation = sender.translation(in: contentView)
+            //editableView.storyEditableItem.editableTransform.currentTranslation = sender.translation(in: contentView)
             updateTransforms(for: editableView)
         default:
             break
@@ -269,10 +269,10 @@ class ConstructorSlideView: UIView, UIGestureRecognizerDelegate, ConstructorItem
                 return
             }
             editableView = item
-            sender.rotation = item.storyEditableItem.editableTransform.currentRotation
+            //sender.rotation = item.storyEditableItem.editableTransform.currentRotation
         case .changed:
             guard let editableView = editableView else { return }
-            editableView.storyEditableItem.editableTransform.currentRotation = sender.rotation
+            //editableView.storyEditableItem.editableTransform.currentRotation = sender.rotation
             updateTransforms(for: editableView)
         default:
             break

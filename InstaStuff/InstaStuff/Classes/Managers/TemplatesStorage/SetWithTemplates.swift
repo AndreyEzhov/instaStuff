@@ -8,18 +8,16 @@
 
 import UIKit
 
-struct TemplateSet {
-    
-    typealias TemplateSetId = Int64
+struct SetWithTemplates {
     
     // MARK: - Properties
     
-    let id: TemplateSetId
+    let buyId: String
     
     let themeColor: UIColor
     
     let name: String
     
-    let templates: [FrameTemplate]
+    let templates: [Template]
     
 }

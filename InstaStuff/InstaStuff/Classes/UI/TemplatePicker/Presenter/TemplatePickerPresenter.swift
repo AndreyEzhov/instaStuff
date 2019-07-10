@@ -15,7 +15,7 @@ protocol TemplatePickerDisplayable: View {
 
 /// Интерфейс презентера
 protocol TemplatePickerPresentable: Presenter {
-    var templateSets: [TemplateSet] { get }
+    var templateSets: [SetWithTemplates] { get }
 }
 
 /// Презентер для экрана «TemplatePicker»
@@ -27,7 +27,7 @@ final class TemplatePickerPresenter: TemplatePickerPresentable {
     
     /// Параметры экрана
     struct Parameters {
-    
+        
     }
     
     struct Dependencies {
@@ -36,7 +36,7 @@ final class TemplatePickerPresenter: TemplatePickerPresentable {
     
     let templatesStorage: TemplatesStorage
     
-    var templateSets: [TemplateSet] {
+    var templateSets: [SetWithTemplates] {
         return templatesStorage.templateSets
     }
     

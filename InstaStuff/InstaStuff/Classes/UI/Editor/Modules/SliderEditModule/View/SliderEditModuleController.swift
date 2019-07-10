@@ -12,9 +12,6 @@ import UIKit
 final class SliderEditModuleController: BaseViewController<SliderEditModulePresentable>, SliderEditModuleDisplayable {
 
     // MARK: - Properties
-
-    /// Есть ли сториборд
-    override class var hasStoryboard: Bool { return false }
     
     private lazy var slideView: UISlider = {
         let slider = UISlider()

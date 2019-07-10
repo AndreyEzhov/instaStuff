@@ -8,40 +8,28 @@
 
 import UIKit
 
-private struct Constants {
-    static let toolbarHeight: CGFloat = 44
-}
-
 /// Контроллер для экрана «Editor»
 final class EditorController: BaseViewController<EditorPresentable>, EditorDisplayable {
     
+    struct Constants {
+        static let toolbarHeight: CGFloat = 44
+    }
+    
     // MARK: - Properties
     
-    /// Есть ли сториборд
-    override class var hasStoryboard: Bool { return false }
-    
-    private lazy var editorToolbar: EditorToolbar = {
+    private(set) lazy var editorToolbar: EditorToolbar = {
         let view = EditorToolbar()
         view.setup(presenter)
         view.backgroundColor = .clear
         return view
     }()
     
-    private lazy var stackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.alignment = .top
+    private lazy var stackView: UIView = {
+        let stackView = UIView()
+        stackView.backgroundColor = .clear
         return stackView
     }()
-    
-    var contentSize: CGSize {
-        let modulesHeight = presenter.modules.reduce(CGFloat.zero) { (res, model) -> CGFloat in
-            return res + model.height
-        }
-        return CGSize(width: UIScreen.main.bounds.width,
-                      height: Constants.toolbarHeight + modulesHeight)
-    }
-    
+        
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -51,31 +39,38 @@ final class EditorController: BaseViewController<EditorPresentable>, EditorDispl
     }
     
     override func updateViewConstraints() {
-        super.updateViewConstraints()
         editorToolbar.snp.remakeConstraints { maker in
             maker.left.right.top.equalToSuperview()
             maker.height.equalTo(Constants.toolbarHeight)
         }
         stackView.snp.remakeConstraints { maker in
-            maker.left.right.bottomMargin.equalToSuperview()
+            maker.left.right.bottom.equalToSuperview()
             maker.top.equalTo(editorToolbar.snp.bottom)
         }
+        super.updateViewConstraints()
     }
     
     // MARK: - EditorDisplayable
     
     func updateContent(old: [EditModule], new: [EditModule]) {
         old.forEach { unembedChildViewController($0.controller) }
-        stackView.arrangedSubviews.forEach(stackView.removeArrangedSubview)
+        stackView.subviews.forEach { $0.removeFromSuperview() }
         new.forEach { module in
             let contentView = UIView()
             embedChildViewController(module.controller, toView: contentView)
-            stackView.addArrangedSubview(contentView)
+            stackView.addSubview(contentView)
             contentView.snp.remakeConstraints({ maker in
                 maker.height.equalTo(module.height)
-                maker.width.equalToSuperview()
+                maker.left.right.equalToSuperview()
+                let topViewIndex = stackView.subviews.count - 2
+                if topViewIndex >= 0 {
+                    maker.top.equalTo(stackView.subviews[topViewIndex].snp.bottom)
+                } else {
+                    maker.top.equalToSuperview()
+                }
             })
         }
+        view.setNeedsUpdateConstraints()
     }
     
     // MARK: - Private Functions
@@ -83,7 +78,7 @@ final class EditorController: BaseViewController<EditorPresentable>, EditorDispl
     private func setup() {
         view.addSubview(editorToolbar)
         view.addSubview(stackView)
-        updateViewConstraints()
+        view.setNeedsUpdateConstraints()
     }
     
     // MARK: - Functions

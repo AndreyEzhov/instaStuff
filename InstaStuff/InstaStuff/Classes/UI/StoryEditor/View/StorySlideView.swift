@@ -10,36 +10,65 @@ import UIKit
 
 typealias UIViewTemplatePlaceble = (UIView & TemplatePlaceble)
 
-class StorySlideView: UIView, ColorPickerListener {
+class StorySlideView: UIView {
     
     // MARK: - Properties
     
-    private let backgroundImageView =  UIImageView()
+    weak var slideViewPresenter: SlideViewPresenter?
     
-    private var slide: StoryItem
-    
-    private(set) var photoPlaces: [UIViewTemplatePlaceble] = []
-    
-    override var inputView: UIView? {
-        let view = Assembly.shared.createBackgroundModuleControllerController(params: BackgroundModuleControllerPresenter.Parameters(colorPickerModule: colorPickerModule))
-        view.delegate = self
+    private lazy var contentView: UIImageView = {
+        let view = UIImageView()
+        view.isUserInteractionEnabled = true
+        view.clipsToBounds = true
+        view.backgroundColor = .white
         return view
-    }
+    }()
+    
+    private lazy var closeButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "closeButton"), for: .normal)
+        button.addTarget(self, action: #selector(deleteSelectedItem), for: .touchUpInside)
+        addSubview(button)
+        return button
+    }()
+    
+    private lazy var customTap: UITapGestureRecognizer = {
+        let tap = UITapGestureRecognizer()
+        tap.addTarget(self, action: #selector(tapGesture(_:)))
+        tap.delegate = self
+        return tap
+    }()
     
     private let colorPickerModule = ColorPickerModule()
     
-    override var canBecomeFirstResponder: Bool {
-        return _canBecomeFirstResponder
+    private(set) var editableView: UIViewTemplatePlaceble? {
+        didSet {
+            slideViewPresenter?.selectedItem = editableView
+            closeButton.isHidden = editableView == nil
+            //            if oldValue == nil {
+            //                editViewPeresenter.endEditing()
+            //            }
+            //            guard oldValue !== editableView else {
+            //                return
+            //            }
+            //            oldValue?.selectAsNotEditable()
+            //            editButtons.forEach { $0.removeFromSuperview() }
+            //            editViewPeresenter.endEditing()
+            //            guard let editableView = editableView else { return }
+            //            editButtons.forEach { addSubview($0) }
+            //            if (editableView is StuffPlace) {
+            //                editButton.removeFromSuperview()
+            //            }
+            //            updateTransforms(for: editableView)
+            //            editViewPeresenter.sliderListener = editableView as? PhotoPlaceConstructor
+        }
     }
     
-    private var _canBecomeFirstResponder = false
-    
-    weak var pippeteDelegate: PippeteDelegate?
+    private var customGestures = [UIGestureRecognizer]()
     
     // MARK: - Construction
     
-    init(slide: StoryItem) {
-        self.slide = slide
+    init() {
         super.init(frame: .zero)
         setup()
     }
@@ -48,92 +77,183 @@ class StorySlideView: UIView, ColorPickerListener {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Life Cycle
+    // MARK: - Functions
     
-    override func updateConstraints() {
-        super.updateConstraints()
-        backgroundImageView.snp.remakeConstraints { maker in
-            maker.edges.equalToSuperview()
+    func removeAllItems() {
+        contentView.image = nil
+        contentView.backgroundColor = UIColor.white
+        contentView.subviews.forEach { view in
+            view.removeFromSuperview()
         }
-        photoPlaces.enumerated().forEach { arg in
-            let (offset, place) = arg
-            let frameArea = slide.template.frameAreas[offset]
-            place.snp.remakeConstraints { maker in
-                maker.centerX.equalToSuperview().multipliedBy(frameArea.settings.center.x * 2.0)
-                maker.centerY.equalToSuperview().multipliedBy(frameArea.settings.center.y * 2.0)
-                maker.width.equalToSuperview().multipliedBy(frameArea.settings.sizeWidth)
-                maker.width.equalTo(place.snp.height).multipliedBy(frameArea.settings.ratio)
-            }
-            updateTransform(for: place)
-        }
+    }
+    
+    func setBackgroundImage(_ image: UIImage?) {
+        contentView.image = image
+    }
+    
+    func addGestures() {
+        let pan = UIPanGestureRecognizer()
+        contentView.addGestureRecognizer(pan)
+        pan.addTarget(self, action: #selector(panGesture(_:)))
+        pan.delegate = self
+        
+        let rotation = UIRotationGestureRecognizer()
+        contentView.addGestureRecognizer(rotation)
+        rotation.addTarget(self, action: #selector(rotateGesture(_:)))
+        rotation.delegate = self
+        
+        let zoom = UIPinchGestureRecognizer()
+        contentView.addGestureRecognizer(zoom)
+        zoom.addTarget(self, action: #selector(zoomGesture(_:)))
+        zoom.delegate = self
+        
+        contentView.addGestureRecognizer(customTap)
+        
+        customGestures = [pan, zoom, customTap, rotation]
+    }
+    
+    func placeSubview(_ view: UIView) {
+        contentView.addSubview(view)
+    }
+    
+    func sendItemToBack(_ view: UIView) {
+        contentView.sendSubviewToBack(view)
+    }
+    
+    func bringItemToFront(_ view: UIView) {
+        contentView.bringSubviewToFront(view)
     }
     
     // MARK: - Private Functions
     
-    private func updateTransform(for view: (UIView & TemplatePlaceble)) {
-        var transform = CGAffineTransform.identity
-        transform = transform.rotated(by: view.storyEditableItem.settings.angle)
-        view.transform = transform
-    }
-    
     private func setup() {
-        setupTap()
-        clipsToBounds = true
-        subviews.forEach { view in
-            view.removeFromSuperview()
+        backgroundColor = .white
+        addSubview(contentView)
+        contentView.snp.remakeConstraints { maker in
+            maker.edges.equalToSuperview()
         }
-        photoPlaces.removeAll()
-        addSubview(backgroundImageView)
-        slide.items.enumerated().forEach { arg in
-            var view: UIViewTemplatePlaceble?
-            switch arg.element {
-            case let item as StoryEditablePhotoItem:
-                view = PhotoPlace(item)
-            case let item as StoryEditableTextItem:
-                view = TextViewPlace(item)
-            case let item as StoryEditableStuffItem:
-                view = StuffPlace(item)
-            case let item as StoryEditableViewItem:
-                view = ViewPlace(item)
-            default:
-                break
-            }
-            if let view = view {
-                photoPlaces.append(view)
-                view.tag = arg.offset
-                addSubview(view)
-            }
-        }
-        backgroundImageView.image = slide.template.backgroundImage
-        setNeedsUpdateConstraints()
     }
     
-    private func setupTap() {
-        let tap = UITapGestureRecognizer()
-        addGestureRecognizer(tap)
-        tap.addTarget(self, action: #selector(editSlideBackground(_:)))
+    private func view(from sender: UIGestureRecognizer) -> UIViewTemplatePlaceble? {
+        return contentView.subviews.filter { $0 is UIViewTemplatePlaceble }.filter({ view in
+            view.point(inside: convert(sender.location(in: self), to: view), with: nil)
+        }).last as? UIViewTemplatePlaceble
     }
     
-    // MARK: - Actions
-    
-    @objc private func editSlideBackground(_ sender: UITapGestureRecognizer) {
-        _canBecomeFirstResponder = true
-        _ = isFirstResponder ? resignFirstResponder() : becomeFirstResponder()
-        _canBecomeFirstResponder = false
+    private func updateDeleteButton() {
+        if let editableView = editableView {
+            let x = min(max(0, editableView.frame.maxX), bounds.width - 40)
+            let y = min(max(0, editableView.frame.minY - 40), bounds.height - 40)
+            closeButton.frame = CGRect(x: x, y: y, width: 40, height: 40)
+        }
     }
     
     // MARK: - ColorPickerLostener
     
-    func colorDidChanged(_ value: UIColor) {
-        backgroundColor = value
-        slide.template.backgroundColor = value
+    //    func colorDidChanged(_ value: UIColor) {
+    //        backgroundColor = value
+    //        slide.template.backgroundColor = value
+    //    }
+    //
+    //    func checkMarkTouch() {
+    //        resignFirstResponder()
+    //    }
+    //
+    //    func placePipette(completion: @escaping (UIColor?) -> ()) {
+    //        pippeteDelegate?.placePipette(completion: completion)
+    //    }
+    
+    // MARK: - Actions
+    
+    @objc private func tapGesture(_ sender: UITapGestureRecognizer) {
+        guard sender.state == .ended else { return }
+        editableView = view(from: sender)
+        updateDeleteButton()
     }
     
-    func checkMarkTouch() {
-        resignFirstResponder()
+    @objc private func panGesture(_ sender: UIPanGestureRecognizer) {
+        guard let slideViewPresenter = slideViewPresenter else { return }
+        switch sender.state {
+        case .began:
+            guard let item = view(from: sender) else {
+                editableView = nil
+                return
+            }
+            editableView = item
+            let center = item.storyEditableItem.settings.center
+            let currentTranslation = CGPoint(x: center.x * bounds.width, y: center.y * bounds.height)
+            sender.setTranslation(currentTranslation, in: self)
+        case .changed:
+            var translation = sender.translation(in: self)
+            translation = CGPoint(x: translation.x / bounds.width, y: translation.y / bounds.height)
+            slideViewPresenter.apply(translation: translation)
+            updateDeleteButton()
+        default:
+            break
+        }
     }
     
-    func placePipette(completion: @escaping (UIColor?) -> ()) {
-        pippeteDelegate?.placePipette(completion: completion)
+    @objc private func rotateGesture(_ sender: UIRotationGestureRecognizer) {
+        guard let slideViewPresenter = slideViewPresenter else { return }
+        switch sender.state {
+        case .began:
+            guard let item = view(from: sender) else {
+                editableView = nil
+                return
+            }
+            editableView = item
+            sender.rotation = item.storyEditableItem.settings.angle
+        case .changed:
+            slideViewPresenter.apply(rotation: sender.rotation)
+            updateDeleteButton()
+        default:
+            break
+        }
+    }
+    
+    @objc private func zoomGesture(_ sender: UIPinchGestureRecognizer) {
+        guard let slideViewPresenter = slideViewPresenter else { return }
+        switch sender.state {
+        case .began:
+            guard let item = view(from: sender) else {
+                editableView = nil
+                return
+            }
+            editableView = item
+            sender.scale = item.storyEditableItem.settings.sizeWidth
+        case .changed:
+            slideViewPresenter.apply(scale: sender.scale)
+            updateDeleteButton() 
+        default:
+            break
+        }
+    }
+    
+    @objc private func deleteSelectedItem() {
+        guard let view = editableView else { return }
+        editableView = nil
+        view.removeFromSuperview()
+        slideViewPresenter?.deleteItem(view)
+    }
+    
+    
+}
+
+extension StorySlideView: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return gestureRecognizer.view === otherGestureRecognizer.view
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        //        if !customGestures.contains(gestureRecognizer) {
+        //            return false
+        //        }
+        //        if customGestures.contains(gestureRecognizer), gestureRecognizer !== customTap {
+        //            return false
+        //        }
+        //        guard gestureRecognizer === customTap else {
+        //            return true
+        //        }
+        return true
     }
 }

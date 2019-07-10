@@ -21,9 +21,6 @@ final class ConstructorController: BaseViewController<ConstructorPresentable>, C
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
-    /// Есть ли сториборд
-    override class var hasStoryboard: Bool { return false }
-    
     private lazy var slideArea: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.isScrollEnabled = false
@@ -52,11 +49,10 @@ final class ConstructorController: BaseViewController<ConstructorPresentable>, C
         return imagePicker
     }()
     
-    private let editorController = Assembly.shared.createEditorController(params: EditorPresenter.Parameters())
+    private let editorController: EditorController! = nil
     
     private(set) lazy var editorView: UIView = {
         let view = UIView()
-        editorController.presenter.editorToolbarDelegate = presenter.editViewPeresenter
         embedChildViewController(editorController, toView: view)
         return view
     }()
@@ -107,7 +103,7 @@ final class ConstructorController: BaseViewController<ConstructorPresentable>, C
         
         editorView.snp.remakeConstraints { maker in
             maker.left.right.bottom.equalToSuperview()
-            maker.size.equalTo(editorController.contentSize)
+            maker.size.equalTo(editorController.presenter.contentSize)
         }
 
         super.updateViewConstraints()
@@ -129,15 +125,15 @@ final class ConstructorController: BaseViewController<ConstructorPresentable>, C
     // MARK: - Functions
     
     func setupColorEditMenu(hidden: Bool, animated: Bool, with modules: [EditModule]) {
-        editorController.presenter?.update(with: modules)
-        editorView.snp.remakeConstraints { maker in
-            maker.left.right.bottom.equalToSuperview()
-            maker.height.equalTo(editorController.contentSize.height + view.safeAreaInsets.bottom)
-        }
-        view.layoutSubviews()
-        UIView.animate(withDuration: animated ? 0.3 : 0) {
-            self.editorView.transform = hidden ? CGAffineTransform(translationX: 0, y: self.editorController.contentSize.height + self.view.safeAreaInsets.bottom) : .identity
-        }
+//        editorController.presenter?.update(with: modules)
+//        editorView.snp.remakeConstraints { maker in
+//            maker.left.right.bottom.equalToSuperview()
+//            maker.height.equalTo(editorController.contentSize.height + view.safeAreaInsets.bottom)
+//        }
+//        view.layoutSubviews()
+//        UIView.animate(withDuration: animated ? 0.3 : 0) {
+//            self.editorView.transform = hidden ? CGAffineTransform(translationX: 0, y: self.editorController.contentSize.height + self.view.safeAreaInsets.bottom) : .identity
+//        }
     }
     
     // MARK: - Actions
@@ -156,68 +152,7 @@ final class ConstructorController: BaseViewController<ConstructorPresentable>, C
     }
     
     @objc private func exportImage() {
-        let width = Consts.UIGreed.screenWidth
-        let height = Consts.UIGreed.screenHeight
-        let size = CGSize(width: width, height: height)
-        UIGraphicsBeginImageContext(size)
-        
-        //let story = presenter.story
-        
-        (slideView.backgroundColor ?? .white).setFill()
-        UIColor.white.setFill()
-        let context = UIGraphicsGetCurrentContext()
-        context?.fill(CGRect(origin: .zero, size: size))
-        
-        //story.template.backgroundImage?.draw(in: CGRect(origin: .zero, size: size))
-        
-        slideView.items.forEach { view in
-            let item = view.storyEditableItem
-            let scale: CGFloat = slideView.frame.width / Consts.UIGreed.screenWidth
-            guard let image = item.renderedImage(scale: scale) else {
-                return
-            }
-            
-            var size: CGSize
-            var isRound = false
-            if item is StoryEditableTextItem {
-                size = image.size
-            } else {
-                let currentWidth = item.settings.sizeWidth * width
-                size = CGSize(width: currentWidth,
-                              height: currentWidth / item.settings.ratio)
-                if let photo = item as? StoryEditablePhotoItem, photo.photoItem.frameName.contains("round") {
-                    isRound = true
-                }
-            }
-            
-            let frame = CGRect(origin: CGPoint(x: -size.width / 2.0, y: -size.height / 2.0), size: size)
-            
-            if let context = UIGraphicsGetCurrentContext() {
-                context.saveGState()
-                context.translateBy(x: width * item.settings.center.x,
-                                    y: height * item.settings.center.y)
-                context.concatenate(CGAffineTransform.init(translationX: item.editableTransform.currentTranslation.x / scale,
-                                                           y: item.editableTransform.currentTranslation.y / scale))
-                context.concatenate(CGAffineTransform(rotationAngle: item.editableTransform.currentRotation))
-                context.concatenate(CGAffineTransform(scaleX: item.editableTransform.currentScale, y: item.editableTransform.currentScale))
 
-                if isRound {
-                    let path = UIBezierPath(roundedRect: frame, cornerRadius: frame.width / 2.0)
-                    context.beginPath()
-                    context.addPath(path.cgPath)
-                    context.closePath()
-                    context.clip()
-                }
-                image.draw(in: frame)
-                context.restoreGState()
-            }
-        }
-        
-        let myImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        if let image = myImage {
-            UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
-        }
     }
     
     
@@ -242,18 +177,18 @@ extension ConstructorController: MenuViewProtocol {
     
     func addItemAction(_ sender: UIButton) {
         let controller = Assembly.shared.createItemEditModuleController(params: ItemEditModulePresenter.Parameters(numberOfRows: 2))
-        controller.presenter.slideView = slideView
+        //controller.presenter.slideView = slideView
         let module = EditModule(estimatedHeight: 120, controller: controller)
         setupColorEditMenu(hidden: false, animated: true, with: [module])
     }
     
     func addTextAction(_ sender: UIButton) {
-        let textSetups = TextSetups(textType: TextSetups.TextType.none, aligment: .center, fontSize: 20, lineSpacing: 1, fontType: .futura, kern: 1, color: .black)
-        let textItem = TextItem(textSetups: textSetups, defautText: "Type your text")
-        let settings = Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 0.8, angle: 0, ratio: 2)
-        let storyEditableTextItem = StoryEditableTextItem(textItem, settings: settings)
-        let textViewPlace = TextViewPlace(storyEditableTextItem)
-        slideView.add(textViewPlace)
+//        let textSetups = TextSetups(textType: TextSetups.TextType.none, aligment: .center, fontSize: 20, lineSpacing: 1, fontType: .futura, kern: 1, color: .black)
+//        let textItem = TextItem(textSetups: textSetups, defautText: "Type your text")
+//        let settings = Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 0.8, angle: 0, ratio: 2)
+//        let storyEditableTextItem = StoryEditableTextItem(textItem, settings: settings)
+//        let textViewPlace = TextViewPlace(storyEditableTextItem)
+//        slideView.add(textViewPlace)
     }
     
     func changeBackgroundAction(_ sender: UIButton) {
@@ -264,19 +199,19 @@ extension ConstructorController: MenuViewProtocol {
     // MARK: - UIImagePickerControllerDelegate
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            let settings = Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 1, angle: 0, ratio: pickedImage.size.width/pickedImage.size.height)
-            let photoItem = PhotoItem(frameName: "1", photoAreaLocation: settings)
-            let settingsPhoto = Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 0.8, angle: 0, ratio: pickedImage.size.width/pickedImage.size.height)
-            let photoitem = StoryEditablePhotoItem(photoItem,
-                                                   customSettings: nil,
-                                                   settings: settingsPhoto)
-            photoitem.update(image: pickedImage)
-            let photoPlace = PhotoPlaceConstructor(photoitem)
-            
-            self.slideView.add(photoPlace)
-        }
-        picker.dismiss(animated: true, completion: nil)
+//        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+//            let settings = Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 1, angle: 0, ratio: pickedImage.size.width/pickedImage.size.height)
+//            let photoItem = PhotoItem(frameName: "1", photoAreaLocation: settings)
+//            let settingsPhoto = Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 0.8, angle: 0, ratio: pickedImage.size.width/pickedImage.size.height)
+//            let photoitem = StoryEditablePhotoItem(photoItem,
+//                                                   customSettings: nil,
+//                                                   settings: settingsPhoto)
+//            photoitem.update(image: pickedImage)
+//            let photoPlace = PhotoPlaceConstructor(photoitem)
+//            
+//            self.slideView.add(photoPlace)
+//        }
+//        picker.dismiss(animated: true, completion: nil)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

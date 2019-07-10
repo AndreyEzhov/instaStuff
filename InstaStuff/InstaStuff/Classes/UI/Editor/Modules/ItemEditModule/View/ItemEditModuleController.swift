@@ -20,9 +20,6 @@ private enum Constants {
 final class ItemEditModuleController: BaseViewController<ItemEditModulePresentable>, ItemEditModuleDisplayable, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
     // MARK: - Properties
-
-    /// Есть ли сториборд
-    override class var hasStoryboard: Bool { return false }
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()

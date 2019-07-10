@@ -46,23 +46,32 @@ class EditorToolbar: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Private Functions
-    
-    private func setup() {
-        addSubview(doneButton)
-        addSubview(collapseButton)
+    override func updateConstraints() {
         doneButton.snp.remakeConstraints { maker in
             maker.right.top.bottom.equalToSuperview()
             maker.width.equalTo(80)
         }
         collapseButton.snp.remakeConstraints { maker in
-            maker.center.equalToSuperview()
-            maker.height.equalToSuperview()
+            maker.center.top.bottom.equalToSuperview()
             maker.width.equalTo(80)
         }
+        super.updateConstraints()
+    }
+    
+    // MARK: - Private Functions
+    
+    private func setup() {
+        translatesAutoresizingMaskIntoConstraints = false
+        addSubview(doneButton)
+        addSubview(collapseButton)
+        updateConstraintsIfNeeded()
     }
     
     // MARK: - Functions
+    
+    func setDoneButton(hidden: Bool) {
+        doneButton.isHidden = hidden
+    }
     
     func setup(_ target: EditorToolbarProtocol?) {
         doneButton.removeTarget(nil, action: nil, for: .allEvents)

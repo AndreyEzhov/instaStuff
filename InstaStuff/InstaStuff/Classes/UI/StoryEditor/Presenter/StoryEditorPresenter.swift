@@ -14,6 +14,8 @@ protocol StoryEditorDisplayable: View {
 
 protocol StoryEditorPresentable: Presenter {
     var story: StoryItem { get }
+    var isEditable: Bool { get }
+    var slideViewPresenter: SlideViewPresenter? { get set }
 }
 
 final class StoryEditorPresenter: StoryEditorPresentable {
@@ -22,7 +24,8 @@ final class StoryEditorPresenter: StoryEditorPresentable {
     }
     
     struct Parameters {
-        let template: FrameTemplate
+        let template: Template
+        let isEditable: Bool
     }
     
     // MARK: - Nested types
@@ -35,10 +38,15 @@ final class StoryEditorPresenter: StoryEditorPresentable {
     
     let story: StoryItem
     
+    var slideViewPresenter: SlideViewPresenter?
+    
+    let isEditable: Bool
+    
     // MARK: - Construction
     
     init(dependencies: Dependencies, parameters: Parameters) {
         story = StoryItem(template: parameters.template)
+        isEditable = parameters.isEditable
     }
     
     // MARK: - Private Functions

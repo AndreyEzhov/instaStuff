@@ -9,10 +9,9 @@
 import UIKit
 
 struct Settings {
-    let center: CGPoint
+    var center: CGPoint
     var sizeWidth: CGFloat
-    let angle: CGFloat
-    var ratio: CGFloat
+    var angle: CGFloat
 }
 
 struct FrameAreaDescription {
@@ -51,14 +50,15 @@ struct TextItem {
 }
 
 struct StuffItem: PreviewProtocol {
-    typealias Id = String
+    
+    typealias Id = Int
     
     let stuffId: StuffItem.Id
     
-    let stuffName: String
+    let imageName: String
     
-    var stuffImage: UIImage! {
-        return UIImage(named: stuffName)
+    var stuffImage: UIImage? {
+        return UIImage(named: imageName)
     }
     
     var preview: UIImage? {

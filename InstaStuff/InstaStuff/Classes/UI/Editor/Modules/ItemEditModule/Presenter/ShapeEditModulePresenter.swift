@@ -14,7 +14,7 @@ final class ShapeEditModulePresenter: ItemEditModulePresentable {
     
     typealias T = ItemEditModuleDisplayable
     
-    weak var slideView: ConstructorSlideView?
+    weak var slideViewPresenter: SlideViewPresenter?
     
     let numberOfRows: Int
     
@@ -37,20 +37,20 @@ final class ShapeEditModulePresenter: ItemEditModulePresentable {
     
     init(params: Parameters) {
         numberOfRows = params.numberOfRows
-        
-        photoItems = [
-            PhotoPlaceConstructorSettings(photoItem: PhotoItem(frameName: "square", photoAreaLocation: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 1, angle: 0, ratio: 1)),
-                                          settings: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 0.8, angle: 0, ratio: 1))
-            ,
-            PhotoPlaceConstructorSettings(photoItem: PhotoItem(frameName: "1_to_2", photoAreaLocation: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 1, angle: 0, ratio: 2)),
-                                          settings: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 0.8, angle: 0, ratio: 2)),
-            PhotoPlaceConstructorSettings(photoItem: PhotoItem(frameName: "2_to_1", photoAreaLocation: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 1, angle: 0, ratio: 0.5)),
-                                          settings: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 0.4, angle: 0, ratio: 0.5)),
-            PhotoPlaceConstructorSettings(photoItem: PhotoItem(frameName: "round", photoAreaLocation: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 1, angle: 0, ratio: 1)),
-                                          settings: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 0.8, angle: 0, ratio: 1)),
-            PhotoPlaceConstructorSettings(photoItem: PhotoItem(frameName: "round_2", photoAreaLocation: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 1, angle: 0, ratio: 0.6)),
-                                          settings: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 0.4, angle: 0, ratio: 0.6))
-        ]
+        photoItems = []
+//        photoItems = [
+//            PhotoPlaceConstructorSettings(photoItem: PhotoItem(frameName: "square", photoAreaLocation: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 1, angle: 0, ratio: 1)),
+//                                          settings: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 0.8, angle: 0, ratio: 1))
+//            ,
+//            PhotoPlaceConstructorSettings(photoItem: PhotoItem(frameName: "1_to_2", photoAreaLocation: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 1, angle: 0, ratio: 2)),
+//                                          settings: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 0.8, angle: 0, ratio: 2)),
+//            PhotoPlaceConstructorSettings(photoItem: PhotoItem(frameName: "2_to_1", photoAreaLocation: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 1, angle: 0, ratio: 0.5)),
+//                                          settings: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 0.4, angle: 0, ratio: 0.5)),
+//            PhotoPlaceConstructorSettings(photoItem: PhotoItem(frameName: "round", photoAreaLocation: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 1, angle: 0, ratio: 1)),
+//                                          settings: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 0.8, angle: 0, ratio: 1)),
+//            PhotoPlaceConstructorSettings(photoItem: PhotoItem(frameName: "round_2", photoAreaLocation: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 1, angle: 0, ratio: 0.6)),
+//                                          settings: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 0.4, angle: 0, ratio: 0.6))
+//        ]
     }
     
     // MARK: - Private Functions
@@ -60,10 +60,10 @@ final class ShapeEditModulePresenter: ItemEditModulePresentable {
     // MARK: - ItemEditModulePresentable
     
     func select(at index: Int) {
-        guard let photoPlaceConstructor = slideView?.editableView as? PhotoPlaceConstructor else { return }
-        let photoItem = photoItems[index]
-        photoPlaceConstructor.modify(with: photoItem)
-        slideView?.updateEditableView()
+//        guard let photoPlaceConstructor = slideView?.editableView as? PhotoPlaceConstructor else { return }
+//        let photoItem = photoItems[index]
+//        photoPlaceConstructor.modify(with: photoItem)
+//        slideView?.updateEditableView()
     }
     
 }

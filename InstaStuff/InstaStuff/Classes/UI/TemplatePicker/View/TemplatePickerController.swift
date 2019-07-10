@@ -13,9 +13,6 @@ final class TemplatePickerController: BaseViewController<TemplatePickerPresentab
     
     // MARK: - Properties
     
-    /// Есть ли сториборд
-    override class var hasStoryboard: Bool { return false }
-    
     private lazy var framesCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -120,11 +117,6 @@ final class TemplatePickerController: BaseViewController<TemplatePickerPresentab
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        guard let layout = collectionViewLayout as? UICollectionViewFlowLayout else {
-            return .zero
-        }
-        let horisontalInsets = layout.sectionInset.left + layout.sectionInset.right + layout.minimumInteritemSpacing
-        let width = collectionView.frame.width
         switch collectionView {
         case setsCollectionView:
             return CGSize(width: 48, height: 48)
@@ -146,7 +138,7 @@ final class TemplatePickerController: BaseViewController<TemplatePickerPresentab
             framesCollectionView.setContentOffset(.zero, animated: false)
         case framesCollectionView:
             let template = presenter.templateSets[selectedSet].templates[indexPath.row]
-            navigationController?.router.routeToStoryEditor(parameters: StoryEditorPresenter.Parameters.init(template: template))
+            navigationController?.router.routeToStoryEditor(parameters: StoryEditorPresenter.Parameters.init(template: template, isEditable: false))
         default:
             break
         }

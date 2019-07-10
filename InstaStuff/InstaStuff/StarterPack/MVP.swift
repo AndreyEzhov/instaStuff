@@ -43,8 +43,6 @@ class BaseViewController<T>: UIViewController, View {
     
     private(set) var presenter: T!
     
-    class var hasStoryboard: Bool { return true }
-    
     private var isFirstTimeAppear = true
     
     var navigationBarStyle: UINavigationBar.AppStyle {
@@ -85,8 +83,7 @@ class BaseViewController<T>: UIViewController, View {
     }
     
     class func controller(presenter: T) -> BaseViewController {
-        let vc = hasStoryboard ? instantiateFromStoryboard() : createController(aClass: self)
-        
+        let vc = createController(aClass: self)
         vc.presenter = presenter
         (presenter as? AnyPresenter)?.view = vc
         return vc

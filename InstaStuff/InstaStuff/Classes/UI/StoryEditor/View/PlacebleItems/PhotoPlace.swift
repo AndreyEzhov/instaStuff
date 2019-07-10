@@ -129,84 +129,84 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
     
     override func updateConstraints() {
         super.updateConstraints()
-        photoContentView.snp.remakeConstraints { maker in
-            let settings = storyEditablePhotoItem.photoItem.photoAreaLocation
-            maker.width.equalTo(photoContentView.snp.height).multipliedBy(settings.ratio)
-            maker.width.equalToSuperview().multipliedBy(settings.sizeWidth)
-            maker.centerX.equalToSuperview().multipliedBy(settings.center.x * 2)
-            maker.centerY.equalToSuperview().multipliedBy(settings.center.y * 2)
-        }
-        photoImageView.snp.remakeConstraints { maker in
-            if let image = self.image {
-                let photoRatio = image.size.width/image.size.height
-                let settings = storyEditablePhotoItem.photoItem.photoAreaLocation
-                maker.width.equalTo(photoImageView.snp.height).multipliedBy(photoRatio)
-                if photoRatio < settings.ratio {
-                    maker.left.equalToSuperview()
-                } else {
-                    maker.top.equalToSuperview()
-                }
-            }
-            maker.center.equalToSuperview()
-        }
-        framePlace.snp.remakeConstraints { maker in
-            maker.edges.equalToSuperview()
-        }
-        let closeButtonPosition = storyEditablePhotoItem.customSettings?.closeButtonPosition ?? PhotoItemCustomSettings.CloseButtonPosition.rightTop
-        deletePhotoButton.snp.remakeConstraints { maker in
-            switch closeButtonPosition {
-            case .leftTop:
-                maker.top.equalTo(photoContentView.snp.top)
-                maker.left.equalTo(photoContentView.snp.left)
-            case .leftBottom:
-                maker.bottom.equalTo(photoContentView.snp.bottom)
-                maker.left.equalTo(photoContentView.snp.left)
-            case .rightTop:
-                maker.top.equalTo(photoContentView.snp.top)
-                maker.right.equalTo(photoContentView.snp.right)
-            case .rightBottom:
-                maker.bottom.equalTo(photoContentView.snp.bottom)
-                maker.right.equalTo(photoContentView.snp.right)
-            }
-            maker.size.equalTo(CGSize(width: 30, height: 30))
-        }
+//        photoContentView.snp.remakeConstraints { maker in
+//            let settings = storyEditablePhotoItem.photoItem.photoAreaLocation
+//            maker.width.equalTo(photoContentView.snp.height).multipliedBy(settings.ratio)
+//            maker.width.equalToSuperview().multipliedBy(settings.sizeWidth)
+//            maker.centerX.equalToSuperview().multipliedBy(settings.center.x * 2)
+//            maker.centerY.equalToSuperview().multipliedBy(settings.center.y * 2)
+//        }
+//        photoImageView.snp.remakeConstraints { maker in
+//            if let image = self.image {
+//                let photoRatio = image.size.width/image.size.height
+//                let settings = storyEditablePhotoItem.photoItem.photoAreaLocation
+//                maker.width.equalTo(photoImageView.snp.height).multipliedBy(photoRatio)
+//                if photoRatio < settings.ratio {
+//                    maker.left.equalToSuperview()
+//                } else {
+//                    maker.top.equalToSuperview()
+//                }
+//            }
+//            maker.center.equalToSuperview()
+//        }
+//        framePlace.snp.remakeConstraints { maker in
+//            maker.edges.equalToSuperview()
+//        }
+//        let closeButtonPosition = storyEditablePhotoItem.customSettings?.closeButtonPosition ?? PhotoItemCustomSettings.CloseButtonPosition.rightTop
+//        deletePhotoButton.snp.remakeConstraints { maker in
+//            switch closeButtonPosition {
+//            case .leftTop:
+//                maker.top.equalTo(photoContentView.snp.top)
+//                maker.left.equalTo(photoContentView.snp.left)
+//            case .leftBottom:
+//                maker.bottom.equalTo(photoContentView.snp.bottom)
+//                maker.left.equalTo(photoContentView.snp.left)
+//            case .rightTop:
+//                maker.top.equalTo(photoContentView.snp.top)
+//                maker.right.equalTo(photoContentView.snp.right)
+//            case .rightBottom:
+//                maker.bottom.equalTo(photoContentView.snp.bottom)
+//                maker.right.equalTo(photoContentView.snp.right)
+//            }
+//            maker.size.equalTo(CGSize(width: 30, height: 30))
+//        }
     }
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
-        let location = storyEditablePhotoItem.photoItem.photoAreaLocation
-        Consts.Colors.photoplaceColor.setFill()
-        let realCenterX = location.center.x * rect.width
-        let realCenterY = location.center.y * rect.height
-        let widthRect = location.sizeWidth * rect.width
-        let hightRect = widthRect / location.ratio
-        let xRect = realCenterX - widthRect / 2
-        let yRect = realCenterY - hightRect / 2
-        UIBezierPath(rect: CGRect(x: xRect,
-                                  y: yRect,
-                                  width: widthRect,
-                                  height: hightRect)).fill()
-        Consts.Colors.applicationTintColor.setStroke()
-        let lineSize: CGFloat = min(widthRect * 0.5, 15)
-        
-        var plussCenter = CGPoint(x: realCenterX, y: realCenterY)
-        if let plusLocation = storyEditablePhotoItem.customSettings?.plusLocation {
-            plussCenter = CGPoint(x: plusLocation.x * rect.width, y: plusLocation.y * rect.height)
-        }
-        
-        let vPath = UIBezierPath()
-        vPath.move(to: CGPoint(x: plussCenter.x - lineSize, y: plussCenter.y))
-        vPath.addLine(to: CGPoint(x: plussCenter.x + lineSize, y: plussCenter.y))
-        vPath.close()
-        vPath.lineWidth = 1 / UIScreen.main.scale
-        vPath.stroke()
-        
-        let hPath = UIBezierPath()
-        hPath.move(to: CGPoint(x: plussCenter.x, y: plussCenter.y - lineSize))
-        hPath.addLine(to: CGPoint(x: plussCenter.x, y: plussCenter.y + lineSize))
-        hPath.close()
-        hPath.lineWidth = vPath.lineWidth
-        hPath.stroke()
+//        let location = storyEditablePhotoItem.photoItem.photoAreaLocation
+//        Consts.Colors.photoplaceColor.setFill()
+//        let realCenterX = location.center.x * rect.width
+//        let realCenterY = location.center.y * rect.height
+//        let widthRect = location.sizeWidth * rect.width
+//        let hightRect = widthRect / location.ratio
+//        let xRect = realCenterX - widthRect / 2
+//        let yRect = realCenterY - hightRect / 2
+//        UIBezierPath(rect: CGRect(x: xRect,
+//                                  y: yRect,
+//                                  width: widthRect,
+//                                  height: hightRect)).fill()
+//        Consts.Colors.applicationTintColor.setStroke()
+//        let lineSize: CGFloat = min(widthRect * 0.5, 15)
+//        
+//        var plussCenter = CGPoint(x: realCenterX, y: realCenterY)
+//        if let plusLocation = storyEditablePhotoItem.customSettings?.plusLocation {
+//            plussCenter = CGPoint(x: plusLocation.x * rect.width, y: plusLocation.y * rect.height)
+//        }
+//        
+//        let vPath = UIBezierPath()
+//        vPath.move(to: CGPoint(x: plussCenter.x - lineSize, y: plussCenter.y))
+//        vPath.addLine(to: CGPoint(x: plussCenter.x + lineSize, y: plussCenter.y))
+//        vPath.close()
+//        vPath.lineWidth = 1 / UIScreen.main.scale
+//        vPath.stroke()
+//        
+//        let hPath = UIBezierPath()
+//        hPath.move(to: CGPoint(x: plussCenter.x, y: plussCenter.y - lineSize))
+//        hPath.addLine(to: CGPoint(x: plussCenter.x, y: plussCenter.y + lineSize))
+//        hPath.close()
+//        hPath.lineWidth = vPath.lineWidth
+//        hPath.stroke()
     }
     
     // MARK: - Actions
@@ -357,7 +357,7 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
     }
     
     @objc private func doubleTapGesture(_ sender: UITapGestureRecognizer) {
-        storyEditablePhotoItem.editablePhotoTransform.identity()
+        //storyEditablePhotoItem.editablePhotoTransform.identity()
         UIView.animate(withDuration: 0.3) {
             self.updateTransforms()
         }

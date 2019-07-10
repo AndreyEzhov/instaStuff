@@ -17,7 +17,7 @@ protocol ItemEditModuleDisplayable: View {
 /// Интерфейс презентера
 protocol ItemEditModulePresentable: Presenter {
     var dataSource: [PreviewProtocol] { get }
-    var slideView: ConstructorSlideView? { get set }
+    var slideViewPresenter: SlideViewPresenter? { get set }
     var numberOfRows: Int { get }
     func select(at index: Int)
 }
@@ -31,7 +31,7 @@ final class ItemEditModulePresenter: ItemEditModulePresentable {
     
     private let templatesStorage: TemplatesStorage
     
-    weak var slideView: ConstructorSlideView?
+    weak var slideViewPresenter: SlideViewPresenter?
     
     let numberOfRows: Int
     
@@ -63,8 +63,8 @@ final class ItemEditModulePresenter: ItemEditModulePresentable {
 
     func select(at index: Int) {
         let item = templatesStorage.stuffItems[index]
-        let settings = Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 0.2, angle: 0, ratio: item.stuffImage.size.width / item.stuffImage.size.height)
-        slideView?.add(StuffPlace(StoryEditableStuffItem(item, settings: settings)))
+        let settings = Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 0.2, angle: 0)
+        slideViewPresenter?.add(StoryEditableStuffItem(item, settings: settings))
     }
     
 }

@@ -1,8 +1,8 @@
 //
-//  MenuView.swift
+//  SliderEditModuleController.swift
 //  InstaStuff
 //
-//  Created by aezhov on 14/05/2019.
+//  Created by aezhov on 19/06/2019.
 //  Copyright © 2019 Андрей Ежов. All rights reserved.
 //
 
@@ -15,12 +15,13 @@ import UIKit
     @objc func changeBackgroundAction(_ sender: UIButton)
 }
 
-class MenuView: UIView {
+/// Контроллер для экрана «SliderEditModule»
+final class MenuEditModuleController: BaseViewController<MenuEditModulePresentable>, MenuEditModuleDisplayable {
 
     // MARK: - Properties
     
     private lazy var stackView: UIStackView = {
-       let stackView = UIStackView()
+        let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.addArrangedSubview(addPhotoButton)
@@ -53,27 +54,26 @@ class MenuView: UIView {
         button.setImage(#imageLiteral(resourceName: "changeBackground"), for: .normal)
         return button
     }()
-    
-    // MARK: - Construction
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+
+    // MARK: - Life Cycle
+
+    override func updateViewConstraints() {
+        stackView.snp.remakeConstraints { maker in
+            maker.edges.equalToSuperview()
+        }
+        super.updateViewConstraints()
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
         setup()
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        stackView.frame = CGRect.init(x: 0, y: 0, width: bounds.width, height: bounds.height - Consts.UIGreed.safeAreaInsetsBottom)
-    }
+    // MARK: - MenuEditModuleDisplayable
     
     // MARK: - Private Functions
     
     private func setup() {
-        addSubview(stackView)
+        view.addSubview(stackView)
     }
     
     // MARK: - Functions
@@ -84,5 +84,6 @@ class MenuView: UIView {
         addTextButton.addTarget(target, action: #selector(MenuViewProtocol.addTextAction(_:)), for: .touchUpInside)
         changeBackgroundButton.addTarget(target, action: #selector(MenuViewProtocol.changeBackgroundAction(_:)), for: .touchUpInside)
     }
+
 
 }

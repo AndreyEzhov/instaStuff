@@ -35,8 +35,8 @@ class EditViewPresenter: CunstructorEditViewProtocol {
     
     weak var slideView: ConstructorSlideView? {
         didSet {
-            shapeEditModuleController.presenter.slideView = slideView
-            frameEditModuleController.presenter.slideView = slideView
+            //shapeEditModuleController.presenter.slideView = slideView
+            //frameEditModuleController.presenter.slideView = slideView
         }
     }
     

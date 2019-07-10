@@ -13,7 +13,7 @@ class StoryEditableItem {
     
     var settings: Settings
     
-    var editableTransform = EditableTransform()
+    //var editableTransform = EditableTransform()
     
     func renderedImage(scale: CGFloat) -> UIImage? {
         return nil
@@ -40,11 +40,11 @@ struct EditableTransform {
         return transform
     }
     
-    mutating func identity() {
-        currentTranslation = .zero
-        currentRotation = 0
-        currentScale = 1
-    }
+//    mutating func identity() {
+//        currentTranslation = .zero
+//        currentRotation = 0
+//        currentScale = 1
+//    }
 }
 
 class StoryEditablePhotoItem: StoryEditableItem {
@@ -58,54 +58,56 @@ class StoryEditablePhotoItem: StoryEditableItem {
     var editablePhotoTransform = EditableTransform()
     
     private func renderedPhoto(scale: CGFloat) -> UIImage? {
-        let photoWidth = Consts.UIGreed.screenWidth * photoItem.photoAreaLocation.sizeWidth * settings.sizeWidth
-        let photoSize = CGSize(width: photoWidth,
-                               height: photoWidth / photoItem.photoAreaLocation.ratio)
-        UIGraphicsBeginImageContext(photoSize)
-        
-        UIColor.white.setFill()
-        let context = UIGraphicsGetCurrentContext()
-        context?.fill(CGRect(origin: .zero, size: photoSize))
-        
-        if let context = UIGraphicsGetCurrentContext(),
-            let photo = ((try? self.image.value()) as UIImage??), let unwrapedPhoto = photo {
-            context.translateBy(x: photoSize.width / 2.0 + editablePhotoTransform.currentTranslation.x / scale,
-                                y: photoSize.height / 2.0 + editablePhotoTransform.currentTranslation.y / scale)
-            context.rotate(by: editablePhotoTransform.currentRotation)
-            context.scaleBy(x: editablePhotoTransform.currentScale,
-                            y: editablePhotoTransform.currentScale)
-            let minRatio = min(unwrapedPhoto.size.width/photoSize.width, unwrapedPhoto.size.height/photoSize.height)
-            let size = CGSize(width: unwrapedPhoto.size.width / minRatio, height: unwrapedPhoto.size.height / minRatio)
-            unwrapedPhoto.draw(in: CGRect(origin: CGPoint(x: -size.width / 2.0, y: -size.height / 2.0), size: size))
-        }
-        
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return image
+//        let photoWidth = Consts.UIGreed.screenWidth * photoItem.photoAreaLocation.sizeWidth * settings.sizeWidth
+//        let photoSize = CGSize(width: photoWidth,
+//                               height: photoWidth / photoItem.photoAreaLocation.ratio)
+//        UIGraphicsBeginImageContext(photoSize)
+//
+//        UIColor.white.setFill()
+//        let context = UIGraphicsGetCurrentContext()
+//        context?.fill(CGRect(origin: .zero, size: photoSize))
+//
+//        if let context = UIGraphicsGetCurrentContext(),
+//            let photo = ((try? self.image.value()) as UIImage??), let unwrapedPhoto = photo {
+//            context.translateBy(x: photoSize.width / 2.0 + editablePhotoTransform.currentTranslation.x / scale,
+//                                y: photoSize.height / 2.0 + editablePhotoTransform.currentTranslation.y / scale)
+//            context.rotate(by: editablePhotoTransform.currentRotation)
+//            context.scaleBy(x: editablePhotoTransform.currentScale,
+//                            y: editablePhotoTransform.currentScale)
+//            let minRatio = min(unwrapedPhoto.size.width/photoSize.width, unwrapedPhoto.size.height/photoSize.height)
+//            let size = CGSize(width: unwrapedPhoto.size.width / minRatio, height: unwrapedPhoto.size.height / minRatio)
+//            unwrapedPhoto.draw(in: CGRect(origin: CGPoint(x: -size.width / 2.0, y: -size.height / 2.0), size: size))
+//        }
+//
+//        let image = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+//        return image
+        return nil
     }
     
     override func renderedImage(scale: CGFloat) -> UIImage? {
-        let width = Consts.UIGreed.screenWidth
-        let size = CGSize(width: width, height: width / settings.ratio)
-        UIGraphicsBeginImageContext(size)
+//        let width = Consts.UIGreed.screenWidth
+//        let size = CGSize(width: width, height: width / settings.ratio)
+//        UIGraphicsBeginImageContext(size)
         
-        let photoWidth = width * photoItem.photoAreaLocation.sizeWidth
-        let photoSize = CGSize(width: photoWidth, height: photoWidth / photoItem.photoAreaLocation.ratio)
-        
-        if let context = UIGraphicsGetCurrentContext(), let photo = renderedPhoto(scale: scale) {
-            context.saveGState()
-            context.translateBy(x: width * photoItem.photoAreaLocation.center.x,
-                                y: size.height * photoItem.photoAreaLocation.center.y)
-            context.concatenate(CGAffineTransform(rotationAngle: photoItem.photoAreaLocation.angle))
-            photo.draw(in: CGRect(origin: CGPoint(x: -photoSize.width / 2.0, y: -photoSize.height / 2.0), size: photoSize))
-            context.restoreGState()
-        }
-        
-        photoItem.framePlaceImage?.draw(in: CGRect(origin: .zero, size: size))
-        
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return image
+//        let photoWidth = width * photoItem.photoAreaLocation.sizeWidth
+//        let photoSize = CGSize(width: photoWidth, height: photoWidth / photoItem.photoAreaLocation.ratio)
+//
+//        if let context = UIGraphicsGetCurrentContext(), let photo = renderedPhoto(scale: scale) {
+//            context.saveGState()
+//            context.translateBy(x: width * photoItem.photoAreaLocation.center.x,
+//                                y: size.height * photoItem.photoAreaLocation.center.y)
+//            context.concatenate(CGAffineTransform(rotationAngle: photoItem.photoAreaLocation.angle))
+//            photo.draw(in: CGRect(origin: CGPoint(x: -photoSize.width / 2.0, y: -photoSize.height / 2.0), size: photoSize))
+//            context.restoreGState()
+//        }
+//
+//        photoItem.framePlaceImage?.draw(in: CGRect(origin: .zero, size: size))
+//
+//        let image = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+//        return image
+                return nil
     }
     
     init(_ photoItem: PhotoItem, customSettings: PhotoItemCustomSettings?, settings: Settings) {
@@ -116,7 +118,7 @@ class StoryEditablePhotoItem: StoryEditableItem {
     }
     
     func update(image: UIImage?) {
-        editablePhotoTransform.identity()
+        //editablePhotoTransform.identity()
         self.image.onNext(image)
     }
     
@@ -169,6 +171,11 @@ class StoryEditableStuffItem: StoryEditableItem {
         return stuffItem.stuffImage
     }
     
+    var ratio: CGFloat? {
+        guard let image = stuffItem.stuffImage else { return nil }
+        return image.size.width / image.size.height
+    }
+    
     let stuffItem: StuffItem
     
     init(_ stuffItem: StuffItem, settings: Settings) {
@@ -180,17 +187,18 @@ class StoryEditableStuffItem: StoryEditableItem {
 class StoryEditableViewItem: StoryEditableItem {
     
     override func renderedImage(scale: CGFloat) -> UIImage? {
-        let width = Consts.UIGreed.screenWidth
-        let viewWidth = width * settings.sizeWidth
-        let viewSize = CGSize(width: viewWidth,
-                              height: viewWidth / settings.ratio)
-        UIGraphicsBeginImageContext(viewSize)
-        viewItem.color.setFill()
-        let context = UIGraphicsGetCurrentContext()
-        context?.fill(CGRect(origin: .zero, size: viewSize))
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return image
+//        let width = Consts.UIGreed.screenWidth
+//        let viewWidth = width * settings.sizeWidth
+//        let viewSize = CGSize(width: viewWidth,
+//                              height: viewWidth / settings.ratio)
+//        UIGraphicsBeginImageContext(viewSize)
+//        viewItem.color.setFill()
+//        let context = UIGraphicsGetCurrentContext()
+//        context?.fill(CGRect(origin: .zero, size: viewSize))
+//        let image = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+//        return image
+        return nil
     }
     
     let viewItem: ViewItem

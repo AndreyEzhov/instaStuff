@@ -12,9 +12,6 @@ import UIKit
 final class ColorEditModuleController: BaseViewController<ColorEditModulePresentable>, ColorEditModuleDisplayable {
 
     // MARK: - Properties
-
-    /// Есть ли сториборд
-    override class var hasStoryboard: Bool { return false }
     
     private lazy var colorPickerModule: ColorPickerModule = {
         let module = ColorPickerModule()

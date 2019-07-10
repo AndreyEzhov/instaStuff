@@ -13,8 +13,6 @@ final class MainScreenController: BaseViewController<MainScreenPresentable>, Mai
     
     // MARK: - Properties
     
-    override class var hasStoryboard: Bool { return false }
-    
     override var navigationBarStyle: UINavigationBar.AppStyle {
         return .transparent
     }
@@ -154,7 +152,7 @@ final class MainScreenController: BaseViewController<MainScreenPresentable>, Mai
     }
     
     @objc private func routeToConstructor() {
-        navigationController?.router.routeToConstructor(params: ConstructorPresenter.Parameters())
+        navigationController?.router.routeToStoryEditor(parameters: StoryEditorPresenter.Parameters(template: Template(), isEditable: true))
     }
     
 }

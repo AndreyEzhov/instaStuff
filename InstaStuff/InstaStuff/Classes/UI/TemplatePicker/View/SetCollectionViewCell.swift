@@ -12,7 +12,7 @@ class SetCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Properties
     
-    private var templateSet: TemplateSet? {
+    private var templateSet: SetWithTemplates? {
         didSet {
             applyStyle()
         }
@@ -81,7 +81,7 @@ class SetCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Function
     
-    func setup(with templateSet: TemplateSet) {
+    func setup(with templateSet: SetWithTemplates) {
         self.templateSet = templateSet
         setTitleLabel.text = templateSet.name
         contentView.layer.borderColor = templateSet.themeColor.cgColor
