@@ -12,7 +12,14 @@ class StoryItem {
     
     // MARK: - Properties
     
-    var backgroundImage: UIImage?
+    var backgroundImageName: String?
+    
+    var backgroundImage: UIImage? {
+        guard let imageName = backgroundImageName else {
+            return nil
+        }
+        return UIImage(named: imageName)
+    }
     
     var backgroundColor: UIColor
     
@@ -21,9 +28,9 @@ class StoryItem {
     // MARK: - Construction
     
     init(template: Template) {
-        backgroundImage = template.backgroundImage
+        backgroundImageName = template.backgroundImageName
         backgroundColor = template.backgroundColor
-        items = template.storyEditableItem
+        items = template.storyEditableItem.map { $0.copy() }
     }
     
     // MARK: - Functions

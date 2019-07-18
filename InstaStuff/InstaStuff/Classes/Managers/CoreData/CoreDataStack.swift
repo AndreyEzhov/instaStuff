@@ -11,6 +11,11 @@ import CoreData
 
 class CoreDataStack {
     
+    lazy var applicationDocumentsDirectory: URL = {
+        let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return urls[urls.count-1]
+    }()
+    
     lazy var managedContext: NSManagedObjectContext = {
         return self.storeContainer.viewContext
     }()
@@ -23,20 +28,27 @@ class CoreDataStack {
     
     private lazy var storeContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: self.modelName)
-//        do {
-//            try container.persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType,
-//                                                                        configurationName: nil,
-//                                                                        at: Bundle.main.url(forResource: "Sets", withExtension: "sqlite"),
-//                                                                        options: nil)
-//        } catch let error as NSError {
-//            print("Unresolved error \(error), \(error.userInfo)")
-//        }
-        container.loadPersistentStores {
-            (storeDescription, error) in
-            if let error = error as NSError? {
-                print("Unresolved error \(error), \(error.userInfo)")
-            }
+        let url = applicationDocumentsDirectory.appendingPathComponent("Sets.sqlite")
+        if FileManager.default.fileExists(atPath: url.path) == false {
+            let bundleURL = Bundle.main.url(forResource: "Sets", withExtension: "sqlite")
+            try? FileManager.default.moveItem(at: bundleURL!,
+                                              to: url)
         }
+        do {
+            
+            try container.persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType,
+                                                                        configurationName: nil,
+                                                                        at: url,
+                                                                        options: nil)
+        } catch let error as NSError {
+            print("Unresolved error \(error), \(error.userInfo)")
+        }
+        //        container.loadPersistentStores {
+        //            (storeDescription, error) in
+        //            if let error = error as NSError? {
+        //                print("Unresolved error \(error), \(error.userInfo)")
+        //            }
+        //        }
         return container
     }()
     

@@ -13,10 +13,6 @@ final class MainScreenController: BaseViewController<MainScreenPresentable>, Mai
     
     // MARK: - Properties
     
-    override var navigationBarStyle: UINavigationBar.AppStyle {
-        return .transparent
-    }
-    
     private lazy var chooseTemplateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.applicationFontRegular(ofSize: 16)
@@ -148,11 +144,11 @@ final class MainScreenController: BaseViewController<MainScreenPresentable>, Mai
     // MARK: - Actions
     
     @objc private func routeToTemplates() {
-        navigationController?.router.routeToTemplatePicker(params: TemplatePickerPresenter.Parameters())
+        navigationController?.router.routeToTemplatePicker(params: TemplatePickerPresenter.Parameters(usersTemplate: false))
     }
     
     @objc private func routeToConstructor() {
-        navigationController?.router.routeToStoryEditor(parameters: StoryEditorPresenter.Parameters(template: Template(), isEditable: true))
+        navigationController?.router.routeToStoryEditor(parameters: StoryEditorPresenter.Parameters(template: Template()))
     }
     
 }
