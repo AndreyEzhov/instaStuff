@@ -33,9 +33,7 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
     
     private lazy var slideView: StorySlideView = {
         let view = StorySlideView()
-        if presenter.isEditable {
-            view.addGestures()
-        }
+        view.addGestures()
         return view
     }()
     
@@ -51,7 +49,6 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
     private(set) lazy var editorView: UIView = {
         let view = UIView()
         embedChildViewController(editorController, toView: view)
-        view.isUserInteractionEnabled = self.presenter.isEditable
         return view
     }()
     
@@ -67,14 +64,13 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "export"), style: .plain, target: self, action: #selector(exportImage))
         presenter.slideViewPresenter = slideViewPresenter
         editorController.presenter.update(with: .main(self))
-        editorView.isHidden = !presenter.isEditable
     }
     
     override func updateViewConstraints() {
         slideArea.snp.remakeConstraints { maker in
             maker.left.right.equalToSuperview()
             maker.top.equalTo(view.snp.topMargin)
-            maker.bottom.equalTo(view.snp.bottomMargin).inset(presenter.isEditable ? EditorController.Constants.toolbarHeight : 0)
+            maker.bottom.equalTo(view.snp.bottomMargin).inset(EditorController.Constants.toolbarHeight)
         }
 
         let ratio: CGFloat = 9.0 / 16.0
@@ -133,6 +129,8 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
     @objc private func exportImage() {
         if let image = presenter.story.exportImage() {
             UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+            presenter.saveTemplate(with: image)
+            navigationController?.router.updateHierarchy()
         }
     }
     

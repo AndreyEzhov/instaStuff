@@ -20,25 +20,18 @@ struct Template {
     
     let storyEditableItem: [StoryEditableItem]
     
-    var backgroundImage: UIImage? {
-        guard let imageName = backgroundImageName else {
-            return nil
-        }
-        return UIImage(named: imageName)
-    }
-    
-    var previewImage: UIImage? {
-        return UIImage(named: name + "_preview")
-    }
+    let createdByUser: Bool
     
 }
 
 
 extension Template {
+    
     init() {
-        name = ""
+        name = "\(Date())"
         backgroundColor = .white
         backgroundImageName = nil
         storyEditableItem = []
+        createdByUser = true
     }
 }

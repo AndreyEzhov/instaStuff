@@ -17,7 +17,7 @@ protocol StoryEditorAssembly {
 extension Assembly: StoryEditorAssembly {
     
     func createStoryEditorController(parameters: StoryEditorPresenter.Parameters) -> UIViewController {
-        let presenter = StoryEditorPresenter(dependencies: StoryEditorPresenter.Dependencies(), parameters: parameters)
+        let presenter = StoryEditorPresenter(dependencies: StoryEditorPresenter.Dependencies(templatesStorage: templatesStorage, imageHandler: imageHandler), parameters: parameters)
         return StoryEditorController.controller(presenter: presenter)
     }
     

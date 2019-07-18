@@ -44,3 +44,18 @@ final class Router {
     }
 
 }
+
+
+extension Router {
+    
+    func updateHierarchy() {
+        guard let rootController = rootController else { return }
+        guard Assembly.shared.templatesStorage.usersTemplates.count > 0 else { return }
+        var viewControllers = rootController.viewControllers
+        guard (viewControllers.filter { $0 is TemplatePickerController }.first as? TemplatePickerController)?.presenter.usersTemplate != true else { return }
+        guard let lastViewController = viewControllers.last else { return }
+        viewControllers = [Assembly.shared.createTemplatePickerController(params: TemplatePickerPresenter.Parameters.init(usersTemplate: true)), lastViewController]
+        rootController.setViewControllers(viewControllers, animated: false)
+    }
+    
+}
