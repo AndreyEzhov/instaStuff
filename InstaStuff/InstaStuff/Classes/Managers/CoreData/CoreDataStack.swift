@@ -28,14 +28,16 @@ class CoreDataStack {
     
     private lazy var storeContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: self.modelName)
-        let url = applicationDocumentsDirectory.appendingPathComponent("Sets.sqlite")
-        if FileManager.default.fileExists(atPath: url.path) == false {
-            let bundleURL = Bundle.main.url(forResource: "Sets", withExtension: "sqlite")
-            try? FileManager.default.moveItem(at: bundleURL!,
-                                              to: url)
-        }
+        ["sqlite", "sqlite-wal", "sqlite-shm"].forEach({ ext in
+            let url = applicationDocumentsDirectory.appendingPathComponent("Sets.\(ext)")
+            if FileManager.default.fileExists(atPath: url.path) == false {
+                let bundleURL = Bundle.main.url(forResource: "Sets", withExtension: ext)
+                try? FileManager.default.moveItem(at: bundleURL!,
+                                                  to: url)
+            }
+        })
         do {
-            
+            let url = applicationDocumentsDirectory.appendingPathComponent("Sets.sqlite")
             try container.persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType,
                                                                         configurationName: nil,
                                                                         at: url,
