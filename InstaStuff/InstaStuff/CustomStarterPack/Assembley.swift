@@ -6,9 +6,9 @@ class Assembly {
     
     static let shared = Assembly()
     
-    var templatesStorage = TemplatesStorage()
+    let templatesStorage = TemplatesStorage()
     
-    lazy var storyStorage = StoryStorage()
+    let imageHandler = ImageHandler()
     
     // MARK: - Construction
     
@@ -17,7 +17,7 @@ class Assembly {
     // MARK: - Functions
     
     func root() -> UIViewController {
-        let controller = createStoryPickerController()
+        let controller = templatesStorage.usersTemplates.isEmpty ? createStoryPickerController() : createTemplatePickerController(params: TemplatePickerPresenter.Parameters(usersTemplate: true))
         let navController = UINavigationController(rootViewController: controller)
         return navController
     }

@@ -57,9 +57,10 @@ extension TemplatesStorage {
             set.name = tupple.2
             set.templates = NSOrderedSet(array: tupple.3)
         }
-        coreDataStack.saveContext()
         
         fillWithStuff(cdStuffItemFetch: CDStuffItemFetch)
+        
+        coreDataStack.saveContext()
     }
     
     func fillWithStuff(cdStuffItemFetch: NSFetchRequest<CDStuffItem>) {
@@ -79,6 +80,8 @@ extension TemplatesStorage {
         template.name = "set1_template1"
         template.backGroundColor = UIColor.white
         template.backGroundImageName = nil
+        template.createdByUser = false
+        template.lastChangeDate = Date()
         return template
     }
     //
@@ -325,21 +328,63 @@ extension TemplatesStorage {
     //        return itemInTemplate
     //    }
     
-    private func stuffInTemplate(itemId: Int64, centerX: Float, centerY: Float, angle: Float, widthScale: Float) -> CDStuffItemInTemplate {
+    private func stuffInTemplate(itemId: Int64, centerX: Float, centerY: Float, angle: Float, widthScale: Float, applyScale: Bool = true) -> CDStuffItemInTemplate {
         let stuffInTemplate = CDStuffItemInTemplate(context: coreDataStack.managedContext)
         stuffInTemplate.itemId = itemId
         
         let settings = CDTemplateSettings(context: coreDataStack.managedContext)
-        settings.midX = Float(centerX/108.0)
-        settings.midY = Float(centerY/192.0)
+        settings.midX = Float(centerX / (applyScale ? 108.0 : 1))
+        settings.midY = Float(centerY / (applyScale ? 192.0 : 1))
         settings.angle = Float(angle)
-        settings.widthScale = Float(widthScale/108.0)
+        settings.widthScale = Float(widthScale / (applyScale ? 108.0 : 1))
         
         stuffInTemplate.settings = settings
         
         return stuffInTemplate
     }
-
+    
 }
 
 
+extension TemplatesStorage {
+    
+    func saveTemplateInCD(_ template: Template) {
+        var items = [CDStuffItemInTemplate]()
+        template.storyEditableItem.forEach { item in
+            switch item {
+            case let stuff as StoryEditableStuffItem:
+                let itemInTemplate = stuffInTemplate(itemId: Int64(stuff.stuffItem.stuffId),
+                                                     centerX: Float(stuff.settings.center.x),
+                                                     centerY: Float(stuff.settings.center.y),
+                                                     angle: Float(stuff.settings.angle),
+                                                     widthScale: Float(stuff.settings.sizeWidth),
+                                                     applyScale: false)
+                items.append(itemInTemplate)
+            default:
+                break
+            }
+        }
+        
+        let tempalteFetch: NSFetchRequest<CDTemplate> = CDTemplate.fetchRequest()
+        tempalteFetch.predicate = NSPredicate(format: "name == '\(template.name)'")
+        
+        do {
+            var cdTemplate: CDTemplate
+            let results = try coreDataStack.managedContext.fetch(tempalteFetch)
+            if results.count > 0 {
+                cdTemplate = results[0]
+            } else {
+                cdTemplate = CDTemplate(context: coreDataStack.managedContext)
+            }
+            cdTemplate.lastChangeDate = Date()
+            cdTemplate.createdByUser = true
+            cdTemplate.elements = NSOrderedSet(array: items)
+            cdTemplate.name = template.name
+            cdTemplate.backGroundColor = template.backgroundColor
+            cdTemplate.backGroundImageName = template.backgroundImageName
+        } catch let error as NSError {
+            print("Fetch error: \(error) description: \(error.userInfo)")
+        }
+        coreDataStack.saveContext()
+    }
+}

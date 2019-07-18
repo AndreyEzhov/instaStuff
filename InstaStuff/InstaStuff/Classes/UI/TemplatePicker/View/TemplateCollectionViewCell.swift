@@ -47,8 +47,8 @@ class TemplateCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Function
     
-    func setup(with frameTemplate: Template) {
-        previewImageView.image = frameTemplate.previewImage
+    func setup(with previewImage: UIImage?) {
+        previewImageView.image = previewImage
     }
     
 }

@@ -18,7 +18,7 @@ protocol MainScreenPresentable: Presenter {
 final class MainScreenPresenter: MainScreenPresentable {
     
     struct Dependencies {
-        let storyStorage: StoryStorage
+        //let templatesStorage: TemplatesStorage
     }
     
     // MARK: - Nested types

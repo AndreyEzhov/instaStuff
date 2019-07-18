@@ -41,7 +41,12 @@ final class TemplatePickerController: BaseViewController<TemplatePickerPresentab
         return collectionView
     }()
     
-    private var selectedSet: Int = 0
+    private lazy var addNewTemplateButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "bigPlus"), for: .normal)
+        button.addTarget(self, action: #selector(addNewTemplateTouch), for: .touchUpInside)
+        return button
+    }()
     
     // MARK: - Life Cycle
     
@@ -57,9 +62,12 @@ final class TemplatePickerController: BaseViewController<TemplatePickerPresentab
     private func setup() {
         view.addSubview(setsCollectionView)
         view.addSubview(framesCollectionView)
+        view.addSubview(addNewTemplateButton)
+        addNewTemplateButton.isHidden = !presenter.usersTemplate
+        setsCollectionView.isHidden = presenter.usersTemplate
         view.updateConstraintsIfNeeded()
-        if setsCollectionView.numberOfItems(inSection: 0) > selectedSet {
-            setsCollectionView.selectItem(at: IndexPath(row: selectedSet, section: 0),
+        if setsCollectionView.numberOfItems(inSection: 0) > presenter.selectedSet {
+            setsCollectionView.selectItem(at: IndexPath(row: presenter.selectedSet, section: 0),
                                           animated: false,
                                           scrollPosition: .left)
         }
@@ -69,7 +77,11 @@ final class TemplatePickerController: BaseViewController<TemplatePickerPresentab
         super.updateViewConstraints()
         setsCollectionView.snp.remakeConstraints { maker in
             maker.bottom.left.right.equalToSuperview()
-            maker.height.equalTo(100)
+            maker.height.equalTo(100 + Consts.UIGreed.safeAreaInsetsBottom)
+        }
+        addNewTemplateButton.snp.remakeConstraints { maker in
+            maker.bottom.left.right.equalToSuperview()
+            maker.height.equalTo(100 + Consts.UIGreed.safeAreaInsetsBottom)
         }
         framesCollectionView.snp.remakeConstraints { maker in
             maker.left.right.equalToSuperview()
@@ -80,11 +92,19 @@ final class TemplatePickerController: BaseViewController<TemplatePickerPresentab
     
     // MARK: - TemplatePickerDisplayable
     
+    func updateCollectionView() {
+        framesCollectionView.reloadData()
+    }
+    
     // MARK: - Private Functions
     
     // MARK: - Functions
     
     // MARK: - Actions
+    
+    @objc private func addNewTemplateTouch() {
+        navigationController?.router.routeToStoryPicker()
+    }
     
     // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
     
@@ -93,7 +113,7 @@ final class TemplatePickerController: BaseViewController<TemplatePickerPresentab
         case setsCollectionView:
             return presenter.templateSets.count
         case framesCollectionView:
-            return selectedSet < presenter.templateSets.count ? presenter.templateSets[selectedSet].templates.count : 0
+            return presenter.templates.count
         default:
             return 0
         }
@@ -107,8 +127,8 @@ final class TemplatePickerController: BaseViewController<TemplatePickerPresentab
             })
         case framesCollectionView:
             return collectionView.dequeue(indexPath: indexPath, with: { (cell: TemplateCollectionViewCell) in
-                let template = presenter.templateSets[selectedSet].templates[indexPath.row]
-                cell.setup(with: template)
+                let template = presenter.templates[indexPath.row]
+                cell.setup(with: presenter.imageHandler.loadImage(named: template.name))
                 cell.dropShadow()
             })
         default:
@@ -130,15 +150,15 @@ final class TemplatePickerController: BaseViewController<TemplatePickerPresentab
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch collectionView {
         case setsCollectionView:
-            if selectedSet == indexPath.row {
+            if presenter.selectedSet == indexPath.row {
                 return
             }
-            selectedSet = indexPath.row
+            presenter.selectSet(at: indexPath.row)
             framesCollectionView.reloadData()
             framesCollectionView.setContentOffset(.zero, animated: false)
         case framesCollectionView:
-            let template = presenter.templateSets[selectedSet].templates[indexPath.row]
-            navigationController?.router.routeToStoryEditor(parameters: StoryEditorPresenter.Parameters.init(template: template, isEditable: false))
+            let template = presenter.templates[indexPath.row]
+            navigationController?.router.routeToStoryEditor(parameters: StoryEditorPresenter.Parameters.init(template: template))
         default:
             break
         }

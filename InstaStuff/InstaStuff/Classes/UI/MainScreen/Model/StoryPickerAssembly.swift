@@ -17,7 +17,7 @@ protocol StoryPickerAssembly {
 extension Assembly: StoryPickerAssembly {
     
     func createStoryPickerController() -> UIViewController {
-        let presenter = MainScreenPresenter(dependencies: MainScreenPresenter.Dependencies(storyStorage: storyStorage))
+        let presenter = MainScreenPresenter(dependencies: MainScreenPresenter.Dependencies())
         return MainScreenController.controller(presenter: presenter)
     }
     

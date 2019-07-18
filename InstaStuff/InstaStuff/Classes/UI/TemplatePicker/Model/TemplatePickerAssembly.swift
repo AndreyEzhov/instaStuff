@@ -24,7 +24,7 @@ extension Assembly: TemplatePickerAssembly {
     ///
     /// - Returns: View Controller
     func createTemplatePickerController(params: TemplatePickerPresenter.Parameters) -> UIViewController {
-        let presenter = TemplatePickerPresenter(params: params, dependencies: TemplatePickerPresenter.Dependencies.init(templatesStorage: templatesStorage))
+        let presenter = TemplatePickerPresenter(params: params, dependencies: TemplatePickerPresenter.Dependencies.init(templatesStorage: templatesStorage, imageHandler: imageHandler))
         return TemplatePickerController.controller(presenter: presenter)
     }
     

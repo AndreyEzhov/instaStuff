@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import RxSwift
 
 class TemplatesStorage {
     
@@ -21,15 +22,51 @@ class TemplatesStorage {
     
     private var stufItemsById: [StuffItem.Id: StuffItem] = [:]
     
+    private(set) var usersTemplates: [Template] = []
+    
+    private lazy var usersTemplatesUpdate = BehaviorSubject(value: Void())
+    
+    private(set) lazy var usersTemplatesUpdateObserver = usersTemplatesUpdate.asObserver()
+    
     // MARK: - Consruction
     
     init() {
-        fillCoreData()
+        //fillCoreData()
         setupStuffItems()
         setupSets()
+        loadUsersTemplates()
+    }
+    
+    // MARK: - Functions
+    
+    func save(_ template: Template) {
+        if let index = usersTemplates.firstIndex(where: { $0.name == template.name }) {
+            usersTemplates.remove(at: index)
+        }
+        usersTemplates.insert(template, at: 0)
+        saveTemplateInCD(template)
+        usersTemplatesUpdate.onNext(())
     }
     
     // MARK: - Private Functions
+    
+    private func loadUsersTemplates() {
+        usersTemplates.removeAll()
+        let tempalteFetch: NSFetchRequest<CDTemplate> = CDTemplate.fetchRequest()
+        tempalteFetch.predicate = NSPredicate(format: "createdByUser == 1")
+        tempalteFetch.sortDescriptors = [NSSortDescriptor(key: "lastChangeDate", ascending: false)]
+        
+        do {
+            let results = try coreDataStack.managedContext.fetch(tempalteFetch)
+            if results.count > 0 {
+                usersTemplates = results.compactMap { cdTemplate -> Template? in
+                    return template(from: cdTemplate)
+                    }.compactMap { $0 }
+            }
+        } catch let error as NSError {
+            print("Fetch error: \(error) description: \(error.userInfo)")
+        }
+    }
     
     private func setupStuffItems() {
         stuffItems.removeAll()
@@ -94,7 +131,8 @@ class TemplatesStorage {
         return Template(name: name,
                         backgroundColor: backgroundColor,
                         backgroundImageName: currentTemplate.backGroundImageName,
-                        storyEditableItem: storyEditableItem)
+                        storyEditableItem: storyEditableItem,
+                        createdByUser: currentTemplate.createdByUser)
     }
     
     private func createStoryEditableItem(from itemInTemplate: CDAbstractTemplateItem) -> StoryEditableItem? {

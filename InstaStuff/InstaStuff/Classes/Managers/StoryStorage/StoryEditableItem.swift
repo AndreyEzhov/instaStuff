@@ -23,6 +23,10 @@ class StoryEditableItem {
         self.settings = settings
     }
     
+    func copy() -> StoryEditableItem {
+        return StoryEditableItem(settings)
+    }
+
 }
 
 struct EditableTransform {
@@ -181,6 +185,10 @@ class StoryEditableStuffItem: StoryEditableItem {
     init(_ stuffItem: StuffItem, settings: Settings) {
         self.stuffItem = stuffItem
         super.init(settings)
+    }
+    
+    override func copy() -> StoryEditableItem {
+        return StoryEditableStuffItem(stuffItem, settings: settings)
     }
 }
 
