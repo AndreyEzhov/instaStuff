@@ -32,8 +32,7 @@ class CoreDataStack {
             let url = applicationDocumentsDirectory.appendingPathComponent("Sets.\(ext)")
             if FileManager.default.fileExists(atPath: url.path) == false {
                 let bundleURL = Bundle.main.url(forResource: "Sets", withExtension: ext)
-                try? FileManager.default.moveItem(at: bundleURL!,
-                                                  to: url)
+                try? FileManager.default.copyItem(at: bundleURL!, to: url)
             }
         })
         do {
