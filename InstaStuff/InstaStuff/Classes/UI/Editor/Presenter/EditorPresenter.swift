@@ -28,7 +28,7 @@ final class EditorPresenter: EditorPresentable {
     // MARK: - Nested types
     
     enum State {
-        case main(MenuViewProtocol), addStuff(SlideViewPresenter), stuffEdit(BaseEditProtocol)
+        case main(MenuViewProtocol?), addStuff(SlideViewPresenter), stuffEdit(BaseEditProtocol), backgroundChange(BackgroundPickerListener)
     }
     
     typealias T = EditorDisplayable
@@ -49,7 +49,7 @@ final class EditorPresenter: EditorPresentable {
     
     private weak var editorDisplayer: EditorDisplayer?
     
-    private var menuViewProtocol: MenuViewProtocol
+    private weak var menuViewProtocol: MenuViewProtocol?
     
     init(params: Parameters) {
         editorDisplayer = params.delegate
@@ -78,7 +78,8 @@ final class EditorPresenter: EditorPresentable {
     
     // MARK: - Private Functions
     
-    private func mainState(_ menuViewDelegate: MenuViewProtocol) -> [EditModule] {
+    private func mainState(_ menuViewDelegate: MenuViewProtocol?) -> [EditModule] {
+        guard let menuViewDelegate = menuViewDelegate else { return [] }
         self.menuViewProtocol = menuViewDelegate
         let controller = Assembly.shared.createMenuEditModuleController(params: MenuEditModulePresenter.Parameters())
         controller.setupActions(for: menuViewDelegate)
@@ -96,6 +97,15 @@ final class EditorPresenter: EditorPresentable {
         let сontroller = Assembly.shared.createBaseEditModuleController(params: BaseEditModulePresenter.Parameters(baseEditHandler: baseEditHandler))
         let module = EditModule(estimatedHeight: 60, controller: сontroller)
         return [module]
+    }
+    
+    private func backgroundEdit(delegate: BackgroundPickerListener) -> [EditModule] {
+        let colorController = Assembly.shared.createColorEditModuleController(params: ColorEditModulePresenter.Parameters.init(delegate: delegate))
+        let colorModule = EditModule(estimatedHeight: 60, controller: colorController)
+        
+        let imageController = Assembly.shared.createBackgroundImageEditModuleController(params: BackgroundImageEditModulePresenter.Parameters.init(delegate: delegate))
+        let imageModule = EditModule(estimatedHeight: 80, controller: imageController)
+        return [imageModule, colorModule]
     }
     
     // MARK: - Functions
@@ -117,6 +127,8 @@ final class EditorPresenter: EditorPresentable {
             newModules = addStuff(slideViewPresenter)
         case .stuffEdit(let baseEditHandler):
             newModules = stuffEdit(baseEditHandler)
+        case .backgroundChange(let colorPickerListener):
+            newModules = backgroundEdit(delegate: colorPickerListener)
         }
         contentView()?.editorToolbar.setDoneButton(hidden: hideDoneButton)
         contentView()?.updateContent(old: modules, new: newModules)

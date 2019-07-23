@@ -14,7 +14,9 @@ private struct Constatns {
 
 /// Контроллер для экрана «Constructor»
 final class ConstructorController: BaseViewController<ConstructorPresentable>, ConstructorDisplayable, UIImagePickerControllerDelegate, UINavigationControllerDelegate, EditViewPeresenterDelegate, ColorPickerListener {
-
+    var currentColor: UIColor? {
+        return .white
+    }
     // MARK: - Properties
     
     deinit {

@@ -18,7 +18,9 @@ private enum Constants {
 
 /// Контроллер для экрана «TextEditorModule»
 final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ColorPickerListener {
-
+    var currentColor: UIColor? {
+        return .white
+    }
     // MARK: - Properties
     
     private(set) var presenter: TextEditorModulePresentable!
@@ -155,13 +157,13 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
                       height: 2.0 * Constants.stackViewHight + 2.0 * Constants.stackViewHight + 20.0 + Consts.UIGreed.safeAreaInsetsBottom)
     }
     
-    private var colorPickerModule: ColorPickerModule? {
-        didSet {
-            colorsCollectionView.delegate = colorPickerModule
-            colorsCollectionView.dataSource = colorPickerModule
-            colorPickerModule?.delegate = self
-        }
-    }
+//    private var colorPickerModule: ColorPickerModule? {
+//        didSet {
+//            colorsCollectionView.delegate = colorPickerModule
+//            colorsCollectionView.dataSource = colorPickerModule
+//            colorPickerModule?.delegate = self
+//        }
+//    }
     
     private lazy var singleSelectionButtons: [UIButton] = [fontSizeButton, kernButton, lineSpacingButton, colorButton]
     
@@ -281,10 +283,10 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
     
     // MARK: - Functions
     
-    func update(colorPickerModule: ColorPickerModule) {
-        self.colorPickerModule = colorPickerModule
-        colorsCollectionView.reloadData()
-    }
+//    func update(colorPickerModule: ColorPickerModule) {
+//        self.colorPickerModule = colorPickerModule
+//        colorsCollectionView.reloadData()
+//    }
     
     // MARK: - Actions
     

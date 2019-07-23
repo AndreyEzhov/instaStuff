@@ -128,7 +128,9 @@ final class TemplatePickerController: BaseViewController<TemplatePickerPresentab
         case framesCollectionView:
             return collectionView.dequeue(indexPath: indexPath, with: { (cell: TemplateCollectionViewCell) in
                 let template = presenter.templates[indexPath.row]
-                cell.setup(with: presenter.imageHandler.loadImage(named: template.name))
+                cell.setup(with: presenter.imageHandler.loadImage(named: template.name),
+                           delegate: presenter.usersTemplate ? self : nil,
+                           template: template)
                 cell.dropShadow()
             })
         default:
@@ -162,6 +164,17 @@ final class TemplatePickerController: BaseViewController<TemplatePickerPresentab
         default:
             break
         }
+    }
+    
+}
+
+
+extension TemplatePickerController: StoryRemoveDelegate {
+    
+    func deleteTemplate(_ template: Template?) {
+        guard let template = template else { return }
+        guard let index = presenter.deleteTemplate(template) else { return }
+        framesCollectionView.deleteItems(at: [IndexPath(row: index, section: 0)])
     }
     
 }

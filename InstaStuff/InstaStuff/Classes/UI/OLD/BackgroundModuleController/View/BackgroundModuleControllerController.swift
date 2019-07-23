@@ -8,15 +8,6 @@
 
 import UIKit
 
-protocol ColorPickerListener: PippeteDelegate {
-    func colorDidChanged(_ value: UIColor)
-    func checkMarkTouch()
-    
-}
-
-protocol PippeteDelegate: class {
-    func placePipette(completion: @escaping (UIColor?) -> ())
-}
 
 private enum Constants {
     
@@ -35,7 +26,7 @@ final class BackgroundModuleControllerController: UIView, BackgroundModuleContro
     
     weak var delegate: ColorPickerListener? {
         didSet {
-            presenter.colorPickerModule.delegate = delegate
+            //presenter.colorPickerModule.delegate = delegate
         }
     }
     
@@ -48,8 +39,8 @@ final class BackgroundModuleControllerController: UIView, BackgroundModuleContro
         layout.minimumInteritemSpacing = 6
         layout.minimumLineSpacing = 6
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.delegate = presenter.colorPickerModule
-        collectionView.dataSource = presenter.colorPickerModule
+        //collectionView.delegate = presenter.colorPickerModule
+        //collectionView.dataSource = presenter.colorPickerModule
         collectionView.backgroundColor = .clear
         collectionView.allowsMultipleSelection = false
         collectionView.registerClass(for: ColorCell.self)
@@ -162,48 +153,6 @@ final class BackgroundModuleControllerController: UIView, BackgroundModuleContro
     // MARK: - Actions
     
     @objc private func doneButtonAction() {
-        delegate?.checkMarkTouch()
-    }
-}
 
-
-class ColorPickerModule: NSObject, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
-    weak var delegate: ColorPickerListener?
-    
-    private var colors: [ColorEnum] = ColorEnum.allCases
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return colors.count
     }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return collectionView.dequeue(indexPath: indexPath, with: { (cell: ColorCell) in
-            cell.setup(with: colors[indexPath.row])
-        })
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let enumColor = colors[indexPath.row]
-        let firstCell = collectionView.cellForItem(at: IndexPath(row: 0, section: 0)) as? ColorCell
-        switch enumColor {
-        case .empty:
-            delegate?.placePipette { color in
-                guard let color = color else { return }
-                self.delegate?.colorDidChanged(color)
-                self.colors[0] = .empty(color)
-                firstCell?.updateTintColor(self.colors[0])
-            }
-        default:
-            firstCell?.backgroundColor = .clear
-            colors[0] = .empty(.black)
-            delegate?.colorDidChanged(colors[indexPath.row].color)
-            firstCell?.updateTintColor(colors[0])
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: Constants.collectionViewHight, height: Constants.collectionViewHight)
-    }
-    
 }

@@ -387,4 +387,16 @@ extension TemplatesStorage {
         }
         coreDataStack.saveContext()
     }
+    
+    func deleteTemplateFromDB(_ template: Template) {
+        let tempalteFetch: NSFetchRequest<NSFetchRequestResult> = CDTemplate.fetchRequest()
+        tempalteFetch.predicate = NSPredicate(format: "name == '\(template.name)'")
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: tempalteFetch)
+        do {
+            try coreDataStack.managedContext.execute(deleteRequest)
+        } catch {
+            
+        }
+        coreDataStack.saveContext()
+    }
 }

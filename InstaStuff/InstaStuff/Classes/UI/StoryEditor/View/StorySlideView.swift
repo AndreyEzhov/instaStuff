@@ -39,8 +39,6 @@ class StorySlideView: UIView {
         return tap
     }()
     
-    private let colorPickerModule = ColorPickerModule()
-    
     private(set) var editableView: UIViewTemplatePlaceble? {
         didSet {
             slideViewPresenter?.selectedItem = editableView
@@ -89,6 +87,10 @@ class StorySlideView: UIView {
     
     func setBackgroundImage(_ image: UIImage?) {
         contentView.image = image
+    }
+    
+    func setBackgroundColor(_ color: UIColor?) {
+        contentView.backgroundColor = color
     }
     
     func addGestures() {

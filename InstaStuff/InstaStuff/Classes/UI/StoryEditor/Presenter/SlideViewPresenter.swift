@@ -48,7 +48,7 @@ class SlideViewPresenter {
     private func replaceAllElemets() {
         storySlideView.removeAllItems()
         storySlideView.setBackgroundImage(storyItem.backgroundImage)
-        storySlideView.backgroundColor = storyItem.backgroundColor
+        storySlideView.setBackgroundColor(storyItem.backgroundColor)
         
         storyItem.items.forEach { item in
             self.placeElement(item)
@@ -105,6 +105,17 @@ class SlideViewPresenter {
     func add(_ item: StoryEditableItem) {
         storyItem.items.append(item)
         placeElement(item)
+    }
+    
+    func setBackgroundColor(_ color: UIColor?) {
+        let color = color ?? .white
+        storyItem.backgroundColor = color
+        storySlideView.setBackgroundColor(color)
+    }
+    
+    func setBackgroundImage(_ imageName: String?) {
+        storyItem.backgroundImageName = imageName
+        storySlideView.setBackgroundImage(storyItem.backgroundImage)
     }
     
     func apply(translation: CGPoint) {

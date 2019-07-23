@@ -35,3 +35,10 @@ extension Template {
         createdByUser = true
     }
 }
+
+extension Template: Equatable {
+    static func == (lhs: Template, rhs: Template) -> Bool {
+        return lhs.name == rhs.name
+    }
+    
+}

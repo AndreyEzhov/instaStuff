@@ -53,7 +53,7 @@ extension TextViewPlace {
             return
         }
         textView.inputView = TextViewPlace.editView
-        TextViewPlace.editView.update(colorPickerModule: colorPickerModule)
+        //TextViewPlace.editView.update(colorPickerModule: colorPickerModule)
     }
     
     private func updateToolbarColor() {

@@ -28,6 +28,10 @@ class TemplatesStorage {
     
     private(set) lazy var usersTemplatesUpdateObserver = usersTemplatesUpdate.asObserver()
     
+    private lazy var saveCurrentStorySignal = BehaviorSubject(value: Void())
+    
+    private(set) lazy var saveCurrentStoryObserver = saveCurrentStorySignal.asObserver()
+    
     // MARK: - Consruction
     
     init() {
@@ -46,6 +50,17 @@ class TemplatesStorage {
         usersTemplates.insert(template, at: 0)
         saveTemplateInCD(template)
         usersTemplatesUpdate.onNext(())
+    }
+    
+    func saveCurrentStory() {
+        saveCurrentStorySignal.onNext(())
+    }
+    
+    func deleteUsersTemplate(_ template: Template) -> Int? {
+        guard let index = usersTemplates.firstIndex(of: template) else { return nil }
+        usersTemplates.remove(at: index)
+        deleteTemplateFromDB(template)
+        return index
     }
     
     // MARK: - Private Functions

@@ -7,16 +7,17 @@
 //
 
 import Foundation
-import UIKit
+import RxSwift
 
 protocol StoryEditorDisplayable: View {
-
+    func displayResult(with image: UIImage)
 }
 
 protocol StoryEditorPresentable: Presenter {
     var story: StoryItem { get }
     var slideViewPresenter: SlideViewPresenter? { get set }
     func saveTemplate(with image: UIImage)
+    func exportImage(initiatedByUser: Bool)
 }
 
 final class StoryEditorPresenter: StoryEditorPresentable {
@@ -48,6 +49,8 @@ final class StoryEditorPresenter: StoryEditorPresentable {
     
     private let templateName: String
     
+    private let bag = DisposeBag()
+    
     // MARK: - Construction
     
     init(dependencies: Dependencies, parameters: Parameters) {
@@ -55,6 +58,9 @@ final class StoryEditorPresenter: StoryEditorPresentable {
         templatesStorage = dependencies.templatesStorage
         story = StoryItem(template: parameters.template)
         templateName = parameters.template.createdByUser ? parameters.template.name : "\(Date())"
+        templatesStorage.saveCurrentStoryObserver.subscribe { [weak self] _ in
+            self?.exportImage(initiatedByUser: false)
+        }.disposed(by: bag)
     }
     
     // MARK: - Private Functions
@@ -67,6 +73,18 @@ final class StoryEditorPresenter: StoryEditorPresentable {
                                 createdByUser: true)
         templatesStorage.save(template)
         imageHandler.saveImage(image, name: templateName)
+    }
+    
+    func exportImage(initiatedByUser: Bool) {
+        if !initiatedByUser, story.items.isEmpty {
+            return
+        }
+        if let image = story.exportImage() {
+            if initiatedByUser {
+                contentView()?.displayResult(with: image)
+            }
+            saveTemplate(with: image)
+        }
     }
     
     // MARK: - Functions

@@ -22,6 +22,7 @@ protocol TemplatePickerPresentable: Presenter {
     var templateSets: [SetWithTemplates] { get }
     var templates: [Template] { get }
     func selectSet(at index: Int)
+    func deleteTemplate(_ template: Template) -> Int?
 }
 
 /// Презентер для экрана «TemplatePicker»
@@ -84,6 +85,10 @@ final class TemplatePickerPresenter: TemplatePickerPresentable {
     
     func selectSet(at index: Int) {
         self.selectedSet = index
+    }
+    
+    func deleteTemplate(_ template: Template) -> Int? {
+        return templatesStorage.deleteUsersTemplate(template)
     }
     
 }

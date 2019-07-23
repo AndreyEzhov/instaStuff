@@ -64,7 +64,6 @@
 		AD4C017A223A82D900F17FF3 /* TemplateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4C0178223A82D900F17FF3 /* TemplateCollectionViewCell.swift */; };
 		AD516E62228AD02E0072539A /* ConstructorSlideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD516E61228AD02E0072539A /* ConstructorSlideView.swift */; };
 		AD516E70228BF80F0072539A /* PhotoPlaceConstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD516E6F228BF80F0072539A /* PhotoPlaceConstructor.swift */; };
-		AD52373F224256DA003649AD /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD52373E224256DA003649AD /* ColorCell.swift */; };
 		AD5829DD223BFCB80069558B /* PhotoModuleControllerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5829D6223BFCB80069558B /* PhotoModuleControllerPresenter.swift */; };
 		AD5829DE223BFCB80069558B /* PhotoModuleControllerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5829D8223BFCB80069558B /* PhotoModuleControllerAssembly.swift */; };
 		AD5829E0223BFCB80069558B /* PhotoModuleControllerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5829DB223BFCB80069558B /* PhotoModuleControllerController.swift */; };
@@ -119,6 +118,12 @@
 		AD8F6EDD22609D580030537D /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8F6EDC22609D580030537D /* CoreDataStack.swift */; };
 		AD8F6EE02260A1FE0030537D /* Sets.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AD8F6EDE2260A1FE0030537D /* Sets.xcdatamodeld */; };
 		AD8F6EE22260BE4E0030537D /* TemplatesStorage+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8F6EE12260BE4E0030537D /* TemplatesStorage+Ext.swift */; };
+		AD95DB5822E76D7D00CABE48 /* BackgroundImageEditModulePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD95DB5222E76D7D00CABE48 /* BackgroundImageEditModulePresenter.swift */; };
+		AD95DB5922E76D7D00CABE48 /* BackgroundImageEditModuleAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD95DB5422E76D7D00CABE48 /* BackgroundImageEditModuleAssembly.swift */; };
+		AD95DB5A22E76D7D00CABE48 /* BackgroundImageEditModuleRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD95DB5522E76D7D00CABE48 /* BackgroundImageEditModuleRouter.swift */; };
+		AD95DB5B22E76D7D00CABE48 /* BackgroundImageEditModuleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD95DB5722E76D7D00CABE48 /* BackgroundImageEditModuleController.swift */; };
+		AD95DB5D22E7850F00CABE48 /* BackgroundImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD95DB5C22E7850F00CABE48 /* BackgroundImageCell.swift */; };
+		AD95DB5F22E797CD00CABE48 /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD95DB5E22E797CD00CABE48 /* ColorCell.swift */; };
 		ADBF3ECF225A4D830008A543 /* ViewPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBF3ECE225A4D830008A543 /* ViewPlace.swift */; };
 		ADD7D704225E024F00DC8E78 /* bad-script.regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ADD7D703225E024F00DC8E78 /* bad-script.regular.ttf */; };
 		ADEBBC422239381A00D2C566 /* StorySlideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEBBC412239381A00D2C566 /* StorySlideView.swift */; };
@@ -192,7 +197,6 @@
 		AD4C0178223A82D900F17FF3 /* TemplateCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemplateCollectionViewCell.swift; sourceTree = "<group>"; };
 		AD516E61228AD02E0072539A /* ConstructorSlideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructorSlideView.swift; sourceTree = "<group>"; };
 		AD516E6F228BF80F0072539A /* PhotoPlaceConstructor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPlaceConstructor.swift; sourceTree = "<group>"; };
-		AD52373E224256DA003649AD /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
 		AD5829D6223BFCB80069558B /* PhotoModuleControllerPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoModuleControllerPresenter.swift; sourceTree = "<group>"; };
 		AD5829D8223BFCB80069558B /* PhotoModuleControllerAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoModuleControllerAssembly.swift; sourceTree = "<group>"; };
 		AD5829DB223BFCB80069558B /* PhotoModuleControllerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoModuleControllerController.swift; sourceTree = "<group>"; };
@@ -247,6 +251,12 @@
 		AD8F6EDC22609D580030537D /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		AD8F6EDF2260A1FE0030537D /* Sets.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Sets.xcdatamodel; sourceTree = "<group>"; };
 		AD8F6EE12260BE4E0030537D /* TemplatesStorage+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TemplatesStorage+Ext.swift"; sourceTree = "<group>"; };
+		AD95DB5222E76D7D00CABE48 /* BackgroundImageEditModulePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundImageEditModulePresenter.swift; sourceTree = "<group>"; };
+		AD95DB5422E76D7D00CABE48 /* BackgroundImageEditModuleAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundImageEditModuleAssembly.swift; sourceTree = "<group>"; };
+		AD95DB5522E76D7D00CABE48 /* BackgroundImageEditModuleRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundImageEditModuleRouter.swift; sourceTree = "<group>"; };
+		AD95DB5722E76D7D00CABE48 /* BackgroundImageEditModuleController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundImageEditModuleController.swift; sourceTree = "<group>"; };
+		AD95DB5C22E7850F00CABE48 /* BackgroundImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundImageCell.swift; sourceTree = "<group>"; };
+		AD95DB5E22E797CD00CABE48 /* ColorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
 		ADBF3ECE225A4D830008A543 /* ViewPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPlace.swift; sourceTree = "<group>"; };
 		ADD7D703225E024F00DC8E78 /* bad-script.regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "bad-script.regular.ttf"; sourceTree = "<group>"; };
 		ADEBBC412239381A00D2C566 /* StorySlideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorySlideView.swift; sourceTree = "<group>"; };
@@ -921,6 +931,7 @@
 		AD8A7AC622B94DB00039E2C7 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				AD95DB5022E76D7D00CABE48 /* BackgroundImageEditModule */,
 				AD6C7BE122D117440097DBF6 /* BaseEditModule */,
 				AD6C7BD222D0B9570097DBF6 /* MenuEditModule */,
 				AD87408622BA7EEC000889BC /* SliderEditModule */,
@@ -960,6 +971,7 @@
 		AD8A7AD122B94E100039E2C7 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				AD95DB5E22E797CD00CABE48 /* ColorCell.swift */,
 				AD8A7AD222B94E100039E2C7 /* ColorEditModuleController.swift */,
 			);
 			path = View;
@@ -973,6 +985,42 @@
 				AD8F6EDE2260A1FE0030537D /* Sets.xcdatamodeld */,
 			);
 			path = CoreData;
+			sourceTree = "<group>";
+		};
+		AD95DB5022E76D7D00CABE48 /* BackgroundImageEditModule */ = {
+			isa = PBXGroup;
+			children = (
+				AD95DB5122E76D7D00CABE48 /* Presenter */,
+				AD95DB5322E76D7D00CABE48 /* Model */,
+				AD95DB5622E76D7D00CABE48 /* View */,
+			);
+			path = BackgroundImageEditModule;
+			sourceTree = "<group>";
+		};
+		AD95DB5122E76D7D00CABE48 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				AD95DB5222E76D7D00CABE48 /* BackgroundImageEditModulePresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		AD95DB5322E76D7D00CABE48 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				AD95DB5422E76D7D00CABE48 /* BackgroundImageEditModuleAssembly.swift */,
+				AD95DB5522E76D7D00CABE48 /* BackgroundImageEditModuleRouter.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		AD95DB5622E76D7D00CABE48 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				AD95DB5722E76D7D00CABE48 /* BackgroundImageEditModuleController.swift */,
+				AD95DB5C22E7850F00CABE48 /* BackgroundImageCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		ADD7D701225E023F00DC8E78 /* Res */ = {
@@ -1027,7 +1075,6 @@
 			children = (
 				ADEBBC5722394CE600D2C566 /* TextEditorModuleController.swift */,
 				ADEBBC5F223959A500D2C566 /* FontCell.swift */,
-				AD52373E224256DA003649AD /* ColorCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1196,9 +1243,11 @@
 				AD8A7AC122B944000039E2C7 /* EditorToolbar.swift in Sources */,
 				AD87409122BA7EED000889BC /* SliderEditModulePresenter.swift in Sources */,
 				12C118C32221C82500996C20 /* UINavigationController+Analytics.swift in Sources */,
+				AD95DB5D22E7850F00CABE48 /* BackgroundImageCell.swift in Sources */,
 				AD4C0175223A787900F17FF3 /* TemplatePickerAssembly.swift in Sources */,
 				AD6C7BE022D0C8230097DBF6 /* MenuView.swift in Sources */,
 				AD5829DE223BFCB80069558B /* PhotoModuleControllerAssembly.swift in Sources */,
+				AD95DB5B22E76D7D00CABE48 /* BackgroundImageEditModuleController.swift in Sources */,
 				128186B5222483A700E48646 /* Strings.swift in Sources */,
 				AD873FBE22DB911D00D84565 /* UsersCollectionRouter.swift in Sources */,
 				AD8A7ABE22B943B60039E2C7 /* EditorRouter.swift in Sources */,
@@ -1207,6 +1256,7 @@
 				AD8A7AC522B94D660039E2C7 /* EditModule.swift in Sources */,
 				AD87408022B98216000889BC /* FrameEditModulePresenter.swift in Sources */,
 				AD6C7BEA22D117440097DBF6 /* BaseEditModuleAssembly.swift in Sources */,
+				AD95DB5822E76D7D00CABE48 /* BackgroundImageEditModulePresenter.swift in Sources */,
 				ADEBBC6222398F9700D2C566 /* UITextView+Ext.swift in Sources */,
 				AD4C017A223A82D900F17FF3 /* TemplateCollectionViewCell.swift in Sources */,
 				AD87407922B96FC7000889BC /* ItemEditModulePresenter.swift in Sources */,
@@ -1265,13 +1315,14 @@
 				ADBF3ECF225A4D830008A543 /* ViewPlace.swift in Sources */,
 				AD8A7AD522B94E100039E2C7 /* ColorEditModuleAssembly.swift in Sources */,
 				12C118E92221F23F00996C20 /* StoryPickerAssembly.swift in Sources */,
-				AD52373F224256DA003649AD /* ColorCell.swift in Sources */,
+				AD95DB5F22E797CD00CABE48 /* ColorCell.swift in Sources */,
 				AD8A7ABC22B943B60039E2C7 /* EditorPresenter.swift in Sources */,
 				AD8F6EE02260A1FE0030537D /* Sets.xcdatamodeld in Sources */,
 				AD87407A22B96FC7000889BC /* ItemEditModuleRouter.swift in Sources */,
 				AD4C0173223A787900F17FF3 /* TemplatePickerPresenter.swift in Sources */,
 				128186BD2224877000E48646 /* StoryCell.swift in Sources */,
 				12C118E52221F23F00996C20 /* StoryEditorAssembly.swift in Sources */,
+				AD95DB5A22E76D7D00CABE48 /* BackgroundImageEditModuleRouter.swift in Sources */,
 				12C118E82221F23F00996C20 /* MainScreenPresenter.swift in Sources */,
 				AD4C0179223A82D900F17FF3 /* SetCollectionViewCell.swift in Sources */,
 				AD6C7BD122D0B63D0097DBF6 /* EditViewPresenter.swift in Sources */,
@@ -1289,6 +1340,7 @@
 				AD87407C22B96FC7000889BC /* ItemEditModuleController.swift in Sources */,
 				1289FD9D22220F6100CD7F0E /* SetWithTemplates.swift in Sources */,
 				AD5F429E224186E000C19386 /* NSParagraphStyle.swift in Sources */,
+				AD95DB5922E76D7D00CABE48 /* BackgroundImageEditModuleAssembly.swift in Sources */,
 				12C118C02221C82500996C20 /* AttributedString+Extension.swift in Sources */,
 				AD37C8B6226DE54500C7FF5F /* BackgroundModuleControllerController.swift in Sources */,
 				AD6C7BEB22D117440097DBF6 /* BaseEditModuleRouter.swift in Sources */,

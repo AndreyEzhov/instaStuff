@@ -47,8 +47,6 @@ class TextViewPlace: UIView, TemplatePlaceble {
         }
     }
     
-    let colorPickerModule = ColorPickerModule()
-    
     // MARK: - Construction
     
     init(_ item: StoryEditableTextItem) {
@@ -118,7 +116,7 @@ class TextViewPlace: UIView, TemplatePlaceble {
             textView.resignFirstResponder()
         } else {
             textView.becomeFirstResponder()
-            TextViewPlace.editView.update(colorPickerModule: colorPickerModule)
+            //TextViewPlace.editView.update(colorPickerModule: colorPickerModule)
             TextViewPlace.editView.presenter.textSetups = storyEditableTextItem.textSetups
         }
         isSelected = textView.isFirstResponder

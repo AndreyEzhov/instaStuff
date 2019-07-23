@@ -8,11 +8,30 @@
 
 import UIKit
 
+protocol StoryRemoveDelegate: class {
+    func deleteTemplate(_ template: Template?)
+}
+
 class TemplateCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Properties
     
+    private lazy var deleteButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.addTarget(self, action: #selector(deleteItemTouch), for: .touchUpInside)
+        button.setImage(#imageLiteral(resourceName: "closeButton"), for: .normal)
+        return button
+    }()
+    
+    private weak var delegate: StoryRemoveDelegate? {
+        didSet {
+            deleteButton.isHidden = delegate == nil
+        }
+    }
+    
     private lazy var previewImageView = UIImageView()
+    
+    private var template: Template?
     
     override var isHighlighted: Bool {
         didSet { setTappedState(isHighlighted, animated: true) }
@@ -29,10 +48,17 @@ class TemplateCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Actions
+    
+    @objc private func deleteItemTouch() {
+        delegate?.deleteTemplate(template)
+    }
+    
     // MARK: - Private Functions
     
     private func setup() {
         contentView.addSubview(previewImageView)
+        contentView.addSubview(deleteButton)
         setNeedsUpdateConstraints()
     }
     
@@ -40,6 +66,10 @@ class TemplateCollectionViewCell: UICollectionViewCell {
     
     override func updateConstraints() {
         super.updateConstraints()
+        deleteButton.snp.remakeConstraints { maker in
+            maker.top.right.equalToSuperview()
+            maker.size.equalTo(CGSize(width: 30, height: 30))
+        }
         previewImageView.snp.remakeConstraints { maker in
             maker.edges.equalToSuperview()
         }
@@ -47,8 +77,10 @@ class TemplateCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Function
     
-    func setup(with previewImage: UIImage?) {
+    func setup(with previewImage: UIImage?, delegate: StoryRemoveDelegate?, template: Template) {
         previewImageView.image = previewImage
+        self.delegate = delegate
+        self.template = template
     }
     
 }

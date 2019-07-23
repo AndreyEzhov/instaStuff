@@ -60,14 +60,12 @@ enum FontEnum: CaseIterable {
 
 enum ColorEnum {
     
-    static let allCases: [ColorEnum] = [.empty(UIColor.black), .white, .r206g181b141, .r248g229b210, .r227g220b184, .r219g192b178, .r186g142b105, .r150g174b160, .r80g76b69, .black]
+    static let allCases: [ColorEnum] = [.white, .r206g181b141, .r248g229b210, .r227g220b184, .r219g192b178, .r186g142b105, .r150g174b160, .r80g76b69, .black]
     
-    case empty(UIColor), white, r206g181b141, r248g229b210, r227g220b184, r219g192b178, r186g142b105, r150g174b160, r80g76b69, black
+    case white, r206g181b141, r248g229b210, r227g220b184, r219g192b178, r186g142b105, r150g174b160, r80g76b69, black
     
     var color: UIColor {
         switch self {
-        case .empty:
-            return #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
         case .white:
             return #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         case .r206g181b141:
@@ -86,15 +84,6 @@ enum ColorEnum {
             return #colorLiteral(red: 0.3137254902, green: 0.2980392157, blue: 0.2705882353, alpha: 1)
         case .black:
             return #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        }
-    }
-    
-    var image: UIImage? {
-        switch self {
-        case .empty:
-            return #imageLiteral(resourceName: "color_picker")
-        default:
-            return nil
         }
     }
     

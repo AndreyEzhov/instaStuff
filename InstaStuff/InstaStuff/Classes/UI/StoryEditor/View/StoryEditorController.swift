@@ -39,6 +39,7 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
     
     private(set) lazy var pipette: PipetteSubview = {
         let view = PipetteSubview()
+        view.view = slideView
         return view
     }()
     
@@ -55,15 +56,21 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
     private(set) lazy var slideViewPresenter = SlideViewPresenter(storySlideView: slideView, storyItem: presenter.story, editorPresenter: editorController.presenter as! EditorPresenter)
     
     var heightConstraint: ConstraintMakerEditable?
-
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "export"), style: .plain, target: self, action: #selector(exportImage))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "export"), style: .plain, target: self, action: #selector(exportImageToLibrary))
         presenter.slideViewPresenter = slideViewPresenter
         editorController.presenter.update(with: .main(self))
+        navigationController?.router.updateHierarchy()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        presenter.exportImage(initiatedByUser: false)
     }
     
     override func updateViewConstraints() {
@@ -72,7 +79,7 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
             maker.top.equalTo(view.snp.topMargin)
             maker.bottom.equalTo(view.snp.bottomMargin).inset(EditorController.Constants.toolbarHeight)
         }
-
+        
         let ratio: CGFloat = 9.0 / 16.0
         
         slideView.snp.remakeConstraints { maker in
@@ -98,6 +105,11 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
     }
     
     // MARK: - StoryEditorDisplayable
+    
+    func displayResult(with image: UIImage) {
+        UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+        navigationController?.router.updateHierarchy()
+    }
     
     // MARK: - Private Functions
     
@@ -126,12 +138,8 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
         }
     }
     
-    @objc private func exportImage() {
-        if let image = presenter.story.exportImage() {
-            UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
-            presenter.saveTemplate(with: image)
-            navigationController?.router.updateHierarchy()
-        }
+    @objc private func exportImageToLibrary() {
+        presenter.exportImage(initiatedByUser: true)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -155,24 +163,24 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
     
     // MARK: - UITextViewDelegate
     
-//    func textViewDidBeginEditing(_ textView: UITextView) {
-//        guard let textView = textView.superview else {
-//            return
-//        }
-//        let frame = view.convert(textView.frame, to: self.view)
-//        let offset = view.frame.midY / 2.0 - frame.midY
-//        slideArea.setContentOffset(CGPoint(x: 0, y: -offset), animated: true)
-//    }
-//    
-//    func textViewDidEndEditing(_ textView: UITextView) {
-//        slideArea.setContentOffset(.zero, animated: true)
-//    }
-//    
-//    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-//        return true
-//    }
+    //    func textViewDidBeginEditing(_ textView: UITextView) {
+    //        guard let textView = textView.superview else {
+    //            return
+    //        }
+    //        let frame = view.convert(textView.frame, to: self.view)
+    //        let offset = view.frame.midY / 2.0 - frame.midY
+    //        slideArea.setContentOffset(CGPoint(x: 0, y: -offset), animated: true)
+    //    }
+    //
+    //    func textViewDidEndEditing(_ textView: UITextView) {
+    //        slideArea.setContentOffset(.zero, animated: true)
+    //    }
+    //
+    //    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+    //        return true
+    //    }
     
-
+    
     
 }
 
@@ -183,7 +191,6 @@ extension StoryEditorController: MenuViewProtocol {
     
     func addItemAction(_ sender: UIButton) {
         editorController.presenter.update(with: .addStuff(slideViewPresenter))
-
     }
     
     func addTextAction(_ sender: UIButton) {
@@ -191,9 +198,8 @@ extension StoryEditorController: MenuViewProtocol {
     }
     
     func changeBackgroundAction(_ sender: UIButton) {
-        
+        editorController.presenter.update(with: .backgroundChange(self))
     }
-    
     
 }
 
@@ -209,20 +215,31 @@ extension StoryEditorController: EditorDisplayer {
     
 }
 
-//extension StoryEditorController: PippeteDelegate {
-//
-//    func placePipette(completion: @escaping (UIColor?) -> ()) {
-//        guard pipette.superview == nil else { return }
-//
-//        let image = slideView.snapshot()
-//        let view = UIImageView(image: image)
-//
-//        slideArea.addSubview(view)
-//        slideArea.addSubview(pipette)
-//        pipette.view = view
-//        pipette.completion = completion
-//        pipette.frame = slideView.frame
-//        view.frame = slideView.frame
-//    }
-//
-//}
+extension StoryEditorController: BackgroundPickerListener {
+    
+    var currentColor: UIColor? {
+        return presenter.story.backgroundColor
+    }
+    
+    func colorDidChanged(_ value: UIColor) {
+        presenter.slideViewPresenter?.setBackgroundColor(value)
+    }
+    
+    func placePipette(completion: @escaping (UIColor?) -> ()) {
+        guard pipette.superview == nil else { return }
+        
+        let image = slideView.snapshot()
+        let view = UIImageView(image: image)
+        
+        slideArea.addSubview(view)
+        slideArea.addSubview(pipette)
+        pipette.view = view
+        pipette.completion = completion
+        pipette.frame = slideView.frame
+        view.frame = slideView.frame
+    }
+    
+    func backgroundImageDidChanged(_ imageName: String?) {
+        presenter.slideViewPresenter?.setBackgroundImage(imageName)
+    }
+}
