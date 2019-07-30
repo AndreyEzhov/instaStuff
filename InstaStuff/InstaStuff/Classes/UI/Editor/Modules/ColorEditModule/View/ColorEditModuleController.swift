@@ -82,11 +82,16 @@ final class ColorEditModuleController: BaseViewController<ColorEditModulePresent
     private func updateColor(_ color: UIColor?) {
         guard let color = color else { return }
         presenter.delegate?.colorDidChanged(color)
-        pipetteButton.backgroundColor = color
-        pipetteButton.tintColor = color.isLight ? .black : .white
+        updateUIColor(color)
     }
     
     // MARK: - Functions
+    
+    func updateUIColor(_ color: UIColor?) {
+        guard let color = color else { return }
+        pipetteButton.backgroundColor = color
+        pipetteButton.tintColor = color.isLight ? .black : .white
+    }
     
     // MARK: - Actions
     

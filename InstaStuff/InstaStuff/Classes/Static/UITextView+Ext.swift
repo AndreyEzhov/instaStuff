@@ -53,6 +53,7 @@ extension TextViewPlace {
             return
         }
         textView.inputView = TextViewPlace.editView
+        TextViewPlace.editView.presenter.textSetups = self.storyEditableTextItem.textItem.textSetups
         //TextViewPlace.editView.update(colorPickerModule: colorPickerModule)
     }
     

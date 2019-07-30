@@ -124,12 +124,6 @@ final class PhotoModuleControllerController: UIView, PhotoModuleControllerDispla
         super.updateConstraints()
     }
     
-    override func willMove(toSuperview newSuperview: UIView?) {
-        inputViewCollapser.applyDefaultTransform()
-        (UIApplication.shared.delegate as? AppDelegate)?.window?.colorCallBack = nil
-        super.willMove(toSuperview: newSuperview)
-    }
-    
     // MARK: - TextEditorModuleDisplayable
     
     // MARK: - Private Functions

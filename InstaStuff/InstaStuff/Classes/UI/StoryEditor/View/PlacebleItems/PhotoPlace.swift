@@ -216,133 +216,133 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
     private var catchedLocationY: CGFloat? = 0
     
     @objc private func panGesture(_ sender: UIPanGestureRecognizer) {
-        switch sender.state {
-        case .began:
-            sender.setTranslation(storyEditablePhotoItem.editablePhotoTransform.currentTranslation, in: self)
-            catchedLocationX = nil
-            catchedLocationY = nil
-            vibratedX = false
-            vibratedY = false
-        case .changed:
-            guard storyEditablePhotoItem.editablePhotoTransform.currentRotation == 0 else {
-                storyEditablePhotoItem.editablePhotoTransform.currentTranslation = sender.translation(in: self)
-                updateTransforms()
-                return
-            }
-            let oldTransform = storyEditablePhotoItem.editablePhotoTransform.transform
-            storyEditablePhotoItem.editablePhotoTransform.currentTranslation = sender.translation(in: self)
-            
-            let frame = photoImageView.frame.applying(oldTransform.inverted()).applying(storyEditablePhotoItem.editablePhotoTransform.transform)
-            let space = 10
-            var currentTranslation: CGPoint {
-                return storyEditablePhotoItem.editablePhotoTransform.currentTranslation
-            }
-            
-            if -space...space ~= Int(frame.minX) {
-                if catchedLocationX == nil {
-                    storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x - frame.minX, y: currentTranslation.y)
-                } else if let catchedLocationX = catchedLocationX {
-                    let difference = catchedLocationX - sender.location(in: self).x
-                    if abs(difference) < CGFloat(space) {
-                                            storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x - frame.minX, y: currentTranslation.y)
-                    } else {
-                                            storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x - frame.minX - difference, y: currentTranslation.y)
-                    }
-                }
-                sender.setTranslation(storyEditablePhotoItem.editablePhotoTransform.currentTranslation, in: self)
-                if !vibratedX {
-                    catchedLocationX = sender.location(in: self).x
-                    vibratedX = true
-                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                }
-            } else if (frame.maxX < (photoContentView.bounds.width + CGFloat(space))) && (frame.maxX > (photoContentView.bounds.width - CGFloat(space))) {
-                if catchedLocationX == nil {
-                    storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x - frame.maxX + photoContentView.bounds.width, y: currentTranslation.y)
-                } else if let catchedLocationX = catchedLocationX {
-                    let difference = catchedLocationX - sender.location(in: self).x
-                    if abs(difference) < CGFloat(space) {
-                        storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x - frame.maxX + photoContentView.bounds.width, y: currentTranslation.y)
-                    } else {
-                        storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x - frame.maxX + photoContentView.bounds.width - difference, y: currentTranslation.y)
-                    }
-                }
-                sender.setTranslation(storyEditablePhotoItem.editablePhotoTransform.currentTranslation, in: self)
-                if !vibratedX {
-                    catchedLocationX = sender.location(in: self).x
-                    vibratedX = true
-                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                }
-            } else {
-                catchedLocationX = nil
-                vibratedX = false
-            }
-            
-            if -space...space ~= Int(frame.minY) {
-                if catchedLocationY == nil {
-                    storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x, y: currentTranslation.y - frame.minY)
-                } else if let catchedLocationY = catchedLocationY {
-                    let difference = catchedLocationY - sender.location(in: self).y
-                    if abs(difference) < CGFloat(space) {
-                        storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x, y: currentTranslation.y - frame.minY)
-                    } else {
-                        storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x, y: currentTranslation.y - frame.minY - difference)
-                    }
-                }
-                sender.setTranslation(storyEditablePhotoItem.editablePhotoTransform.currentTranslation, in: self)
-                if !vibratedY {
-                    catchedLocationY = sender.location(in: self).y
-                    vibratedY = true
-                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                }
-            } else if (frame.maxY < (photoContentView.bounds.height + CGFloat(space))) && (frame.maxY > (photoContentView.bounds.height - CGFloat(space))) {
-                if catchedLocationY == nil {
-                    storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x, y: currentTranslation.y - frame.maxY + photoContentView.bounds.height)
-                } else if let catchedLocationY = catchedLocationY {
-                    let difference = catchedLocationY - sender.location(in: self).y
-                    if abs(difference) < CGFloat(space) {
-                        storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x, y: currentTranslation.y - frame.maxY + photoContentView.bounds.height)
-                    } else {
-                        storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x, y: currentTranslation.y - frame.maxY + photoContentView.bounds.height - difference)
-                    }
-                }
-                sender.setTranslation(storyEditablePhotoItem.editablePhotoTransform.currentTranslation, in: self)
-                if !vibratedY {
-                    catchedLocationY = sender.location(in: self).y
-                    vibratedY = true
-                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                }
-            } else {
-                catchedLocationY = nil
-                vibratedY = false
-            }
-            updateTransforms()
-        default:
-            break
-        }
+//        switch sender.state {
+//        case .began:
+//            sender.setTranslation(storyEditablePhotoItem.editablePhotoTransform.currentTranslation, in: self)
+//            catchedLocationX = nil
+//            catchedLocationY = nil
+//            vibratedX = false
+//            vibratedY = false
+//        case .changed:
+//            guard storyEditablePhotoItem.editablePhotoTransform.currentRotation == 0 else {
+//                storyEditablePhotoItem.editablePhotoTransform.currentTranslation = sender.translation(in: self)
+//                updateTransforms()
+//                return
+//            }
+//            let oldTransform = storyEditablePhotoItem.editablePhotoTransform.transform
+//            storyEditablePhotoItem.editablePhotoTransform.currentTranslation = sender.translation(in: self)
+//
+//            let frame = photoImageView.frame.applying(oldTransform.inverted()).applying(storyEditablePhotoItem.editablePhotoTransform.transform)
+//            let space = 10
+//            var currentTranslation: CGPoint {
+//                return storyEditablePhotoItem.editablePhotoTransform.currentTranslation
+//            }
+//
+//            if -space...space ~= Int(frame.minX) {
+//                if catchedLocationX == nil {
+//                    storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x - frame.minX, y: currentTranslation.y)
+//                } else if let catchedLocationX = catchedLocationX {
+//                    let difference = catchedLocationX - sender.location(in: self).x
+//                    if abs(difference) < CGFloat(space) {
+//                                            storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x - frame.minX, y: currentTranslation.y)
+//                    } else {
+//                                            storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x - frame.minX - difference, y: currentTranslation.y)
+//                    }
+//                }
+//                sender.setTranslation(storyEditablePhotoItem.editablePhotoTransform.currentTranslation, in: self)
+//                if !vibratedX {
+//                    catchedLocationX = sender.location(in: self).x
+//                    vibratedX = true
+//                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+//                }
+//            } else if (frame.maxX < (photoContentView.bounds.width + CGFloat(space))) && (frame.maxX > (photoContentView.bounds.width - CGFloat(space))) {
+//                if catchedLocationX == nil {
+//                    storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x - frame.maxX + photoContentView.bounds.width, y: currentTranslation.y)
+//                } else if let catchedLocationX = catchedLocationX {
+//                    let difference = catchedLocationX - sender.location(in: self).x
+//                    if abs(difference) < CGFloat(space) {
+//                        storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x - frame.maxX + photoContentView.bounds.width, y: currentTranslation.y)
+//                    } else {
+//                        storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x - frame.maxX + photoContentView.bounds.width - difference, y: currentTranslation.y)
+//                    }
+//                }
+//                sender.setTranslation(storyEditablePhotoItem.editablePhotoTransform.currentTranslation, in: self)
+//                if !vibratedX {
+//                    catchedLocationX = sender.location(in: self).x
+//                    vibratedX = true
+//                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+//                }
+//            } else {
+//                catchedLocationX = nil
+//                vibratedX = false
+//            }
+//
+//            if -space...space ~= Int(frame.minY) {
+//                if catchedLocationY == nil {
+//                    storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x, y: currentTranslation.y - frame.minY)
+//                } else if let catchedLocationY = catchedLocationY {
+//                    let difference = catchedLocationY - sender.location(in: self).y
+//                    if abs(difference) < CGFloat(space) {
+//                        storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x, y: currentTranslation.y - frame.minY)
+//                    } else {
+//                        storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x, y: currentTranslation.y - frame.minY - difference)
+//                    }
+//                }
+//                sender.setTranslation(storyEditablePhotoItem.editablePhotoTransform.currentTranslation, in: self)
+//                if !vibratedY {
+//                    catchedLocationY = sender.location(in: self).y
+//                    vibratedY = true
+//                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+//                }
+//            } else if (frame.maxY < (photoContentView.bounds.height + CGFloat(space))) && (frame.maxY > (photoContentView.bounds.height - CGFloat(space))) {
+//                if catchedLocationY == nil {
+//                    storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x, y: currentTranslation.y - frame.maxY + photoContentView.bounds.height)
+//                } else if let catchedLocationY = catchedLocationY {
+//                    let difference = catchedLocationY - sender.location(in: self).y
+//                    if abs(difference) < CGFloat(space) {
+//                        storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x, y: currentTranslation.y - frame.maxY + photoContentView.bounds.height)
+//                    } else {
+//                        storyEditablePhotoItem.editablePhotoTransform.currentTranslation = CGPoint(x: currentTranslation.x, y: currentTranslation.y - frame.maxY + photoContentView.bounds.height - difference)
+//                    }
+//                }
+//                sender.setTranslation(storyEditablePhotoItem.editablePhotoTransform.currentTranslation, in: self)
+//                if !vibratedY {
+//                    catchedLocationY = sender.location(in: self).y
+//                    vibratedY = true
+//                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+//                }
+//            } else {
+//                catchedLocationY = nil
+//                vibratedY = false
+//            }
+//            updateTransforms()
+//        default:
+//            break
+//        }
     }
     
     @objc private func rotateGesture(_ sender: UIRotationGestureRecognizer) {
-        switch sender.state {
-        case .began:
-            sender.rotation = storyEditablePhotoItem.editablePhotoTransform.currentRotation
-        case .changed:
-            storyEditablePhotoItem.editablePhotoTransform.currentRotation = sender.rotation
-            updateTransforms()
-        default:
-            break
-        }
+//        switch sender.state {
+//        case .began:
+//            sender.rotation = storyEditablePhotoItem.editablePhotoTransform.currentRotation
+//        case .changed:
+//            storyEditablePhotoItem.editablePhotoTransform.currentRotation = sender.rotation
+//            updateTransforms()
+//        default:
+//            break
+//        }
     }
     
     @objc private func zoomGesture(_ sender: UIPinchGestureRecognizer) {
-        switch sender.state {
-        case .began:
-            sender.scale = storyEditablePhotoItem.editablePhotoTransform.currentScale
-        case .changed:
-            storyEditablePhotoItem.editablePhotoTransform.currentScale = sender.scale
-            updateTransforms()
-        default:
-            break
-        }
+//        switch sender.state {
+//        case .began:
+//            sender.scale = storyEditablePhotoItem.editablePhotoTransform.currentScale
+//        case .changed:
+//            storyEditablePhotoItem.editablePhotoTransform.currentScale = sender.scale
+//            updateTransforms()
+//        default:
+//            break
+//        }
     }
     
     @objc private func tapGesture(_ sender: UITapGestureRecognizer) {
@@ -371,31 +371,31 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
     // MARK: - Private Functions
     
     private func setup() {
-        backgroundColor = .clear
-        addSubview(photoContentView)
-        photoContentView.addSubview(photoImageView)
-        addSubview(framePlace)
-        addSubview(deletePhotoButton)
-        layer.addSublayer(dashedLayer)
-        
-        storyEditablePhotoItem.image.subscribe(onNext: { [weak self] image in
-            guard let sSelf = self else { return }
-            sSelf.image = image
-            sSelf.photoImageView.image = image
-            if let image = image {
-                _ = sSelf.becomeFirstResponder()
-                sSelf.updateTransforms()
-            } else {
-                _ = sSelf.resignFirstResponder()
-            }
-            self?.updateConstraints()
-            self?.reloadInputViews()
-        }).disposed(by: bag)
-        framePlace.image = storyEditablePhotoItem.photoItem.framePlaceImage
-        
-        clipsToBounds = true
-        deletePhotoButton.isHidden = true
-        updateConstraintsIfNeeded()
+//        backgroundColor = .clear
+//        addSubview(photoContentView)
+//        photoContentView.addSubview(photoImageView)
+//        addSubview(framePlace)
+//        addSubview(deletePhotoButton)
+//        layer.addSublayer(dashedLayer)
+//        
+//        storyEditablePhotoItem.image.subscribe(onNext: { [weak self] image in
+//            guard let sSelf = self else { return }
+//            sSelf.image = image
+//            sSelf.photoImageView.image = image
+//            if let image = image {
+//                _ = sSelf.becomeFirstResponder()
+//                sSelf.updateTransforms()
+//            } else {
+//                _ = sSelf.resignFirstResponder()
+//            }
+//            self?.updateConstraints()
+//            self?.reloadInputViews()
+//        }).disposed(by: bag)
+//        framePlace.image = storyEditablePhotoItem.photoItem.framePlaceImage
+//        
+//        clipsToBounds = true
+//        deletePhotoButton.isHidden = true
+//        updateConstraintsIfNeeded()
     }
     
     private func setupGestures() {
@@ -429,7 +429,7 @@ class PhotoPlace: UIViewTemplatePlaceble, UIGestureRecognizerDelegate {
     }
     
     private func updateTransforms() {
-        photoImageView.transform = storyEditablePhotoItem.editablePhotoTransform.transform
+        //photoImageView.transform = storyEditablePhotoItem.editablePhotoTransform.transform
     }
     
     // MARK: - UIGestureRecognizerDelegate

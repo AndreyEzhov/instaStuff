@@ -25,6 +25,7 @@ extension TemplatesStorage {
         let CDStuffItemFetch: NSFetchRequest<CDStuffItem> = CDStuffItem.fetchRequest()
         let CDTextItemFetch: NSFetchRequest<CDTextItem> = CDTextItem.fetchRequest()
         let CDPhotoFrameItemFetch: NSFetchRequest<CDPhotoFrameItem> = CDPhotoFrameItem.fetchRequest()
+        let CDTextSettingsFetch: NSFetchRequest<CDTextSettings> = CDTextSettings.fetchRequest()
         
         [CDSetFetch,
          CDTemplateFetch,
@@ -36,7 +37,8 @@ extension TemplatesStorage {
          CDAbstractItemFetch,
          CDStuffItemFetch,
          CDTextItemFetch,
-         CDPhotoFrameItemFetch
+         CDPhotoFrameItemFetch,
+         CDTextSettingsFetch
             ].forEach { fetch in
                 let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetch as! NSFetchRequest<NSFetchRequestResult>)
                 do {
@@ -74,9 +76,11 @@ extension TemplatesStorage {
     
     func set1template1() -> CDTemplate {
         let itemInTemplate = stuffInTemplate(itemId: 2, centerX: 50, centerY: 50, angle: .pi / 2, widthScale: 25)
+        let textInTemplate = textItemSettings(ratio: 2, centerX: 54, centerY: 120, angle: 0, widthScale: 90)
+        textInTemplate.textSettings = defaultTextSettings()
         
         let template = CDTemplate(context: coreDataStack.managedContext)
-        template.elements = NSOrderedSet(array: [itemInTemplate])
+        template.elements = NSOrderedSet(array: [itemInTemplate, textInTemplate])
         template.name = "set1_template1"
         template.backGroundColor = UIColor.white
         template.backGroundImageName = nil
@@ -299,19 +303,7 @@ extension TemplatesStorage {
     //        return photoItemInTemplate
     //    }
     //
-    //    private func emptyTextItemSettings(ratioX: CGFloat, ratioY: CGFloat, centerX: CGFloat, centerY: CGFloat) -> CDTextItemInTemplate {
-    //        let itemSettingsInFrame = CDSettings(context: coreDataStack.managedContext)
-    //        itemSettingsInFrame.centerX = Float(centerX/108.0)
-    //        itemSettingsInFrame.centerY = Float(centerY/192.0)
-    //        itemSettingsInFrame.width = Float(ratioX/108.0)
-    //        itemSettingsInFrame.rotation = 0
-    //        itemSettingsInFrame.ratio = Float(ratioX/ratioY)
-    //
-    //        let itemInTemplate = CDTextItemInTemplate(context: coreDataStack.managedContext)
-    //        itemInTemplate.settings = itemSettingsInFrame
-    //
-    //        return itemInTemplate
-    //    }
+    
     //
     //    private func emptyView(ratioX: CGFloat, ratioY: CGFloat, centerX: CGFloat, centerY: CGFloat, color: UIColor = .white) -> CDViewInTemplate {
     //        let itemSettingsInFrame = CDSettings(context: coreDataStack.managedContext)
@@ -328,63 +320,38 @@ extension TemplatesStorage {
     //        return itemInTemplate
     //    }
     
-    private func stuffInTemplate(itemId: Int64, centerX: Float, centerY: Float, angle: Float, widthScale: Float, applyScale: Bool = true) -> CDStuffItemInTemplate {
-        let stuffInTemplate = CDStuffItemInTemplate(context: coreDataStack.managedContext)
-        stuffInTemplate.itemId = itemId
-        
-        let settings = CDTemplateSettings(context: coreDataStack.managedContext)
-        settings.midX = Float(centerX / (applyScale ? 108.0 : 1))
-        settings.midY = Float(centerY / (applyScale ? 192.0 : 1))
-        settings.angle = Float(angle)
-        settings.widthScale = Float(widthScale / (applyScale ? 108.0 : 1))
-        
-        stuffInTemplate.settings = settings
-        
-        return stuffInTemplate
-    }
+    
     
 }
 
+// MARK: - Save Delete
 
 extension TemplatesStorage {
     
     func saveTemplateInCD(_ template: Template) {
-        var items = [CDStuffItemInTemplate]()
-        template.storyEditableItem.forEach { item in
+        let items: [CDAbstractTemplateItem] = template.storyEditableItem.map { item in
             switch item {
             case let stuff as StoryEditableStuffItem:
-                let itemInTemplate = stuffInTemplate(itemId: Int64(stuff.stuffItem.stuffId),
-                                                     centerX: Float(stuff.settings.center.x),
-                                                     centerY: Float(stuff.settings.center.y),
-                                                     angle: Float(stuff.settings.angle),
-                                                     widthScale: Float(stuff.settings.sizeWidth),
-                                                     applyScale: false)
-                items.append(itemInTemplate)
+                return stuffInTemplate(stuff: stuff)
+            case let text as StoryEditableTextItem:
+                return textItemInTemplate(text: text)
             default:
-                break
+                return nil
             }
-        }
+            }.compactMap { $0 }
         
-        let tempalteFetch: NSFetchRequest<CDTemplate> = CDTemplate.fetchRequest()
-        tempalteFetch.predicate = NSPredicate(format: "name == '\(template.name)'")
+        deleteTemplateFromDB(template)
         
-        do {
-            var cdTemplate: CDTemplate
-            let results = try coreDataStack.managedContext.fetch(tempalteFetch)
-            if results.count > 0 {
-                cdTemplate = results[0]
-            } else {
-                cdTemplate = CDTemplate(context: coreDataStack.managedContext)
-            }
-            cdTemplate.lastChangeDate = Date()
-            cdTemplate.createdByUser = true
-            cdTemplate.elements = NSOrderedSet(array: items)
-            cdTemplate.name = template.name
-            cdTemplate.backGroundColor = template.backgroundColor
-            cdTemplate.backGroundImageName = template.backgroundImageName
-        } catch let error as NSError {
-            print("Fetch error: \(error) description: \(error.userInfo)")
-        }
+        let cdTemplate = CDTemplate(context: coreDataStack.managedContext)
+        cdTemplate.lastChangeDate = Date()
+        cdTemplate.createdByUser = true
+        cdTemplate.elements = NSOrderedSet(array: items)
+        cdTemplate.name = template.name
+        cdTemplate.backGroundColor = template.backgroundColor
+        cdTemplate.backGroundImageName = template.backgroundImageName
+        
+        //print("COUNT: \(try? coreDataStack.managedContext.fetch(CDTextSettings.fetchRequest()).count ?? 0)")
+        
         coreDataStack.saveContext()
     }
     
@@ -398,5 +365,99 @@ extension TemplatesStorage {
             
         }
         coreDataStack.saveContext()
+    }
+}
+
+
+// MARK: - Item to Core Data
+
+extension TemplatesStorage {
+    
+    private func stuffInTemplate(stuff: StoryEditableStuffItem) -> CDStuffItemInTemplate {
+        return stuffInTemplate(itemId: stuff.stuffItem.stuffId,
+                               centerX: stuff.settings.center.x,
+                               centerY: stuff.settings.center.y,
+                               angle: stuff.settings.angle,
+                               widthScale: stuff.settings.sizeWidth,
+                               applyScale: false)
+    }
+    
+    private func textItemInTemplate(text: StoryEditableTextItem) -> CDTextItemInTemplate {
+        let textItem = text.textItem
+        let textSetups = textItem.textSetups
+        let itemInTemplate = textItemSettings(ratio: textItem.ratio,
+                                centerX: text.settings.center.x,
+                                centerY: text.settings.center.y,
+                                angle: text.settings.angle,
+                                widthScale: text.settings.sizeWidth,
+                                applyScale: false,
+                                text: textSetups.currentText.value)
+        itemInTemplate.textSettings = textSettings(aligment: textSetups.aligment,
+                                                   color: textSetups.color,
+                                                   backgroundColor: textSetups.backgroundColor,
+                                                   fontSize: textSetups.fontSize,
+                                                   kern: textSetups.kern,
+                                                   lineSpacing: textSetups.lineSpacing,
+                                                   fontName: textSetups.fontType,
+                                                   text: textSetups.currentText.value)
+        return itemInTemplate
+    }
+    
+    
+}
+
+// MARK: - Data to Core Data
+
+extension TemplatesStorage {
+    
+    private func textItemSettings(ratio: CGFloat, centerX: CGFloat, centerY: CGFloat, angle: CGFloat, widthScale: CGFloat, applyScale: Bool = true, text: String? = nil) -> CDTextItemInTemplate {
+        
+        let textInTemplate = CDTextItemInTemplate(context: coreDataStack.managedContext)
+        
+        textInTemplate.ratio = Float(ratio)
+        let settings = generateSettings(centerX: centerX, centerY: centerY, angle: angle, widthScale: widthScale, applyScale: applyScale)
+
+        textInTemplate.settings = settings
+        
+        return textInTemplate
+    }
+    
+    private func generateSettings(centerX: CGFloat, centerY: CGFloat, angle: CGFloat, widthScale: CGFloat, applyScale: Bool = true) -> CDTemplateSettings {
+        let settings = CDTemplateSettings(context: coreDataStack.managedContext)
+        settings.midX = Float(centerX / (applyScale ? 108.0 : 1))
+        settings.midY = Float(centerY / (applyScale ? 192.0 : 1))
+        settings.angle = Float(angle)
+        settings.widthScale = Float(widthScale / (applyScale ? 108.0 : 1))
+        return settings
+    }
+    
+    private func defaultTextSettings() -> CDTextSettings {
+        return textSettings(aligment: .center, color: .black, backgroundColor: .clear, fontSize: 40, kern: 1, lineSpacing: 1, fontName: .cheque, text: "Type your text")
+    }
+    
+    private func textSettings(aligment: Aligment, color: UIColor, backgroundColor: UIColor, fontSize: CGFloat, kern: CGFloat, lineSpacing: CGFloat, fontName: FontEnum, text: String) -> CDTextSettings {
+        
+        let textSettings = CDTextSettings(context: coreDataStack.managedContext)
+        textSettings.aligment = Int64(aligment.rawValue)
+        textSettings.backgroundColor = backgroundColor
+        textSettings.color = color
+        textSettings.fontSize = Float(fontSize)
+        textSettings.kern = Float(kern)
+        textSettings.lineSpacing = Float(lineSpacing)
+        textSettings.fontName = fontName.rawValue
+        textSettings.text = text
+        
+        return textSettings
+    }
+    
+    private func stuffInTemplate(itemId: Int, centerX: CGFloat, centerY: CGFloat, angle: CGFloat, widthScale: CGFloat, applyScale: Bool = true) -> CDStuffItemInTemplate {
+        let stuffInTemplate = CDStuffItemInTemplate(context: coreDataStack.managedContext)
+        stuffInTemplate.itemId = Int64(itemId)
+        
+        let settings = generateSettings(centerX: centerX, centerY: centerY, angle: angle, widthScale: widthScale, applyScale: applyScale)
+        
+        stuffInTemplate.settings = settings
+        
+        return stuffInTemplate
     }
 }
