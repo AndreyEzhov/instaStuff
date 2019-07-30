@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxSwift
 
 typealias UIViewTemplatePlaceble = (UIView & TemplatePlaceble)
 
@@ -41,32 +42,30 @@ class StorySlideView: UIView {
     
     private(set) var editableView: UIViewTemplatePlaceble? {
         didSet {
+            guard oldValue !== editableView else {
+                return
+            }
+            if let textViewPlace = oldValue as? TextViewPlace {
+                textViewPlace.isSelected = false
+            }
+            if let textViewPlace = editableView as? TextViewPlace {
+                textViewPlace.isSelected = true
+            }
             slideViewPresenter?.selectedItem = editableView
             closeButton.isHidden = editableView == nil
-            //            if oldValue == nil {
-            //                editViewPeresenter.endEditing()
-            //            }
-            //            guard oldValue !== editableView else {
-            //                return
-            //            }
-            //            oldValue?.selectAsNotEditable()
-            //            editButtons.forEach { $0.removeFromSuperview() }
-            //            editViewPeresenter.endEditing()
-            //            guard let editableView = editableView else { return }
-            //            editButtons.forEach { addSubview($0) }
-            //            if (editableView is StuffPlace) {
-            //                editButton.removeFromSuperview()
-            //            }
-            //            updateTransforms(for: editableView)
-            //            editViewPeresenter.sliderListener = editableView as? PhotoPlaceConstructor
         }
     }
     
     private var customGestures = [UIGestureRecognizer]()
     
+    private let slideArea: UIScrollView
+    
+    private let bag = DisposeBag()
+    
     // MARK: - Construction
     
-    init() {
+    init(slideArea: UIScrollView) {
+        self.slideArea = slideArea
         super.init(frame: .zero)
         setup()
     }
@@ -115,6 +114,18 @@ class StorySlideView: UIView {
     }
     
     func placeSubview(_ view: UIView) {
+        if let textViewPlace = view as? TextViewPlace {
+            textViewPlace.textView.rx.didBeginEditing.subscribe(onNext: { [weak self] _ in
+                guard let rect = self?.convert(textViewPlace.frame, to: self?.slideArea), let scrollView = self?.slideArea else { return }
+                let diff = rect.midY - (scrollView.bounds.height - 300) / 2
+                scrollView.setContentOffset(CGPoint(x: 0, y: diff), animated: true)
+                self?.editableView = textViewPlace
+            }).disposed(by: bag)
+            textViewPlace.textView.rx.didEndEditing.subscribe(onNext: { [weak self] _ in
+                self?.editableView = nil
+                self?.slideArea.setContentOffset(.zero, animated: true)
+            }).disposed(by: bag)
+        }
         contentView.addSubview(view)
     }
     
@@ -213,6 +224,10 @@ class StorySlideView: UIView {
         }
     }
     
+    private var xD: CGFloat = 0
+    
+    private var yD: CGFloat = 0
+    
     @objc private func zoomGesture(_ sender: UIPinchGestureRecognizer) {
         guard let slideViewPresenter = slideViewPresenter else { return }
         switch sender.state {
@@ -222,9 +237,35 @@ class StorySlideView: UIView {
                 return
             }
             editableView = item
-            sender.scale = item.storyEditableItem.settings.sizeWidth
+            if item is TextViewPlace {
+                let A = sender.location(ofTouch: 0, in: editableView)
+                let B = sender.location(ofTouch: 1, in: editableView)
+                xD = abs( A.x - B.x )
+                yD = abs( A.y - B.y )
+            } else {
+                sender.scale = item.storyEditableItem.settings.sizeWidth
+            }
+            
         case .changed:
-            slideViewPresenter.apply(scale: sender.scale)
+            guard let editableView = editableView else { return }
+            if let textViewPlace = editableView as? TextViewPlace {
+                if sender.numberOfTouches < 2 {
+                    return
+                }
+                let A = sender.location(ofTouch: 0, in: editableView)
+                let B = sender.location(ofTouch: 1, in: editableView)
+                let xD = abs( A.x - B.x )
+                let yD = abs( A.y - B.y )
+                let currentWidth = editableView.storyEditableItem.settings.sizeWidth
+                let width = currentWidth - ((self.xD - xD) / self.bounds.width)
+                let hight = currentWidth / textViewPlace.storyEditableTextItem.textItem.ratio - ((self.yD - yD) / self.bounds.height)
+                textViewPlace.storyEditableTextItem.textItem.ratio = width / hight
+                self.xD = xD
+                self.yD = yD
+                slideViewPresenter.apply(scale: width)
+            } else {
+                slideViewPresenter.apply(scale: sender.scale)
+            }
             updateDeleteButton() 
         default:
             break

@@ -18,32 +18,39 @@ class SlideViewPresenter {
     
     private let editorPresenter: EditorPresenter
     
+    private let coef: CGFloat
+    
     var selectedItem: UIViewTemplatePlaceble? {
         didSet {
             guard oldValue !== selectedItem else {
                 return
             }
-            if selectedItem == nil {
+            if selectedItem is StuffPlace {
+                editorPresenter.update(with: .stuffEdit(self))
+            } else {
                 editorPresenter.defaultState()
-                return
             }
-            editorPresenter.update(with: .stuffEdit(self))
         }
     }
     
     // MARK: - Construction
     
-    init(storySlideView: StorySlideView, storyItem: StoryItem, editorPresenter: EditorPresenter) {
+    init(storySlideView: StorySlideView, storyItem: StoryItem, editorPresenter: EditorPresenter, coef: CGFloat) {
+        self.coef = coef
         self.storySlideView = storySlideView
         self.storyItem = storyItem
         self.editorPresenter = editorPresenter
         storySlideView.slideViewPresenter = self
         editorPresenter.slideViewPresenter = self
-        
+        setup()
         replaceAllElemets()
     }
     
     // MARK: - Private Functions
+    
+    private func setup() {
+        TextViewPlace.editView.presenter.baseEditor = self
+    }
     
     private func replaceAllElemets() {
         storySlideView.removeAllItems()
@@ -66,13 +73,12 @@ class SlideViewPresenter {
         switch item {
             //            case let item as StoryEditablePhotoItem:
             //                view = PhotoPlace(item)
-            //            case let item as StoryEditableTextItem:
-        //                view = TextViewPlace(item)
         case let item as StoryEditableStuffItem:
             let stuffPlace = StuffPlace(item)
             view = stuffPlace
-            //            case let item as StoryEditableViewItem:
-        //                view = ViewPlace(item)
+        case let item as StoryEditableTextItem:
+            let textPlace = TextViewPlace(item, coef: CFloat(coef))
+            view = textPlace
         default:
             break
         }
@@ -87,6 +93,8 @@ class SlideViewPresenter {
         switch item {
         case let stuffPlace as StoryEditableStuffItem:
             ratio = stuffPlace.ratio
+        case let textPlace as StoryEditableTextItem:
+            ratio = textPlace.textItem.ratio
         default:
             break
         }
