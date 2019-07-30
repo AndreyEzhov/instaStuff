@@ -30,8 +30,10 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.addArrangedSubview(capitalisedButton)
+        //stackView.addArrangedSubview(backgroundColorButton)
         stackView.addArrangedSubview(colorButton)
-        stackView.addArrangedSubview(alignmentButton)
+        stackView.addArrangedSubview(moveToFrontButton)
+        stackView.addArrangedSubview(moveToBackButton)
         return stackView
     }()
     
@@ -39,40 +41,22 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
+        stackView.addArrangedSubview(alignmentButton)
         stackView.addArrangedSubview(fontSizeButton)
         stackView.addArrangedSubview(kernButton)
         stackView.addArrangedSubview(lineSpacingButton)
         return stackView
     }()
     
-    private lazy var boldButton: UIButton = {
-        let boldButton = UIButton(type: .system)
-        boldButton.setImage(#imageLiteral(resourceName: "bold_default"), for: .normal)
-        boldButton.setImage(#imageLiteral(resourceName: "bold_selected"), for: .selected)
-        boldButton.tintColor = .clear
-        boldButton.addTarget(self, action: #selector(makeBold(_:)), for: .touchUpInside)
-        return boldButton
-    }()
-    
-    private lazy var italicaButton: UIButton = {
-        let italicaButton = UIButton(type: .system)
-        italicaButton.setImage(#imageLiteral(resourceName: "italic_default"), for: .normal)
-        italicaButton.setImage(#imageLiteral(resourceName: "italic_selected"), for: .selected)
-        italicaButton.tintColor = .clear
-        italicaButton.addTarget(self, action: #selector(makeItalic(_:)), for: .touchUpInside)
-        return italicaButton
-    }()
-    
     private lazy var capitalisedButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "capitalised_default"), for: .normal)
-        button.setImage(#imageLiteral(resourceName: "capitalised_selected"), for: .selected)
         button.tintColor = .clear
         button.addTarget(self, action: #selector(upperCase(_:)), for: .touchUpInside)
         return button
     }()
     
-    private lazy var  alignmentButton: UIButton = {
+    private lazy var alignmentButton: UIButton = {
         let button = UIButton(type: .system)
         button.tintColor = .clear
         button.addTarget(self, action: #selector(changeAlignment(_:)), for: .touchUpInside)
@@ -85,6 +69,15 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
         button.setImage(#imageLiteral(resourceName: "font_size_selected"), for: .selected)
         button.tintColor = .clear
         button.addTarget(self, action: #selector(changeFontSize(_:)), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var backgroundColorButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "textBackground_default"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "textBackground_selected"), for: .selected)
+        button.tintColor = .clear
+        button.addTarget(self, action: #selector(changeBackgroundColor(_:)), for: .touchUpInside)
         return button
     }()
     
@@ -115,6 +108,22 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
         return button
     }()
     
+    private lazy var moveToFrontButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "moveToFront"), for: .normal)
+        button.tintColor = .clear
+        button.addTarget(self, action: #selector(moveToFront(_:)), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var moveToBackButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "moveToBack"), for: .normal)
+        button.tintColor = .clear
+        button.addTarget(self, action: #selector(moveToBack(_:)), for: .touchUpInside)
+        return button
+    }()
+    
     private let slider: UISlider = {
         let slider = UISlider()
         slider.tintColor = Consts.Colors.r219g192b178
@@ -137,17 +146,8 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
         return collectionView
     }()
     
-    private lazy var colorsCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 30, bottom: 10, right: 30)
-        layout.minimumInteritemSpacing = 6
-        layout.minimumLineSpacing = 6
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .clear
-        collectionView.allowsMultipleSelection = false
-        collectionView.registerClass(for: ColorCell.self)
-        return collectionView
+    private(set) lazy var colorsCollectionView: UIView = {
+        return UIView()
     }()
     
     weak var pippeteDelegate: PippeteDelegate?
@@ -157,26 +157,18 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
                       height: 2.0 * Constants.stackViewHight + 2.0 * Constants.stackViewHight + 20.0 + Consts.UIGreed.safeAreaInsetsBottom)
     }
     
-//    private var colorPickerModule: ColorPickerModule? {
-//        didSet {
-//            colorsCollectionView.delegate = colorPickerModule
-//            colorsCollectionView.dataSource = colorPickerModule
-//            colorPickerModule?.delegate = self
-//        }
-//    }
-    
-    private lazy var singleSelectionButtons: [UIButton] = [fontSizeButton, kernButton, lineSpacingButton, colorButton]
+    private lazy var singleSelectionButtons: [UIButton] = [fontSizeButton, kernButton, lineSpacingButton, colorButton, backgroundColorButton]
     
     // MARK: - Construction
     
     class func controller(presenter: TextEditorModulePresentable) -> TextEditorModuleController {
-        let view = TextEditorModuleController(frame: .zero)
-        view.presenter = presenter
+        let view = TextEditorModuleController(frame: .zero, presenter: presenter)
         presenter.view = view
         return view
     }
     
-    override init(frame: CGRect) {
+    init(frame: CGRect, presenter: TextEditorModulePresentable) {
+        self.presenter = presenter
         super.init(frame: frame)
         backgroundColor = Consts.Colors.applicationColor
         setup()
@@ -187,11 +179,6 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
     }
     
     // MARK: - Life Cycle
-    
-    override func willMove(toSuperview newSuperview: UIView?) {
-        (UIApplication.shared.delegate as? AppDelegate)?.window?.colorCallBack = nil
-        super.willMove(toSuperview: newSuperview)
-    }
     
     override func updateConstraints() {
         fontsCollectionView.snp.remakeConstraints { maker in
@@ -214,6 +201,9 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
             maker.top.equalTo(stackViewSecond.snp.bottom)
             maker.height.equalTo(Constants.stackViewHight)
         }
+        presenter.colorEditModuleController.view.snp.remakeConstraints { maker in
+            maker.edges.equalToSuperview()
+        }
         colorsCollectionView.snp.remakeConstraints { maker in
             maker.left.right.equalToSuperview()
             maker.top.equalTo(stackViewSecond.snp.bottom)
@@ -228,14 +218,12 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
         guard let textSetups = presenter.textSetups else {
             return
         }
-        updateBoldItalic()
         alignmentButton.setImage(textSetups.aligment.image, for: .normal)
-        alignmentButton.isSelected = textSetups.isUpperCase
     }
     
     func updateSlider(with model: SliderModel?) {
-        slider.isHidden = presenter.type == .color
-        colorsCollectionView.isHidden = presenter.type != .color
+        slider.isHidden = presenter.type.sliderType == .color
+        colorsCollectionView.isHidden = presenter.type.sliderType == .slider
         switch presenter.type {
         case .fontSize:
             deselectButtons(excluding: fontSizeButton)
@@ -245,6 +233,8 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
             deselectButtons(excluding: lineSpacingButton)
         case .color:
             deselectButtons(excluding: colorButton)
+        case .backgroundColor:
+            deselectButtons(excluding: backgroundColorButton)
         }
         if let model = model {
             slider.minimumValue = Float(model.minValue)
@@ -253,17 +243,11 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
         }
     }
     
-    // MARK: - Private Functions
-    
-    private func updateBoldItalic() {
-        guard let textSetups = presenter.textSetups else {
-            return
-        }
-        boldButton.isEnabled = textSetups.canBeBold
-        italicaButton.isEnabled = textSetups.canBeItalic
-        boldButton.isSelected = textSetups.isBold
-        italicaButton.isSelected = textSetups.isItalic
+    func updateColorPicker(with color: UIColor?) {
+        presenter.colorEditModuleController.updateUIColor(color)
     }
+    
+    // MARK: - Private Functions
     
     private func setup() {
         autoresizingMask = .flexibleHeight
@@ -272,6 +256,7 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
         addSubview(stackViewSecond)
         addSubview(slider)
         addSubview(colorsCollectionView)
+        colorsCollectionView.addSubview(presenter.colorEditModuleController.view)
         updateConstraintsIfNeeded()
     }
     
@@ -282,21 +267,9 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
     }
     
     // MARK: - Functions
-    
-//    func update(colorPickerModule: ColorPickerModule) {
-//        self.colorPickerModule = colorPickerModule
-//        colorsCollectionView.reloadData()
-//    }
+
     
     // MARK: - Actions
-    
-    @objc private func makeBold(_ button: UIButton) {
-        button.isSelected = presenter.makeBold()
-    }
-    
-    @objc private func makeItalic(_ button: UIButton) {
-        button.isSelected = presenter.makeItalic()
-    }
     
     @objc private func changeAlignment(_ button: UIButton) {
         let alignmentType = presenter.changeAlignment()
@@ -304,7 +277,7 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
     }
     
     @objc private func upperCase(_ button: UIButton) {
-        button.isSelected = presenter.upperCase()
+        presenter.upperCase()
     }
     
     @objc private func changeFontSize(_ button: UIButton) {
@@ -315,6 +288,10 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
         presenter.beginEdition(with: .color)
     }
     
+    @objc private func changeBackgroundColor(_ button: UIButton) {
+        presenter.beginEdition(with: .backgroundColor)
+    }
+    
     @objc private func changeLineSpacing(_ button: UIButton) {
         presenter.beginEdition(with: .lineSpacing)
     }
@@ -323,13 +300,16 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
         presenter.beginEdition(with: .kern)
     }
     
-    @objc private func sliderValueDidChanged(_ slider: UISlider) {
-        presenter.valueDidChanged(slider.value)
+    @objc private func moveToBack(_ button: UIButton) {
+        presenter.moveToBack()
     }
     
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        (UIApplication.shared.delegate as? AppDelegate)?.window?.colorCallBack = nil
-        return super.hitTest(point, with: event)
+    @objc private func moveToFront(_ button: UIButton) {
+        presenter.moveToFront()
+    }
+    
+    @objc private func sliderValueDidChanged(_ slider: UISlider) {
+        presenter.valueDidChanged(slider.value)
     }
     
     // MARK: - UICollectionViewDataSource
@@ -366,7 +346,6 @@ final class TextEditorModuleController: UIView, TextEditorModuleDisplayable, UIC
             return
         }
         presenter.setFont(at: indexPath.row)
-        updateBoldItalic()
     }
     
     // MARK: - ColorPickerLostener

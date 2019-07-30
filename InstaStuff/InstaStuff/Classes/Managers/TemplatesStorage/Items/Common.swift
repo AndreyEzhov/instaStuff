@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 struct Settings {
     var center: CGPoint
@@ -45,8 +47,17 @@ struct PhotoItemCustomSettings {
 }
 
 struct TextItem {
-    let textSetups: TextSetups
-    let defautText: String
+    
+    static var defaultTextItem: TextItem {
+        return TextItem(textSetups: TextSetups.defaultSetups, ratio: 2.0)
+    }
+    
+    var textSetups: TextSetups
+    var ratio: CGFloat
+    
+    func copy() -> TextItem {
+        return TextItem(textSetups: textSetups.copy(), ratio: ratio)
+    }
 }
 
 struct StuffItem: PreviewProtocol {

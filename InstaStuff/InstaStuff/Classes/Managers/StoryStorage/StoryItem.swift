@@ -52,14 +52,7 @@ class StoryItem {
                 return
             }
 
-            var size: CGSize
-//            if item is StoryEditableTextItem {
-//                size = image.size
-//            } else {
-                let currentWidth = item.settings.sizeWidth * width
-                size = CGSize(width: currentWidth,
-                              height: currentWidth * image.size.height / image.size.width)
-            //}
+            let size = image.size
 
             let frame = CGRect(origin: CGPoint(x: -size.width / 2.0, y: -size.height / 2.0), size: size)
 

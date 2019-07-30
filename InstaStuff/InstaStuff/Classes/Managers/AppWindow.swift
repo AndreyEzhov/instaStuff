@@ -10,18 +10,6 @@ import UIKit
 
 class AppWindow: UIWindow {
     
-    var colorCallBack: ((UIColor?) -> ())?
-    
-    override func sendEvent(_ event: UIEvent) {
-        if let callback = colorCallBack, event.type == .touches, let view = self.subviews.first, let position = event.allTouches?.first?.location(in: view) {
-            let color = getPixelColorAtPoint(point: position, sourceView: view)
-            callback(color)
-            colorCallBack = nil
-        } else {
-            super.sendEvent(event)
-        }
-    }
-    
     private func getPixelColorAtPoint(point: CGPoint, sourceView: UIView) -> UIColor? {
         let pixel = UnsafeMutablePointer<CUnsignedChar>.allocate(capacity: 4)
         let colorSpace = CGColorSpaceCreateDeviceRGB()

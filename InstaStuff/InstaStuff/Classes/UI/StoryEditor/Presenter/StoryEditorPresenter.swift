@@ -76,9 +76,6 @@ final class StoryEditorPresenter: StoryEditorPresentable {
     }
     
     func exportImage(initiatedByUser: Bool) {
-        if !initiatedByUser, story.items.isEmpty {
-            return
-        }
         if let image = story.exportImage() {
             if initiatedByUser {
                 contentView()?.displayResult(with: image)

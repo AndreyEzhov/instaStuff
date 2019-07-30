@@ -32,7 +32,7 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
     }()
     
     private lazy var slideView: StorySlideView = {
-        let view = StorySlideView()
+        let view = StorySlideView(slideArea: slideArea)
         view.addGestures()
         return view
     }()
@@ -42,6 +42,12 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
         view.view = slideView
         return view
     }()
+    
+    private let offset: CGFloat = 10
+    
+    private var coef: CGFloat {
+        return (view.bounds.width - 2 * offset) / Consts.UIGreed.screenWidth
+    }
     
     private var photoDidSelectedBlock: ((UIImage) -> ())?
     
@@ -53,7 +59,7 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
         return view
     }()
     
-    private(set) lazy var slideViewPresenter = SlideViewPresenter(storySlideView: slideView, storyItem: presenter.story, editorPresenter: editorController.presenter as! EditorPresenter)
+    private(set) lazy var slideViewPresenter = SlideViewPresenter(storySlideView: slideView, storyItem: presenter.story, editorPresenter: editorController.presenter as! EditorPresenter, coef: coef)
     
     var heightConstraint: ConstraintMakerEditable?
     
@@ -66,6 +72,7 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
         presenter.slideViewPresenter = slideViewPresenter
         editorController.presenter.update(with: .main(self))
         navigationController?.router.updateHierarchy()
+        TextViewPlace.editView.presenter.pippeteDelegate = self
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -86,7 +93,7 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
             maker.centerX.equalToSuperview()
             maker.centerY.equalToSuperview().inset(-20)
             maker.width.equalTo(slideView.snp.height).multipliedBy(ratio)
-            maker.height.equalTo(slideArea.snp.height).inset(10)
+            maker.height.equalTo(slideArea.snp.height).inset(offset)
         }
         
         editorView.snp.remakeConstraints { maker in
@@ -194,7 +201,7 @@ extension StoryEditorController: MenuViewProtocol {
     }
     
     func addTextAction(_ sender: UIButton) {
-        
+        presenter.slideViewPresenter?.add(StoryEditableTextItem.defaultItem)
     }
     
     func changeBackgroundAction(_ sender: UIButton) {
@@ -234,9 +241,19 @@ extension StoryEditorController: BackgroundPickerListener {
         slideArea.addSubview(view)
         slideArea.addSubview(pipette)
         pipette.view = view
-        pipette.completion = completion
+        let isFirstResponder = presenter.slideViewPresenter?.selectedItem?.isFirstResponder ?? false
+        presenter.slideViewPresenter?.selectedItem?.resignFirstResponder()
+        pipette.completion = { color in
+            if isFirstResponder {
+                self.presenter.slideViewPresenter?.selectedItem?.becomeFirstResponder()
+            }
+            self.editorView.isHidden = false
+            completion(color)
+        }
         pipette.frame = slideView.frame
         view.frame = slideView.frame
+        editorView.isHidden = true
+
     }
     
     func backgroundImageDidChanged(_ imageName: String?) {

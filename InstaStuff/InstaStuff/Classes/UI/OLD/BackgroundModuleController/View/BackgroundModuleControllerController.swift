@@ -106,12 +106,6 @@ final class BackgroundModuleControllerController: UIView, BackgroundModuleContro
 
     // MARK: - Life Cycle
     
-    override func willMove(toSuperview newSuperview: UIView?) {
-        inputViewCollapser.applyDefaultTransform()
-        (UIApplication.shared.delegate as? AppDelegate)?.window?.colorCallBack = nil
-        super.willMove(toSuperview: newSuperview)
-    }
-    
     override func updateConstraints() {
         doneButton.snp.remakeConstraints { maker in
             maker.top.equalToSuperview()
@@ -129,11 +123,6 @@ final class BackgroundModuleControllerController: UIView, BackgroundModuleContro
             maker.height.equalTo(Constants.collectionViewHight)
         }
         super.updateConstraints()
-    }
-    
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        (UIApplication.shared.delegate as? AppDelegate)?.window?.colorCallBack = nil
-        return super.hitTest(point, with: event)
     }
     
     // MARK: - TextEditorModuleDisplayable

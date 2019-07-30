@@ -82,11 +82,16 @@ final class ColorEditModuleController: BaseViewController<ColorEditModulePresent
     private func updateColor(_ color: UIColor?) {
         guard let color = color else { return }
         presenter.delegate?.colorDidChanged(color)
-        pipetteButton.backgroundColor = color
-        pipetteButton.tintColor = color.isLight ? .black : .white
+        updateUIColor(color)
     }
     
     // MARK: - Functions
+    
+    func updateUIColor(_ color: UIColor?) {
+        guard let color = color else { return }
+        pipetteButton.backgroundColor = color
+        pipetteButton.tintColor = color.isLight ? .black : .white
+    }
     
     // MARK: - Actions
     
@@ -145,5 +150,17 @@ extension UIColor {
             // Could not extract RGBA components:
             return nil
         }
+    }
+    
+    func inverce() -> UIColor {
+        guard let rgb = rgb() else { return .white }
+        func round(value: Int) -> CGFloat {
+            let value = value < 120 ? (value + 120) : (value - 120)
+            return CGFloat(value) / 255.0
+        }
+        let red = round(value: rgb.red)
+        let green = round(value: rgb.green)
+        let blue = round(value: rgb.blue)
+        return UIColor(red: red, green: green, blue: blue, alpha: 1)
     }
 }

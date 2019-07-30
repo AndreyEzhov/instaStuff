@@ -50,6 +50,10 @@
 		12C118EE2221F2A800996C20 /* Assembley.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C118ED2221F2A800996C20 /* Assembley.swift */; };
 		7DEFE247B3723333BC11FA6E /* Pods_InstaStuff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE8890ED00D814BB3024EB3B /* Pods_InstaStuff.framework */; };
 		AD2CEEBB22B51D5B00EBF54C /* PipetteSubview.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD2CEEBA22B51D5B00EBF54C /* PipetteSubview.swift */; };
+		AD2EFB0222EE3787000D4DDE /* Sets.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = AD2EFAFF22EE3787000D4DDE /* Sets.sqlite-shm */; };
+		AD2EFB0322EE3787000D4DDE /* Sets.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = AD2EFB0022EE3787000D4DDE /* Sets.sqlite */; };
+		AD2EFB0422EE3787000D4DDE /* Sets.sqlite-wal in Resources */ = {isa = PBXBuildFile; fileRef = AD2EFB0122EE3787000D4DDE /* Sets.sqlite-wal */; };
+		AD2EFB0822EF0DE0000D4DDE /* BackgroundTextLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD2EFB0722EF0DE0000D4DDE /* BackgroundTextLayer.swift */; };
 		AD37C8B4226DE54500C7FF5F /* BackgroundModuleControllerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD37C8AF226DE54500C7FF5F /* BackgroundModuleControllerPresenter.swift */; };
 		AD37C8B5226DE54500C7FF5F /* BackgroundModuleControllerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD37C8B1226DE54500C7FF5F /* BackgroundModuleControllerAssembly.swift */; };
 		AD37C8B6226DE54500C7FF5F /* BackgroundModuleControllerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD37C8B3226DE54500C7FF5F /* BackgroundModuleControllerController.swift */; };
@@ -67,8 +71,6 @@
 		AD5829DD223BFCB80069558B /* PhotoModuleControllerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5829D6223BFCB80069558B /* PhotoModuleControllerPresenter.swift */; };
 		AD5829DE223BFCB80069558B /* PhotoModuleControllerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5829D8223BFCB80069558B /* PhotoModuleControllerAssembly.swift */; };
 		AD5829E0223BFCB80069558B /* PhotoModuleControllerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5829DB223BFCB80069558B /* PhotoModuleControllerController.swift */; };
-		AD5829E2223C205B0069558B /* TextSetups.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5829E1223C205B0069558B /* TextSetups.swift */; };
-		AD5829E4223D85400069558B /* TextEdibaleItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5829E3223D85400069558B /* TextEdibaleItemModel.swift */; };
 		AD5EA707228ABD5C00704218 /* ConstructorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5EA700228ABD5C00704218 /* ConstructorPresenter.swift */; };
 		AD5EA708228ABD5C00704218 /* ConstructorAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5EA702228ABD5C00704218 /* ConstructorAssembly.swift */; };
 		AD5EA709228ABD5C00704218 /* ConstructorRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5EA703228ABD5C00704218 /* ConstructorRouter.swift */; };
@@ -85,9 +87,6 @@
 		AD6C7BEA22D117440097DBF6 /* BaseEditModuleAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6C7BE522D117440097DBF6 /* BaseEditModuleAssembly.swift */; };
 		AD6C7BEB22D117440097DBF6 /* BaseEditModuleRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6C7BE622D117440097DBF6 /* BaseEditModuleRouter.swift */; };
 		AD6C7BEC22D117440097DBF6 /* BaseEditModuleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6C7BE822D117440097DBF6 /* BaseEditModuleController.swift */; };
-		AD7F2F3422E0FCAB0070A08D /* Sets.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = AD7F2F3122E0FCAB0070A08D /* Sets.sqlite */; };
-		AD7F2F3522E0FCAB0070A08D /* Sets.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = AD7F2F3222E0FCAB0070A08D /* Sets.sqlite-shm */; };
-		AD7F2F3622E0FCAB0070A08D /* Sets.sqlite-wal in Resources */ = {isa = PBXBuildFile; fileRef = AD7F2F3322E0FCAB0070A08D /* Sets.sqlite-wal */; };
 		AD873FBD22DB911D00D84565 /* UsersCollectionPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD873FB622DB911D00D84565 /* UsersCollectionPresenter.swift */; };
 		AD873FBE22DB911D00D84565 /* UsersCollectionRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD873FB822DB911D00D84565 /* UsersCollectionRouter.swift */; };
 		AD873FBF22DB911D00D84565 /* UsersCollectionAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD873FB922DB911D00D84565 /* UsersCollectionAssembly.swift */; };
@@ -118,6 +117,14 @@
 		AD8F6EDD22609D580030537D /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8F6EDC22609D580030537D /* CoreDataStack.swift */; };
 		AD8F6EE02260A1FE0030537D /* Sets.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AD8F6EDE2260A1FE0030537D /* Sets.xcdatamodeld */; };
 		AD8F6EE22260BE4E0030537D /* TemplatesStorage+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8F6EE12260BE4E0030537D /* TemplatesStorage+Ext.swift */; };
+		AD95A87922ECB59B00684B9F /* TextEditorModulePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD95A87122ECB59B00684B9F /* TextEditorModulePresenter.swift */; };
+		AD95A87A22ECB59B00684B9F /* TextEditorModuleAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD95A87322ECB59B00684B9F /* TextEditorModuleAssembly.swift */; };
+		AD95A87B22ECB59B00684B9F /* TextEdibaleItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD95A87422ECB59B00684B9F /* TextEdibaleItemModel.swift */; };
+		AD95A87C22ECB59B00684B9F /* TextSetups.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD95A87522ECB59B00684B9F /* TextSetups.swift */; };
+		AD95A87D22ECB59B00684B9F /* TextEditorModuleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD95A87722ECB59B00684B9F /* TextEditorModuleController.swift */; };
+		AD95A87E22ECB59B00684B9F /* FontCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD95A87822ECB59B00684B9F /* FontCell.swift */; };
+		AD95A88022ECB5C300684B9F /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD95A87F22ECB5C300684B9F /* Colors.swift */; };
+		AD95A88222ECB5DD00684B9F /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD95A88122ECB5DD00684B9F /* Fonts.swift */; };
 		AD95DB5822E76D7D00CABE48 /* BackgroundImageEditModulePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD95DB5222E76D7D00CABE48 /* BackgroundImageEditModulePresenter.swift */; };
 		AD95DB5922E76D7D00CABE48 /* BackgroundImageEditModuleAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD95DB5422E76D7D00CABE48 /* BackgroundImageEditModuleAssembly.swift */; };
 		AD95DB5A22E76D7D00CABE48 /* BackgroundImageEditModuleRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD95DB5522E76D7D00CABE48 /* BackgroundImageEditModuleRouter.swift */; };
@@ -128,10 +135,6 @@
 		ADD7D704225E024F00DC8E78 /* bad-script.regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ADD7D703225E024F00DC8E78 /* bad-script.regular.ttf */; };
 		ADEBBC422239381A00D2C566 /* StorySlideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEBBC412239381A00D2C566 /* StorySlideView.swift */; };
 		ADEBBC4422393DA900D2C566 /* TextViewPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEBBC4322393DA900D2C566 /* TextViewPlace.swift */; };
-		ADEBBC5922394CE600D2C566 /* TextEditorModulePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEBBC5222394CE600D2C566 /* TextEditorModulePresenter.swift */; };
-		ADEBBC5A22394CE600D2C566 /* TextEditorModuleAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEBBC5422394CE600D2C566 /* TextEditorModuleAssembly.swift */; };
-		ADEBBC5C22394CE600D2C566 /* TextEditorModuleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEBBC5722394CE600D2C566 /* TextEditorModuleController.swift */; };
-		ADEBBC60223959A500D2C566 /* FontCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEBBC5F223959A500D2C566 /* FontCell.swift */; };
 		ADEBBC6222398F9700D2C566 /* UITextView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEBBC6122398F9700D2C566 /* UITextView+Ext.swift */; };
 /* End PBXBuildFile section */
 
@@ -183,6 +186,10 @@
 		6662B9FA7CD63E622B09F60A /* Pods-InstaStuff.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstaStuff.release.xcconfig"; path = "Pods/Target Support Files/Pods-InstaStuff/Pods-InstaStuff.release.xcconfig"; sourceTree = "<group>"; };
 		72ACFA6D5F2C70196A7DD76B /* Pods-InstaStuff.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstaStuff.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InstaStuff/Pods-InstaStuff.debug.xcconfig"; sourceTree = "<group>"; };
 		AD2CEEBA22B51D5B00EBF54C /* PipetteSubview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipetteSubview.swift; sourceTree = "<group>"; };
+		AD2EFAFF22EE3787000D4DDE /* Sets.sqlite-shm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sets.sqlite-shm"; sourceTree = "<group>"; };
+		AD2EFB0022EE3787000D4DDE /* Sets.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = Sets.sqlite; sourceTree = "<group>"; };
+		AD2EFB0122EE3787000D4DDE /* Sets.sqlite-wal */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sets.sqlite-wal"; sourceTree = "<group>"; };
+		AD2EFB0722EF0DE0000D4DDE /* BackgroundTextLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTextLayer.swift; sourceTree = "<group>"; };
 		AD37C8AF226DE54500C7FF5F /* BackgroundModuleControllerPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundModuleControllerPresenter.swift; sourceTree = "<group>"; };
 		AD37C8B1226DE54500C7FF5F /* BackgroundModuleControllerAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundModuleControllerAssembly.swift; sourceTree = "<group>"; };
 		AD37C8B3226DE54500C7FF5F /* BackgroundModuleControllerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundModuleControllerController.swift; sourceTree = "<group>"; };
@@ -200,8 +207,6 @@
 		AD5829D6223BFCB80069558B /* PhotoModuleControllerPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoModuleControllerPresenter.swift; sourceTree = "<group>"; };
 		AD5829D8223BFCB80069558B /* PhotoModuleControllerAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoModuleControllerAssembly.swift; sourceTree = "<group>"; };
 		AD5829DB223BFCB80069558B /* PhotoModuleControllerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoModuleControllerController.swift; sourceTree = "<group>"; };
-		AD5829E1223C205B0069558B /* TextSetups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSetups.swift; sourceTree = "<group>"; };
-		AD5829E3223D85400069558B /* TextEdibaleItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEdibaleItemModel.swift; sourceTree = "<group>"; };
 		AD5EA700228ABD5C00704218 /* ConstructorPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstructorPresenter.swift; sourceTree = "<group>"; };
 		AD5EA702228ABD5C00704218 /* ConstructorAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstructorAssembly.swift; sourceTree = "<group>"; };
 		AD5EA703228ABD5C00704218 /* ConstructorRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstructorRouter.swift; sourceTree = "<group>"; };
@@ -218,9 +223,6 @@
 		AD6C7BE522D117440097DBF6 /* BaseEditModuleAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseEditModuleAssembly.swift; sourceTree = "<group>"; };
 		AD6C7BE622D117440097DBF6 /* BaseEditModuleRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseEditModuleRouter.swift; sourceTree = "<group>"; };
 		AD6C7BE822D117440097DBF6 /* BaseEditModuleController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseEditModuleController.swift; sourceTree = "<group>"; };
-		AD7F2F3122E0FCAB0070A08D /* Sets.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = Sets.sqlite; sourceTree = "<group>"; };
-		AD7F2F3222E0FCAB0070A08D /* Sets.sqlite-shm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sets.sqlite-shm"; sourceTree = "<group>"; };
-		AD7F2F3322E0FCAB0070A08D /* Sets.sqlite-wal */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sets.sqlite-wal"; sourceTree = "<group>"; };
 		AD873FB622DB911D00D84565 /* UsersCollectionPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersCollectionPresenter.swift; sourceTree = "<group>"; };
 		AD873FB822DB911D00D84565 /* UsersCollectionRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersCollectionRouter.swift; sourceTree = "<group>"; };
 		AD873FB922DB911D00D84565 /* UsersCollectionAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersCollectionAssembly.swift; sourceTree = "<group>"; };
@@ -251,6 +253,14 @@
 		AD8F6EDC22609D580030537D /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		AD8F6EDF2260A1FE0030537D /* Sets.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Sets.xcdatamodel; sourceTree = "<group>"; };
 		AD8F6EE12260BE4E0030537D /* TemplatesStorage+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TemplatesStorage+Ext.swift"; sourceTree = "<group>"; };
+		AD95A87122ECB59B00684B9F /* TextEditorModulePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEditorModulePresenter.swift; sourceTree = "<group>"; };
+		AD95A87322ECB59B00684B9F /* TextEditorModuleAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEditorModuleAssembly.swift; sourceTree = "<group>"; };
+		AD95A87422ECB59B00684B9F /* TextEdibaleItemModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEdibaleItemModel.swift; sourceTree = "<group>"; };
+		AD95A87522ECB59B00684B9F /* TextSetups.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextSetups.swift; sourceTree = "<group>"; };
+		AD95A87722ECB59B00684B9F /* TextEditorModuleController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEditorModuleController.swift; sourceTree = "<group>"; };
+		AD95A87822ECB59B00684B9F /* FontCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontCell.swift; sourceTree = "<group>"; };
+		AD95A87F22ECB5C300684B9F /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		AD95A88122ECB5DD00684B9F /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		AD95DB5222E76D7D00CABE48 /* BackgroundImageEditModulePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundImageEditModulePresenter.swift; sourceTree = "<group>"; };
 		AD95DB5422E76D7D00CABE48 /* BackgroundImageEditModuleAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundImageEditModuleAssembly.swift; sourceTree = "<group>"; };
 		AD95DB5522E76D7D00CABE48 /* BackgroundImageEditModuleRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundImageEditModuleRouter.swift; sourceTree = "<group>"; };
@@ -261,10 +271,6 @@
 		ADD7D703225E024F00DC8E78 /* bad-script.regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "bad-script.regular.ttf"; sourceTree = "<group>"; };
 		ADEBBC412239381A00D2C566 /* StorySlideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorySlideView.swift; sourceTree = "<group>"; };
 		ADEBBC4322393DA900D2C566 /* TextViewPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewPlace.swift; sourceTree = "<group>"; };
-		ADEBBC5222394CE600D2C566 /* TextEditorModulePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEditorModulePresenter.swift; sourceTree = "<group>"; };
-		ADEBBC5422394CE600D2C566 /* TextEditorModuleAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEditorModuleAssembly.swift; sourceTree = "<group>"; };
-		ADEBBC5722394CE600D2C566 /* TextEditorModuleController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEditorModuleController.swift; sourceTree = "<group>"; };
-		ADEBBC5F223959A500D2C566 /* FontCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontCell.swift; sourceTree = "<group>"; };
 		ADEBBC6122398F9700D2C566 /* UITextView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Ext.swift"; sourceTree = "<group>"; };
 		BE8890ED00D814BB3024EB3B /* Pods_InstaStuff.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InstaStuff.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -322,6 +328,7 @@
 				ADEBBC4322393DA900D2C566 /* TextViewPlace.swift */,
 				ADBF3ECE225A4D830008A543 /* ViewPlace.swift */,
 				AD516E6F228BF80F0072539A /* PhotoPlaceConstructor.swift */,
+				AD2EFB0722EF0DE0000D4DDE /* BackgroundTextLayer.swift */,
 			);
 			path = PlacebleItems;
 			sourceTree = "<group>";
@@ -437,6 +444,7 @@
 		12C118C92221F1AD00996C20 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				AD95A86F22ECB59B00684B9F /* TextEditorModule */,
 				AD873FB222DB911D00D84565 /* UsersCollection */,
 				AD8A7AB122B943B60039E2C7 /* Editor */,
 				AD6C7BCD22D0B3F40097DBF6 /* OLD */,
@@ -704,7 +712,6 @@
 			isa = PBXGroup;
 			children = (
 				AD6C7BDF22D0C8230097DBF6 /* MenuView.swift */,
-				ADEBBC4E22394CE600D2C566 /* TextEditorModule */,
 				AD5EA6FC228ABD5C00704218 /* Constructor */,
 				AD37C8AC226DE54500C7FF5F /* BackgroundModuleController */,
 				AD5829D2223BFCB80069558B /* PhotoModuleController */,
@@ -987,6 +994,45 @@
 			path = CoreData;
 			sourceTree = "<group>";
 		};
+		AD95A86F22ECB59B00684B9F /* TextEditorModule */ = {
+			isa = PBXGroup;
+			children = (
+				AD95A87022ECB59B00684B9F /* Presenter */,
+				AD95A87222ECB59B00684B9F /* Model */,
+				AD95A87622ECB59B00684B9F /* View */,
+			);
+			path = TextEditorModule;
+			sourceTree = "<group>";
+		};
+		AD95A87022ECB59B00684B9F /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				AD95A87122ECB59B00684B9F /* TextEditorModulePresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		AD95A87222ECB59B00684B9F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				AD95A87322ECB59B00684B9F /* TextEditorModuleAssembly.swift */,
+				AD95A87422ECB59B00684B9F /* TextEdibaleItemModel.swift */,
+				AD95A87522ECB59B00684B9F /* TextSetups.swift */,
+				AD95A87F22ECB5C300684B9F /* Colors.swift */,
+				AD95A88122ECB5DD00684B9F /* Fonts.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		AD95A87622ECB59B00684B9F /* View */ = {
+			isa = PBXGroup;
+			children = (
+				AD95A87722ECB59B00684B9F /* TextEditorModuleController.swift */,
+				AD95A87822ECB59B00684B9F /* FontCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		AD95DB5022E76D7D00CABE48 /* BackgroundImageEditModule */ = {
 			isa = PBXGroup;
 			children = (
@@ -1042,49 +1088,12 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
-		ADEBBC4E22394CE600D2C566 /* TextEditorModule */ = {
-			isa = PBXGroup;
-			children = (
-				ADEBBC5122394CE600D2C566 /* Presenter */,
-				ADEBBC5322394CE600D2C566 /* Model */,
-				ADEBBC5622394CE600D2C566 /* View */,
-			);
-			path = TextEditorModule;
-			sourceTree = "<group>";
-		};
-		ADEBBC5122394CE600D2C566 /* Presenter */ = {
-			isa = PBXGroup;
-			children = (
-				ADEBBC5222394CE600D2C566 /* TextEditorModulePresenter.swift */,
-			);
-			path = Presenter;
-			sourceTree = "<group>";
-		};
-		ADEBBC5322394CE600D2C566 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				ADEBBC5422394CE600D2C566 /* TextEditorModuleAssembly.swift */,
-				AD5829E1223C205B0069558B /* TextSetups.swift */,
-				AD5829E3223D85400069558B /* TextEdibaleItemModel.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		ADEBBC5622394CE600D2C566 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				ADEBBC5722394CE600D2C566 /* TextEditorModuleController.swift */,
-				ADEBBC5F223959A500D2C566 /* FontCell.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		ADF5CAB622DFBDE7005228AD /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				AD7F2F3122E0FCAB0070A08D /* Sets.sqlite */,
-				AD7F2F3222E0FCAB0070A08D /* Sets.sqlite-shm */,
-				AD7F2F3322E0FCAB0070A08D /* Sets.sqlite-wal */,
+				AD2EFB0022EE3787000D4DDE /* Sets.sqlite */,
+				AD2EFAFF22EE3787000D4DDE /* Sets.sqlite-shm */,
+				AD2EFB0122EE3787000D4DDE /* Sets.sqlite-wal */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -1152,16 +1161,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD7F2F3422E0FCAB0070A08D /* Sets.sqlite in Resources */,
 				12528A85223568410040609B /* Localizable.strings in Resources */,
 				12C118AA2221C7F700996C20 /* LaunchScreen.storyboard in Resources */,
 				12C118A72221C7F700996C20 /* Assets.xcassets in Resources */,
 				12C118A52221C7F400996C20 /* Main.storyboard in Resources */,
-				AD7F2F3522E0FCAB0070A08D /* Sets.sqlite-shm in Resources */,
+				AD2EFB0222EE3787000D4DDE /* Sets.sqlite-shm in Resources */,
 				121F2ABC226C83C2009721F0 /* Cheque-Regular.ttf in Resources */,
 				121F2ACD226C8808009721F0 /* Journalism-Regular.ttf in Resources */,
-				AD7F2F3622E0FCAB0070A08D /* Sets.sqlite-wal in Resources */,
 				ADD7D704225E024F00DC8E78 /* bad-script.regular.ttf in Resources */,
+				AD2EFB0422EE3787000D4DDE /* Sets.sqlite-wal in Resources */,
+				AD2EFB0322EE3787000D4DDE /* Sets.sqlite in Resources */,
 				121F2AC5226C8670009721F0 /* Solena-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1238,8 +1247,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD95A87E22ECB59B00684B9F /* FontCell.swift in Sources */,
 				AD87407B22B96FC7000889BC /* ItemEditModuleAssembly.swift in Sources */,
 				AD6C7BC622CEF8E10097DBF6 /* SlideViewPresenter.swift in Sources */,
+				AD95A87B22ECB59B00684B9F /* TextEdibaleItemModel.swift in Sources */,
 				AD8A7AC122B944000039E2C7 /* EditorToolbar.swift in Sources */,
 				AD87409122BA7EED000889BC /* SliderEditModulePresenter.swift in Sources */,
 				12C118C32221C82500996C20 /* UINavigationController+Analytics.swift in Sources */,
@@ -1265,23 +1276,23 @@
 				12C118C62221C82500996C20 /* RequestInfo.swift in Sources */,
 				AD516E70228BF80F0072539A /* PhotoPlaceConstructor.swift in Sources */,
 				AD4C0176223A787900F17FF3 /* TemplatePickerController.swift in Sources */,
-				ADEBBC5A22394CE600D2C566 /* TextEditorModuleAssembly.swift in Sources */,
 				AD5EA708228ABD5C00704218 /* ConstructorAssembly.swift in Sources */,
 				AD493BEC2294396D006B1524 /* FrameCell.swift in Sources */,
 				12C118EA2221F23F00996C20 /* StoryPickerRouter.swift in Sources */,
 				AD5EA709228ABD5C00704218 /* ConstructorRouter.swift in Sources */,
 				12C118C22221C82500996C20 /* Router.swift in Sources */,
-				AD5829E2223C205B0069558B /* TextSetups.swift in Sources */,
 				12C118E42221F23F00996C20 /* StoryEditorRouter.swift in Sources */,
+				AD95A87922ECB59B00684B9F /* TextEditorModulePresenter.swift in Sources */,
+				AD95A88022ECB5C300684B9F /* Colors.swift in Sources */,
 				12C118E62221F23F00996C20 /* StoryEditorController.swift in Sources */,
 				12C118E32221F23F00996C20 /* StoryEditorPresenter.swift in Sources */,
 				AD6C7BDB22D0B9570097DBF6 /* MenuEditModulePresenter.swift in Sources */,
 				AD4C0165223A5CC300F17FF3 /* UIView.swift in Sources */,
 				AD873FC222DB985200D84565 /* ImageHandler.swift in Sources */,
+				AD2EFB0822EF0DE0000D4DDE /* BackgroundTextLayer.swift in Sources */,
 				12C118EE2221F2A800996C20 /* Assembley.swift in Sources */,
 				AD8A7ABF22B943B60039E2C7 /* EditorController.swift in Sources */,
 				12528A8222351D3B0040609B /* StuffPlace.swift in Sources */,
-				ADEBBC60223959A500D2C566 /* FontCell.swift in Sources */,
 				12C118C42221C82500996C20 /* Font.swift in Sources */,
 				12528A6F222B5A5B0040609B /* StoryEditableItem.swift in Sources */,
 				12C118BF2221C82500996C20 /* MVP.swift in Sources */,
@@ -1296,6 +1307,7 @@
 				AD8A7AD422B94E100039E2C7 /* ColorEditModulePresenter.swift in Sources */,
 				12686CE02222FC110005BF27 /* Consts+Custom.swift in Sources */,
 				12C118BD2221C82500996C20 /* Consts.swift in Sources */,
+				AD95A87A22ECB59B00684B9F /* TextEditorModuleAssembly.swift in Sources */,
 				AD6C7BDD22D0B9570097DBF6 /* MenuEditModuleRouter.swift in Sources */,
 				1289FD90222208D800CD7F0E /* CreateStoryCell.swift in Sources */,
 				AD5EA707228ABD5C00704218 /* ConstructorPresenter.swift in Sources */,
@@ -1305,7 +1317,6 @@
 				AD87409222BA7EED000889BC /* SliderEditModuleAssembly.swift in Sources */,
 				AD8BF0092271ECA800F0F1EC /* AppWindow.swift in Sources */,
 				AD6C7BDE22D0B9570097DBF6 /* MenuEditModuleController.swift in Sources */,
-				ADEBBC5C22394CE600D2C566 /* TextEditorModuleController.swift in Sources */,
 				12C118EB2221F23F00996C20 /* MainScreenController.swift in Sources */,
 				AD4C0174223A787900F17FF3 /* TemplatePickerRouter.swift in Sources */,
 				128186B32224839C00E48646 /* Strings+Ext.swift in Sources */,
@@ -1328,13 +1339,12 @@
 				AD6C7BD122D0B63D0097DBF6 /* EditViewPresenter.swift in Sources */,
 				12528A7F223517F60040609B /* Common.swift in Sources */,
 				AD873FBD22DB911D00D84565 /* UsersCollectionPresenter.swift in Sources */,
-				ADEBBC5922394CE600D2C566 /* TextEditorModulePresenter.swift in Sources */,
 				AD8A7ABD22B943B60039E2C7 /* EditorAssembly.swift in Sources */,
 				1289FDA6222281A000CD7F0E /* PhotoPlace.swift in Sources */,
 				ADEBBC422239381A00D2C566 /* StorySlideView.swift in Sources */,
-				AD5829E4223D85400069558B /* TextEdibaleItemModel.swift in Sources */,
 				AD37C8B4226DE54500C7FF5F /* BackgroundModuleControllerPresenter.swift in Sources */,
 				AD87409322BA7EED000889BC /* SliderEditModuleRouter.swift in Sources */,
+				AD95A88222ECB5DD00684B9F /* Fonts.swift in Sources */,
 				AD8F6EDD22609D580030537D /* CoreDataStack.swift in Sources */,
 				AD873FC022DB911D00D84565 /* UsersCollectionController.swift in Sources */,
 				AD87407C22B96FC7000889BC /* ItemEditModuleController.swift in Sources */,
@@ -1348,9 +1358,11 @@
 				1289FD9622220E9A00CD7F0E /* TemplatesStorage.swift in Sources */,
 				AD8F6EE22260BE4E0030537D /* TemplatesStorage+Ext.swift in Sources */,
 				12C118A02221C7F400996C20 /* AppDelegate.swift in Sources */,
+				AD95A87D22ECB59B00684B9F /* TextEditorModuleController.swift in Sources */,
 				AD87409422BA7EED000889BC /* SliderEditModuleController.swift in Sources */,
 				12C118C72221C82500996C20 /* UITableView+Extension.swift in Sources */,
 				1289FD9B22220F3400CD7F0E /* Template.swift in Sources */,
+				AD95A87C22ECB59B00684B9F /* TextSetups.swift in Sources */,
 				AD4C0163223A53D000F17FF3 /* UINavigationBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

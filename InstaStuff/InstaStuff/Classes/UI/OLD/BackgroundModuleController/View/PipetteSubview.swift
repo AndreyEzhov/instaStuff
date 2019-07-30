@@ -155,6 +155,8 @@ class PipetteSubview: UIView {
     private func updateColor(with color: UIColor) {
         pixelView.backgroundColor = color
         displayView.backgroundColor = color
+        pixelView.layer.borderColor = color.inverce().cgColor
+        displayView.layer.borderColor = color.inverce().cgColor
     }
 
 }
