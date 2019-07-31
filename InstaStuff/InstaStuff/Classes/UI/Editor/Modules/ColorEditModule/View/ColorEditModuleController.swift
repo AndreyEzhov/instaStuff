@@ -151,4 +151,16 @@ extension UIColor {
             return nil
         }
     }
+    
+    func inverce() -> UIColor {
+        guard let rgb = rgb() else { return .white }
+        func round(value: Int) -> CGFloat {
+            let value = value < 120 ? (value + 120) : (value - 120)
+            return CGFloat(value) / 255.0
+        }
+        let red = round(value: rgb.red)
+        let green = round(value: rgb.green)
+        let blue = round(value: rgb.blue)
+        return UIColor(red: red, green: green, blue: blue, alpha: 1)
+    }
 }
