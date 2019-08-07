@@ -193,7 +193,7 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
 
 extension StoryEditorController: MenuViewProtocol {
     func addPhotoAction(_ sender: UIButton) {
-        
+        editorController.presenter.update(with: .addPhotoFrame)
     }
     
     func addItemAction(_ sender: UIButton) {

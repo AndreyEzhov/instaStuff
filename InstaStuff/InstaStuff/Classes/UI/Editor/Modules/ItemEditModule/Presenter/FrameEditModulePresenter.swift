@@ -20,10 +20,8 @@ final class FrameEditModulePresenter: ItemEditModulePresentable {
     
     let numberOfRows: Int
     
-    private let photoItems: [PhotoPlaceConstructorSettings]
-    
     var dataSource: [PreviewProtocol] {
-        return photoItems
+        return templatesStorage.photoItemsFrame
     }
     
     /// Параметры экрана
@@ -38,16 +36,8 @@ final class FrameEditModulePresenter: ItemEditModulePresentable {
     // MARK: - Construction
     
     init(params: Parameters, templatesStorage: TemplatesStorage) {
-        self.templatesStorage = templatesStorage
         numberOfRows = params.numberOfRows
-        photoItems = []
-//        let photoItem = PhotoItem(frameName: "frame1_1", photoAreaLocation: Settings(center: CGPoint(x: 0.5, y: 200.0 / 517.0), sizeWidth: 340.0 / 397.0, angle: 0, ratio: 340.0 / 336.0))
-//        
-//        photoItems = [
-//            PhotoPlaceConstructorSettings(photoItem: photoItem,
-//                                          settings: Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 0.8, angle: 0, ratio: 397.0/517.0))
-//        ]
-        
+        self.templatesStorage = templatesStorage
     }
     
     // MARK: - Private Functions
@@ -57,10 +47,8 @@ final class FrameEditModulePresenter: ItemEditModulePresentable {
     // MARK: - ItemEditModulePresentable
     
     func select(at index: Int) {
-//        guard let photoPlaceConstructor = slideView?.editableView as? PhotoPlaceConstructor else { return }
-//        let photoItem = photoItems[index]
-//        photoPlaceConstructor.modify(with: photoItem)
-//        slideView?.updateEditableView()
+        let photoItem = templatesStorage.photoItemsFrame[index]
+        slideViewPresenter?.addOrModify(photoItem)
     }
     
 }

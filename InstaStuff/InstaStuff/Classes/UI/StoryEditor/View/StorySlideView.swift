@@ -42,7 +42,7 @@ class StorySlideView: UIView {
     
     private(set) var editableView: UIViewTemplatePlaceble? {
         didSet {
-            guard oldValue !== editableView else {
+            if oldValue === editableView, editableView != nil {
                 return
             }
             if let textViewPlace = oldValue as? TextViewPlace {
@@ -137,6 +137,14 @@ class StorySlideView: UIView {
         contentView.bringSubviewToFront(view)
     }
     
+    func updateDeleteButton() {
+        if let editableView = editableView {
+            let x = min(max(0, editableView.frame.maxX), bounds.width - 40)
+            let y = min(max(0, editableView.frame.minY - 40), bounds.height - 40)
+            closeButton.frame = CGRect(x: x, y: y, width: 40, height: 40)
+        }
+    }
+    
     // MARK: - Private Functions
     
     private func setup() {
@@ -151,14 +159,6 @@ class StorySlideView: UIView {
         return contentView.subviews.filter { $0 is UIViewTemplatePlaceble }.filter({ view in
             view.point(inside: convert(sender.location(in: self), to: view), with: nil)
         }).last as? UIViewTemplatePlaceble
-    }
-    
-    private func updateDeleteButton() {
-        if let editableView = editableView {
-            let x = min(max(0, editableView.frame.maxX), bounds.width - 40)
-            let y = min(max(0, editableView.frame.minY - 40), bounds.height - 40)
-            closeButton.frame = CGRect(x: x, y: y, width: 40, height: 40)
-        }
     }
     
     // MARK: - ColorPickerLostener

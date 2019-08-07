@@ -16,6 +16,14 @@ struct Settings {
     var angle: CGFloat
 }
 
+struct PhotoInFrameSettings {
+    let center: CGPoint
+    let sizeWidth: CGFloat
+    let angle: CGFloat
+    let ratio: CGFloat
+    let round: CGFloat
+}
+
 struct FrameAreaDescription {
     enum FrameAreaType {
         case textFrame(TextItem), photoFrame(PhotoItem, PhotoItemCustomSettings?), stuffFrame(StuffItem), viewFrame(ViewItem)
@@ -24,17 +32,20 @@ struct FrameAreaDescription {
     let frameArea: FrameAreaType
 }
 
-struct PhotoItem {
+struct PhotoItem: PreviewProtocol {
     
-    typealias Id = String
+    typealias Id = Int
     
-    let frameName: PhotoItem.Id
-    let photoAreaLocation: Settings
+    let frameId: PhotoItem.Id
+    let frameImageName: String?
+    let ratio: CGFloat
+    let photoInFrameSettings: PhotoInFrameSettings
+    
     var framePlaceImage: UIImage? {
-        return UIImage(named: frameName + "_frameplace")
+        return UIImage(named: (frameImageName ?? "") + "_frameplace")
     }
     var preview: UIImage? {
-        return UIImage(named: frameName + "_preview")
+        return UIImage(named: (frameImageName ?? "") + "_preview")
     }
 }
 

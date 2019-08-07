@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14492.1" systemVersion="18F132" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="LCDAbstractTemplateItem" representedClassName="LCDAbstractTemplateItem" isAbstract="YES" syncable="YES" codeGenerationType="class">
+        <relationship name="settings" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="LCDTemplateSettings" inverseName="itemInTemplate" inverseEntity="LCDTemplateSettings" syncable="YES"/>
+        <relationship name="template" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="LCDTemplate" inverseName="elements" inverseEntity="LCDTemplate" syncable="YES"/>
+    </entity>
+    <entity name="LCDPhotoFrameInTemplate" representedClassName="LCDPhotoFrameInTemplate" parentEntity="LCDAbstractTemplateItem" syncable="YES" codeGenerationType="class">
+        <attribute name="itemId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <entity name="LCDStuffItemInTemplate" representedClassName="LCDStuffItemInTemplate" parentEntity="LCDAbstractTemplateItem" syncable="YES" codeGenerationType="class">
+        <attribute name="itemId" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <entity name="LCDTemplate" representedClassName="LCDTemplate" syncable="YES" codeGenerationType="class">
+        <attribute name="backGroundColor" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="backGroundImageName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastChangeDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <relationship name="elements" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="LCDAbstractTemplateItem" inverseName="template" inverseEntity="LCDAbstractTemplateItem" syncable="YES"/>
+    </entity>
+    <entity name="LCDTemplateSettings" representedClassName="LCDTemplateSettings" syncable="YES" codeGenerationType="class">
+        <attribute name="angle" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="midX" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="midY" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="widthScale" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="itemInTemplate" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="LCDAbstractTemplateItem" inverseName="settings" inverseEntity="LCDAbstractTemplateItem" syncable="YES"/>
+    </entity>
+    <entity name="LCDTextItemInTemplate" representedClassName="LCDTextItemInTemplate" parentEntity="LCDAbstractTemplateItem" syncable="YES" codeGenerationType="class">
+        <attribute name="ratio" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="textSettings" maxCount="1" deletionRule="Cascade" destinationEntity="LCDTextSettings" inverseName="textItemInTemplate" inverseEntity="LCDTextSettings" syncable="YES"/>
+    </entity>
+    <entity name="LCDTextSettings" representedClassName="LCDTextSettings" syncable="YES" codeGenerationType="class">
+        <attribute name="aligment" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="backgroundColor" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="color" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="fontName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fontSize" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="kern" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="lineSpacing" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="textItemInTemplate" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LCDTextItemInTemplate" inverseName="textSettings" inverseEntity="LCDTextItemInTemplate" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="LCDAbstractTemplateItem" positionX="-15.46484375" positionY="-143.2109375" width="128" height="75"/>
+        <element name="LCDPhotoFrameInTemplate" positionX="-179.62109375" positionY="-47.79296875" width="128" height="60"/>
+        <element name="LCDStuffItemInTemplate" positionX="-47" positionY="-8.59375" width="189.4375" height="60"/>
+        <element name="LCDTemplate" positionX="-42.03125" positionY="-368.5625" width="128" height="120"/>
+        <element name="LCDTemplateSettings" positionX="217.5" positionY="-282.93359375" width="128" height="120"/>
+        <element name="LCDTextItemInTemplate" positionX="201.125" positionY="-8.55078125" width="128" height="75"/>
+        <element name="LCDTextSettings" positionX="395.38671875" positionY="-98.50390625" width="128" height="180"/>
+    </elements>
+</model>

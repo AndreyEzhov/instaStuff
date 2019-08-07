@@ -25,7 +25,7 @@ extension Assembly: BackgroundImageEditModuleAssembly {
     /// - Returns: View Controller
     func createBackgroundImageEditModuleController(params: BackgroundImageEditModulePresenter.Parameters) -> BackgroundImageEditModuleController {
         let presenter = BackgroundImageEditModulePresenter(params: params)
-        return BackgroundImageEditModuleController.controller(presenter: presenter) as! BackgroundImageEditModuleController
+        return BackgroundImageEditModuleController.controller(presenter: presenter)
     }
     
 }

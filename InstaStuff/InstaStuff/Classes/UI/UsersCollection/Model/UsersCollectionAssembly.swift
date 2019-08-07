@@ -25,7 +25,7 @@ extension Assembly: UsersCollectionAssembly {
     /// - Returns: View Controller
     func createUsersCollectionController(params: UsersCollectionPresenter.Parameters) -> UsersCollectionController {
         let presenter = UsersCollectionPresenter(dependencies: UsersCollectionPresenter.Dependencies(templatesStorage: templatesStorage), params: params)
-        return UsersCollectionController.controller(presenter: presenter) as! UsersCollectionController
+        return UsersCollectionController.controller(presenter: presenter)
     }
     
 }

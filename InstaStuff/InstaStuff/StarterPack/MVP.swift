@@ -82,11 +82,15 @@ class BaseViewController<T>: UIViewController, View {
         (presenter as? AnyPresenter)?.onWillDisappear()
     }
     
-    class func controller(presenter: T) -> BaseViewController {
+    class func controller(presenter: T) -> Self {
         let vc = createController(aClass: self)
         vc.presenter = presenter
         (presenter as? AnyPresenter)?.view = vc
-        return vc
+        return castToSelf(vc)
+    }
+    
+    private static func castToSelf<T: UIViewController>(_ vc: UIViewController) -> T {
+        return (vc as? T)!
     }
     
     private static func createController(aClass: UIViewController.Type) -> BaseViewController {

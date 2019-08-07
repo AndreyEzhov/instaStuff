@@ -28,7 +28,7 @@ final class EditorPresenter: EditorPresentable {
     // MARK: - Nested types
     
     enum State {
-        case main(MenuViewProtocol?), addStuff(SlideViewPresenter), stuffEdit(BaseEditProtocol), backgroundChange(BackgroundPickerListener)
+        case main(MenuViewProtocol?), addStuff(SlideViewPresenter), stuffEdit(BaseEditProtocol), backgroundChange(BackgroundPickerListener), addPhotoFrame
     }
     
     typealias T = EditorDisplayable
@@ -108,6 +108,16 @@ final class EditorPresenter: EditorPresentable {
         return [imageModule, colorModule]
     }
     
+    private func addPhotoFrame() -> [EditModule] {
+        let shapeController = Assembly.shared.createShapeEditModuleController(params: ShapeEditModulePresenter.Parameters(numberOfRows: 1))
+        let shapeModule = EditModule(estimatedHeight: 60, controller: shapeController)
+        shapeController.presenter.slideViewPresenter = slideViewPresenter
+        let framesController = Assembly.shared.createFrameEditModuleController(params: FrameEditModulePresenter.Parameters(numberOfRows: 1))
+        let frameModule = EditModule(estimatedHeight: 60, controller: framesController)
+        framesController.presenter.slideViewPresenter = slideViewPresenter
+        return [shapeModule, frameModule]
+    }
+    
     // MARK: - Functions
     
     // MARK: - EditorPresentable
@@ -129,6 +139,8 @@ final class EditorPresenter: EditorPresentable {
             newModules = stuffEdit(baseEditHandler)
         case .backgroundChange(let colorPickerListener):
             newModules = backgroundEdit(delegate: colorPickerListener)
+        case .addPhotoFrame:
+            newModules = addPhotoFrame()
         }
         contentView()?.editorToolbar.setDoneButton(hidden: hideDoneButton)
         contentView()?.updateContent(old: modules, new: newModules)

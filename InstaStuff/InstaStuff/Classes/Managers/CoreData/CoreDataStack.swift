@@ -25,9 +25,9 @@ class CoreDataStack {
     }
     
     private lazy var storeContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: self.modelName)
+        let container = NSPersistentContainer(name: "Sets")
         do {
-            let url = applicationDocumentsDirectory.appendingPathComponent("Sets.sqlite")
+            let url = applicationDocumentsDirectory.appendingPathComponent("\(modelName).sqlite")
             try container.persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType,
                                                                         configurationName: nil,
                                                                         at: url,

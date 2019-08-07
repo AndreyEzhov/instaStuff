@@ -48,7 +48,7 @@ class StoryItem {
         backgroundImage?.draw(in: CGRect(origin: .zero, size: size))
         
         items.forEach { item in
-            guard let image = item.renderedImage(scale: 1) else {
+            guard let image = item.renderedImage else {
                 return
             }
 

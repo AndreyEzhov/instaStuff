@@ -25,7 +25,7 @@ extension Assembly: MenuEditModuleAssembly {
     /// - Returns: View Controller
     func createMenuEditModuleController(params: MenuEditModulePresenter.Parameters) -> MenuEditModuleController {
         let presenter = MenuEditModulePresenter(params: params)
-        return MenuEditModuleController.controller(presenter: presenter) as! MenuEditModuleController
+        return MenuEditModuleController.controller(presenter: presenter)
     }
     
 }

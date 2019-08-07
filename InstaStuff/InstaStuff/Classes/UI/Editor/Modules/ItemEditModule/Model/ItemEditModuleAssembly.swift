@@ -30,17 +30,17 @@ extension Assembly: ItemEditModuleAssembly {
     /// - Returns: View Controller
     func createItemEditModuleController(params: ItemEditModulePresenter.Parameters) -> ItemEditModuleController {
         let presenter = ItemEditModulePresenter(params: params, templatesStorage: templatesStorage)
-        return ItemEditModuleController.controller(presenter: presenter) as! ItemEditModuleController
+        return ItemEditModuleController.controller(presenter: presenter)
     }
     
     func createShapeEditModuleController(params: ShapeEditModulePresenter.Parameters) -> ItemEditModuleController {
-        let presenter = ShapeEditModulePresenter(params: params)
-        return ItemEditModuleController.controller(presenter: presenter) as! ItemEditModuleController
+        let presenter = ShapeEditModulePresenter(params: params, templatesStorage: templatesStorage)
+        return ItemEditModuleController.controller(presenter: presenter)
     }
     
     func createFrameEditModuleController(params: FrameEditModulePresenter.Parameters) -> ItemEditModuleController {
         let presenter = FrameEditModulePresenter(params: params, templatesStorage: templatesStorage)
-        return ItemEditModuleController.controller(presenter: presenter) as! ItemEditModuleController
+        return ItemEditModuleController.controller(presenter: presenter)
     }
     
 }

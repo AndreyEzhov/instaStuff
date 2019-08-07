@@ -416,15 +416,4 @@ class PhotoPlaceConstructor: UIViewTemplatePlaceble, UIGestureRecognizerDelegate
     
     var round = false
     
-    func modify(with settings: PhotoPlaceConstructorSettings) {
-        if settings.photoItem.frameName.contains("round") {
-            round = true
-        } else {
-            round = false
-        }
-        storyEditablePhotoItem.photoItem = settings.photoItem
-        storyEditablePhotoItem.settings = settings.settings
-        framePlace.image = storyEditablePhotoItem.photoItem.framePlaceImage
-        updateConstraints()
-    }
 }

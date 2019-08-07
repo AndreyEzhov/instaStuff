@@ -25,7 +25,7 @@ extension Assembly: EditorAssembly {
     /// - Returns: View Controller
     func createEditorController(params: EditorPresenter.Parameters) -> EditorController {
         let presenter = EditorPresenter(params: params)
-        return EditorController.controller(presenter: presenter) as! EditorController
+        return EditorController.controller(presenter: presenter)
     }
     
 }

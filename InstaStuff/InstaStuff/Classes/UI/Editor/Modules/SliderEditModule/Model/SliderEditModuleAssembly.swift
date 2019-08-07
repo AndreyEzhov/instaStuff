@@ -25,7 +25,7 @@ extension Assembly: SliderEditModuleAssembly {
     /// - Returns: View Controller
     func createSliderEditModuleController(params: SliderEditModulePresenter.Parameters) -> SliderEditModuleController {
         let presenter = SliderEditModulePresenter(params: params)
-        return SliderEditModuleController.controller(presenter: presenter) as! SliderEditModuleController
+        return SliderEditModuleController.controller(presenter: presenter)
     }
     
 }

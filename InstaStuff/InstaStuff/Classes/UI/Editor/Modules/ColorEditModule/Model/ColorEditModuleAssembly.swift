@@ -25,7 +25,7 @@ extension Assembly: ColorEditModuleAssembly {
     /// - Returns: View Controller
     func createColorEditModuleController(params: ColorEditModulePresenter.Parameters) -> ColorEditModuleController {
         let presenter = ColorEditModulePresenter(params: params)
-        return ColorEditModuleController.controller(presenter: presenter) as! ColorEditModuleController
+        return ColorEditModuleController.controller(presenter: presenter)
     }
     
 }

@@ -143,7 +143,7 @@ final class TemplatePickerController: BaseViewController<TemplatePickerPresentab
         case setsCollectionView:
             return CGSize(width: 48, height: 48)
         case framesCollectionView:
-            return CGSize(width: 140, height: 210)
+            return CGSize(width: 140, height: 140.0 / Consts.UIGreed.photoRatio)
         default:
             return .zero
         }

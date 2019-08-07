@@ -25,7 +25,7 @@ extension Assembly: BaseEditModuleAssembly {
     /// - Returns: View Controller
     func createBaseEditModuleController(params: BaseEditModulePresenter.Parameters) -> BaseEditModuleController {
         let presenter = BaseEditModulePresenter(params: params)
-        return BaseEditModuleController.controller(presenter: presenter) as! BaseEditModuleController
+        return BaseEditModuleController.controller(presenter: presenter)
     }
     
 }

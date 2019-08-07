@@ -27,6 +27,8 @@ class SlideViewPresenter {
             }
             if selectedItem is StuffPlace {
                 editorPresenter.update(with: .stuffEdit(self))
+            } else if selectedItem is PhotoPlace {
+                editorPresenter.update(with: .addPhotoFrame)
             } else {
                 editorPresenter.defaultState()
             }
@@ -71,8 +73,8 @@ class SlideViewPresenter {
     private func placeElement(_ item: StoryEditableItem) {
         var view: UIViewTemplatePlaceble?
         switch item {
-            //            case let item as StoryEditablePhotoItem:
-            //                view = PhotoPlace(item)
+        case let item as StoryEditablePhotoItem:
+            view = PhotoPlace(item)
         case let item as StoryEditableStuffItem:
             let stuffPlace = StuffPlace(item)
             view = stuffPlace
@@ -88,17 +90,8 @@ class SlideViewPresenter {
     }
     
     private func updatePosition(for view: UIViewTemplatePlaceble) {
-        var ratio: CGFloat?
         let item = view.storyEditableItem
-        switch item {
-        case let stuffPlace as StoryEditableStuffItem:
-            ratio = stuffPlace.ratio
-        case let textPlace as StoryEditableTextItem:
-            ratio = textPlace.textItem.ratio
-        default:
-            break
-        }
-        guard let viewRatio = ratio else { return }
+        guard let viewRatio = item.ratio else { return }
         view.snp.remakeConstraints({ maker in
             maker.centerX.equalToSuperview().multipliedBy(item.settings.center.x * 2.0)
             maker.centerY.equalToSuperview().multipliedBy(item.settings.center.y * 2.0)
@@ -109,6 +102,18 @@ class SlideViewPresenter {
     }
     
     // MARK: - Functions
+    
+    func addOrModify(_ item: PhotoItem) {
+        if let selectedFrame = selectedItem as? PhotoPlace {
+            selectedFrame.update(with: item)
+            updatePosition(for: selectedFrame)
+            storySlideView.layoutIfNeeded()
+            storySlideView.updateDeleteButton()
+        } else {
+            let settings = Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 0.7, angle: 0)
+            add(StoryEditablePhotoItem(item, customSettings: nil, settings: settings))
+        }
+    }
     
     func add(_ item: StoryEditableItem) {
         storyItem.items.append(item)
