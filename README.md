@@ -19,7 +19,7 @@
 | backGroundImage | String | Название картинки фона |
 
 
-## TemplateSettings - настройки элемента в конкретном шаблоне
+## ItemSettings - настройки элемента в конкретном шаблоне
 
 | Название поля | Тип данных | Описание |
 |---|---|---|
@@ -29,22 +29,19 @@
 | widthScale | Float | На сколько ширина элемента меньше ширины слайда |
 
 
-## AbstractTemplateItem - Абстрактный класс для всех айтемов в шаблоне
+## AbstractItemInTemplate - Абстрактный класс для всех айтемов в шаблоне
 
 | Название поля | Тип данных | Описание |
 |---|---|---|
-| settings | TemplateSettings | Настройки этого элемента в шаблоне |
+| settings | ItemSettings | Настройки этого элемента в шаблоне |
 
 
 ## PhotoFrameInTemplate - Рамка для фотографий в шаблоне
 
 | Название поля | Тип данных | Описание |
 |---|---|---|
-| item | PhotoFrameItem | Рамка |
-| plusLocationX | Float | Позиция плюса по Х |
-| plusLocationY | Float | Позиция плюса по Y |
-| closeButtonPosition | Int | Нахождения крестика 1 - справа вверху, 2 - справа внизу, 3 - слева внизу, 4 - слева вверху |
-
+| frame | PhotoFrameItem | Рамка |
+| photo | PhotoFrameItem | Рамка |
 
 ## StuffItemInTemplate - Скотчики в шаблоне
 
