@@ -1,20 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14492.1" systemVersion="18G87" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14492.1" systemVersion="19A546d" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="CDAbstractItem" representedClassName="CDAbstractItem" isAbstract="YES" syncable="YES" codeGenerationType="class">
         <attribute name="buyId" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
-    <entity name="CDAbstractTemplateItem" representedClassName="CDAbstractTemplateItem" isAbstract="YES" syncable="YES" codeGenerationType="class">
-        <relationship name="settings" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CDTemplateSettings" inverseName="itemInTemplate" inverseEntity="CDTemplateSettings" syncable="YES"/>
+    <entity name="CDAbstractItemInTemplate" representedClassName="CDAbstractItemInTemplate" isAbstract="YES" syncable="YES" codeGenerationType="class">
+        <relationship name="settings" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CDItemSettings" inverseName="itemInTemplate" inverseEntity="CDItemSettings" syncable="YES"/>
         <relationship name="template" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CDTemplate" inverseName="elements" inverseEntity="CDTemplate" syncable="YES"/>
     </entity>
-    <entity name="CDPhotoFrameInTemplate" representedClassName="CDPhotoFrameInTemplate" parentEntity="CDAbstractTemplateItem" syncable="YES" codeGenerationType="class">
+    <entity name="CDItemSettings" representedClassName="CDItemSettings" syncable="YES" codeGenerationType="class">
+        <attribute name="angle" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="midX" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="midY" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="widthScale" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="itemInTemplate" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CDAbstractItemInTemplate" inverseName="settings" inverseEntity="CDAbstractItemInTemplate" syncable="YES"/>
+    </entity>
+    <entity name="CDPhotoFrameInTemplate" representedClassName="CDPhotoFrameInTemplate" parentEntity="CDAbstractItemInTemplate" syncable="YES" codeGenerationType="class">
         <attribute name="itemId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="photoName" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="CDPhotoFrameItem" representedClassName="CDPhotoFrameItem" parentEntity="CDAbstractItem" syncable="YES" codeGenerationType="class">
         <attribute name="frameImageName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="isShape" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="ratio" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="photoPositionSettings" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDItemSettings" syncable="YES"/>
         <relationship name="photoSettings" maxCount="1" deletionRule="Cascade" destinationEntity="CDPhotoFrameSettings" inverseName="photoFrameItem" inverseEntity="CDPhotoFrameSettings" syncable="YES"/>
     </entity>
     <entity name="CDPhotoFrameSettings" representedClassName="CDPhotoFrameSettings" syncable="YES" codeGenerationType="class">
@@ -36,7 +45,7 @@
     <entity name="CDStuffItem" representedClassName="CDStuffItem" parentEntity="CDAbstractItem" syncable="YES" codeGenerationType="class">
         <attribute name="imageName" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="CDStuffItemInTemplate" representedClassName="CDStuffItemInTemplate" parentEntity="CDAbstractTemplateItem" syncable="YES" codeGenerationType="class">
+    <entity name="CDStuffItemInTemplate" representedClassName="CDStuffItemInTemplate" parentEntity="CDAbstractItemInTemplate" syncable="YES" codeGenerationType="class">
         <attribute name="itemId" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <entity name="CDTemplate" representedClassName="CDTemplate" syncable="YES" codeGenerationType="class">
@@ -44,17 +53,10 @@
         <attribute name="backGroundImageName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastChangeDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
-        <relationship name="elements" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="CDAbstractTemplateItem" inverseName="template" inverseEntity="CDAbstractTemplateItem" syncable="YES"/>
+        <relationship name="elements" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="CDAbstractItemInTemplate" inverseName="template" inverseEntity="CDAbstractItemInTemplate" syncable="YES"/>
         <relationship name="set" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CDSet" inverseName="templates" inverseEntity="CDSet" syncable="YES"/>
     </entity>
-    <entity name="CDTemplateSettings" representedClassName="CDTemplateSettings" syncable="YES" codeGenerationType="class">
-        <attribute name="angle" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="midX" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="midY" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="widthScale" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="itemInTemplate" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CDAbstractTemplateItem" inverseName="settings" inverseEntity="CDAbstractTemplateItem" syncable="YES"/>
-    </entity>
-    <entity name="CDTextItemInTemplate" representedClassName="CDTextItemInTemplate" parentEntity="CDAbstractTemplateItem" syncable="YES" codeGenerationType="class">
+    <entity name="CDTextItemInTemplate" representedClassName="CDTextItemInTemplate" parentEntity="CDAbstractItemInTemplate" syncable="YES" codeGenerationType="class">
         <attribute name="ratio" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="textSettings" maxCount="1" deletionRule="Cascade" destinationEntity="CDTextSettings" inverseName="textItemInTemplate" inverseEntity="CDTextSettings" syncable="YES"/>
     </entity>
@@ -71,15 +73,15 @@
     </entity>
     <elements>
         <element name="CDAbstractItem" positionX="-69.2578125" positionY="263.7890625" width="128" height="75"/>
-        <element name="CDAbstractTemplateItem" positionX="-15.46484375" positionY="-143.2109375" width="128" height="73"/>
-        <element name="CDPhotoFrameInTemplate" positionX="-179.62109375" positionY="-47.79296875" width="128" height="60"/>
-        <element name="CDPhotoFrameItem" positionX="-208.1328125" positionY="204.64453125" width="128" height="105"/>
+        <element name="CDAbstractItemInTemplate" positionX="-15.46484375" positionY="-143.2109375" width="128" height="75"/>
+        <element name="CDPhotoFrameInTemplate" positionX="-179.62109375" positionY="-47.79296875" width="128" height="75"/>
+        <element name="CDPhotoFrameItem" positionX="-208.1328125" positionY="204.64453125" width="128" height="120"/>
         <element name="CDPhotoFrameSettings" positionX="0" positionY="-216" width="128" height="150"/>
         <element name="CDSet" positionX="-207.49609375" positionY="-338.54296875" width="128" height="118"/>
         <element name="CDStuffItem" positionX="-67.9140625" positionY="178.2578125" width="128" height="60"/>
         <element name="CDStuffItemInTemplate" positionX="-47" positionY="-8.59375" width="189.4375" height="58"/>
         <element name="CDTemplate" positionX="-42.03125" positionY="-368.5625" width="128" height="135"/>
-        <element name="CDTemplateSettings" positionX="217.5" positionY="-282.93359375" width="128" height="118"/>
+        <element name="CDItemSettings" positionX="217.5" positionY="-282.93359375" width="128" height="120"/>
         <element name="CDTextItemInTemplate" positionX="201.125" positionY="-8.55078125" width="128" height="73"/>
         <element name="CDTextSettings" positionX="395.38671875" positionY="-98.50390625" width="128" height="178"/>
     </elements>

@@ -49,10 +49,20 @@
 		12C118EB2221F23F00996C20 /* MainScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C118E12221F23F00996C20 /* MainScreenController.swift */; };
 		12C118EE2221F2A800996C20 /* Assembley.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C118ED2221F2A800996C20 /* Assembley.swift */; };
 		7DEFE247B3723333BC11FA6E /* Pods_InstaStuff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE8890ED00D814BB3024EB3B /* Pods_InstaStuff.framework */; };
-		AD2CEEBB22B51D5B00EBF54C /* PipetteSubview.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD2CEEBA22B51D5B00EBF54C /* PipetteSubview.swift */; };
-		AD37C8B4226DE54500C7FF5F /* BackgroundModuleControllerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD37C8AF226DE54500C7FF5F /* BackgroundModuleControllerPresenter.swift */; };
-		AD37C8B5226DE54500C7FF5F /* BackgroundModuleControllerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD37C8B1226DE54500C7FF5F /* BackgroundModuleControllerAssembly.swift */; };
-		AD37C8B6226DE54500C7FF5F /* BackgroundModuleControllerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD37C8B3226DE54500C7FF5F /* BackgroundModuleControllerController.swift */; };
+		AD1A122323002596004A3286 /* PipetteSubview.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1A122223002595004A3286 /* PipetteSubview.swift */; };
+		AD1A123E23002617004A3286 /* BackgroundModuleControllerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1A122723002617004A3286 /* BackgroundModuleControllerPresenter.swift */; };
+		AD1A123F23002617004A3286 /* BackgroundModuleControllerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1A122923002617004A3286 /* BackgroundModuleControllerAssembly.swift */; };
+		AD1A124023002617004A3286 /* BackgroundModuleControllerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1A122B23002617004A3286 /* BackgroundModuleControllerController.swift */; };
+		AD1A124223002617004A3286 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1A122D23002617004A3286 /* MenuView.swift */; };
+		AD1A124323002617004A3286 /* PhotoModuleControllerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1A123023002617004A3286 /* PhotoModuleControllerPresenter.swift */; };
+		AD1A124423002617004A3286 /* PhotoModuleControllerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1A123223002617004A3286 /* PhotoModuleControllerAssembly.swift */; };
+		AD1A124523002617004A3286 /* PhotoModuleControllerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1A123423002617004A3286 /* PhotoModuleControllerController.swift */; };
+		AD1A124623002617004A3286 /* ConstructorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1A123723002617004A3286 /* ConstructorPresenter.swift */; };
+		AD1A124723002617004A3286 /* ConstructorAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1A123923002617004A3286 /* ConstructorAssembly.swift */; };
+		AD1A124823002617004A3286 /* ConstructorRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1A123A23002617004A3286 /* ConstructorRouter.swift */; };
+		AD1A124923002617004A3286 /* ConstructorSlideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1A123C23002617004A3286 /* ConstructorSlideView.swift */; };
+		AD1A124A23002617004A3286 /* ConstructorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1A123D23002617004A3286 /* ConstructorController.swift */; };
+		AD36268F2334212E00A5068E /* CGPoint+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD36268E2334212E00A5068E /* CGPoint+Ext.swift */; };
 		AD493BEC2294396D006B1524 /* FrameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD493BEB2294396D006B1524 /* FrameCell.swift */; };
 		AD4C0163223A53D000F17FF3 /* UINavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4C0162223A53D000F17FF3 /* UINavigationBar.swift */; };
 		AD4C0165223A5CC300F17FF3 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4C0164223A5CC300F17FF3 /* UIView.swift */; };
@@ -62,15 +72,7 @@
 		AD4C0176223A787900F17FF3 /* TemplatePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4C0171223A787900F17FF3 /* TemplatePickerController.swift */; };
 		AD4C0179223A82D900F17FF3 /* SetCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4C0177223A82D900F17FF3 /* SetCollectionViewCell.swift */; };
 		AD4C017A223A82D900F17FF3 /* TemplateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4C0178223A82D900F17FF3 /* TemplateCollectionViewCell.swift */; };
-		AD516E62228AD02E0072539A /* ConstructorSlideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD516E61228AD02E0072539A /* ConstructorSlideView.swift */; };
 		AD516E70228BF80F0072539A /* PhotoPlaceConstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD516E6F228BF80F0072539A /* PhotoPlaceConstructor.swift */; };
-		AD5829DD223BFCB80069558B /* PhotoModuleControllerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5829D6223BFCB80069558B /* PhotoModuleControllerPresenter.swift */; };
-		AD5829DE223BFCB80069558B /* PhotoModuleControllerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5829D8223BFCB80069558B /* PhotoModuleControllerAssembly.swift */; };
-		AD5829E0223BFCB80069558B /* PhotoModuleControllerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5829DB223BFCB80069558B /* PhotoModuleControllerController.swift */; };
-		AD5EA707228ABD5C00704218 /* ConstructorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5EA700228ABD5C00704218 /* ConstructorPresenter.swift */; };
-		AD5EA708228ABD5C00704218 /* ConstructorAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5EA702228ABD5C00704218 /* ConstructorAssembly.swift */; };
-		AD5EA709228ABD5C00704218 /* ConstructorRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5EA703228ABD5C00704218 /* ConstructorRouter.swift */; };
-		AD5EA70A228ABD5C00704218 /* ConstructorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5EA705228ABD5C00704218 /* ConstructorController.swift */; };
 		AD5F429E224186E000C19386 /* NSParagraphStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5F429D224186E000C19386 /* NSParagraphStyle.swift */; };
 		AD6C7BC622CEF8E10097DBF6 /* SlideViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6C7BC522CEF8E10097DBF6 /* SlideViewPresenter.swift */; };
 		AD6C7BD122D0B63D0097DBF6 /* EditViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6C7BD022D0B63D0097DBF6 /* EditViewPresenter.swift */; };
@@ -78,7 +80,6 @@
 		AD6C7BDC22D0B9570097DBF6 /* MenuEditModuleAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6C7BD722D0B9570097DBF6 /* MenuEditModuleAssembly.swift */; };
 		AD6C7BDD22D0B9570097DBF6 /* MenuEditModuleRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6C7BD822D0B9570097DBF6 /* MenuEditModuleRouter.swift */; };
 		AD6C7BDE22D0B9570097DBF6 /* MenuEditModuleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6C7BDA22D0B9570097DBF6 /* MenuEditModuleController.swift */; };
-		AD6C7BE022D0C8230097DBF6 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6C7BDF22D0C8230097DBF6 /* MenuView.swift */; };
 		AD6C7BE922D117440097DBF6 /* BaseEditModulePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6C7BE322D117440097DBF6 /* BaseEditModulePresenter.swift */; };
 		AD6C7BEA22D117440097DBF6 /* BaseEditModuleAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6C7BE522D117440097DBF6 /* BaseEditModuleAssembly.swift */; };
 		AD6C7BEB22D117440097DBF6 /* BaseEditModuleRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6C7BE622D117440097DBF6 /* BaseEditModuleRouter.swift */; };
@@ -184,10 +185,20 @@
 		12C118ED2221F2A800996C20 /* Assembley.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembley.swift; sourceTree = "<group>"; };
 		6662B9FA7CD63E622B09F60A /* Pods-InstaStuff.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstaStuff.release.xcconfig"; path = "Pods/Target Support Files/Pods-InstaStuff/Pods-InstaStuff.release.xcconfig"; sourceTree = "<group>"; };
 		72ACFA6D5F2C70196A7DD76B /* Pods-InstaStuff.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstaStuff.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InstaStuff/Pods-InstaStuff.debug.xcconfig"; sourceTree = "<group>"; };
-		AD2CEEBA22B51D5B00EBF54C /* PipetteSubview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipetteSubview.swift; sourceTree = "<group>"; };
-		AD37C8AF226DE54500C7FF5F /* BackgroundModuleControllerPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundModuleControllerPresenter.swift; sourceTree = "<group>"; };
-		AD37C8B1226DE54500C7FF5F /* BackgroundModuleControllerAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundModuleControllerAssembly.swift; sourceTree = "<group>"; };
-		AD37C8B3226DE54500C7FF5F /* BackgroundModuleControllerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundModuleControllerController.swift; sourceTree = "<group>"; };
+		AD1A122223002595004A3286 /* PipetteSubview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PipetteSubview.swift; sourceTree = "<group>"; };
+		AD1A122723002617004A3286 /* BackgroundModuleControllerPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundModuleControllerPresenter.swift; sourceTree = "<group>"; };
+		AD1A122923002617004A3286 /* BackgroundModuleControllerAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundModuleControllerAssembly.swift; sourceTree = "<group>"; };
+		AD1A122B23002617004A3286 /* BackgroundModuleControllerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundModuleControllerController.swift; sourceTree = "<group>"; };
+		AD1A122D23002617004A3286 /* MenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
+		AD1A123023002617004A3286 /* PhotoModuleControllerPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoModuleControllerPresenter.swift; sourceTree = "<group>"; };
+		AD1A123223002617004A3286 /* PhotoModuleControllerAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoModuleControllerAssembly.swift; sourceTree = "<group>"; };
+		AD1A123423002617004A3286 /* PhotoModuleControllerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoModuleControllerController.swift; sourceTree = "<group>"; };
+		AD1A123723002617004A3286 /* ConstructorPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstructorPresenter.swift; sourceTree = "<group>"; };
+		AD1A123923002617004A3286 /* ConstructorAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstructorAssembly.swift; sourceTree = "<group>"; };
+		AD1A123A23002617004A3286 /* ConstructorRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstructorRouter.swift; sourceTree = "<group>"; };
+		AD1A123C23002617004A3286 /* ConstructorSlideView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstructorSlideView.swift; sourceTree = "<group>"; };
+		AD1A123D23002617004A3286 /* ConstructorController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstructorController.swift; sourceTree = "<group>"; };
+		AD36268E2334212E00A5068E /* CGPoint+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Ext.swift"; sourceTree = "<group>"; };
 		AD493BEB2294396D006B1524 /* FrameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameCell.swift; sourceTree = "<group>"; };
 		AD4C0162223A53D000F17FF3 /* UINavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationBar.swift; sourceTree = "<group>"; };
 		AD4C0164223A5CC300F17FF3 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
@@ -197,15 +208,7 @@
 		AD4C0171223A787900F17FF3 /* TemplatePickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemplatePickerController.swift; sourceTree = "<group>"; };
 		AD4C0177223A82D900F17FF3 /* SetCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetCollectionViewCell.swift; sourceTree = "<group>"; };
 		AD4C0178223A82D900F17FF3 /* TemplateCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemplateCollectionViewCell.swift; sourceTree = "<group>"; };
-		AD516E61228AD02E0072539A /* ConstructorSlideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructorSlideView.swift; sourceTree = "<group>"; };
 		AD516E6F228BF80F0072539A /* PhotoPlaceConstructor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPlaceConstructor.swift; sourceTree = "<group>"; };
-		AD5829D6223BFCB80069558B /* PhotoModuleControllerPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoModuleControllerPresenter.swift; sourceTree = "<group>"; };
-		AD5829D8223BFCB80069558B /* PhotoModuleControllerAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoModuleControllerAssembly.swift; sourceTree = "<group>"; };
-		AD5829DB223BFCB80069558B /* PhotoModuleControllerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoModuleControllerController.swift; sourceTree = "<group>"; };
-		AD5EA700228ABD5C00704218 /* ConstructorPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstructorPresenter.swift; sourceTree = "<group>"; };
-		AD5EA702228ABD5C00704218 /* ConstructorAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstructorAssembly.swift; sourceTree = "<group>"; };
-		AD5EA703228ABD5C00704218 /* ConstructorRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstructorRouter.swift; sourceTree = "<group>"; };
-		AD5EA705228ABD5C00704218 /* ConstructorController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstructorController.swift; sourceTree = "<group>"; };
 		AD5F429D224186E000C19386 /* NSParagraphStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSParagraphStyle.swift; sourceTree = "<group>"; };
 		AD6C7BC522CEF8E10097DBF6 /* SlideViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideViewPresenter.swift; sourceTree = "<group>"; };
 		AD6C7BD022D0B63D0097DBF6 /* EditViewPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditViewPresenter.swift; sourceTree = "<group>"; };
@@ -213,7 +216,6 @@
 		AD6C7BD722D0B9570097DBF6 /* MenuEditModuleAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuEditModuleAssembly.swift; sourceTree = "<group>"; };
 		AD6C7BD822D0B9570097DBF6 /* MenuEditModuleRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuEditModuleRouter.swift; sourceTree = "<group>"; };
 		AD6C7BDA22D0B9570097DBF6 /* MenuEditModuleController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuEditModuleController.swift; sourceTree = "<group>"; };
-		AD6C7BDF22D0C8230097DBF6 /* MenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		AD6C7BE322D117440097DBF6 /* BaseEditModulePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseEditModulePresenter.swift; sourceTree = "<group>"; };
 		AD6C7BE522D117440097DBF6 /* BaseEditModuleAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseEditModuleAssembly.swift; sourceTree = "<group>"; };
 		AD6C7BE622D117440097DBF6 /* BaseEditModuleRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseEditModuleRouter.swift; sourceTree = "<group>"; };
@@ -427,6 +429,7 @@
 				12C118BA2221C82500996C20 /* UIScreen.swift */,
 				12C118BB2221C82500996C20 /* RequestInfo.swift */,
 				12C118BC2221C82500996C20 /* UITableView+Extension.swift */,
+				AD36268E2334212E00A5068E /* CGPoint+Ext.swift */,
 			);
 			path = StarterPack;
 			sourceTree = "<group>";
@@ -444,10 +447,10 @@
 		12C118C92221F1AD00996C20 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				AD1A122423002617004A3286 /* OLD */,
 				AD95A86F22ECB59B00684B9F /* TextEditorModule */,
 				AD873FB222DB911D00D84565 /* UsersCollection */,
 				AD8A7AB122B943B60039E2C7 /* Editor */,
-				AD6C7BCD22D0B3F40097DBF6 /* OLD */,
 				AD4C0168223A787900F17FF3 /* TemplatePicker */,
 				12C118CE2221F23F00996C20 /* StoryEditor */,
 				12C118D82221F23F00996C20 /* MainScreen */,
@@ -558,37 +561,117 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		AD37C8AC226DE54500C7FF5F /* BackgroundModuleController */ = {
+		AD1A122423002617004A3286 /* OLD */ = {
 			isa = PBXGroup;
 			children = (
-				AD37C8AE226DE54500C7FF5F /* Presenter */,
-				AD37C8B0226DE54500C7FF5F /* Model */,
-				AD37C8B2226DE54500C7FF5F /* View */,
+				AD1A122523002617004A3286 /* BackgroundModuleController */,
+				AD1A122D23002617004A3286 /* MenuView.swift */,
+				AD1A122E23002617004A3286 /* PhotoModuleController */,
+				AD1A123523002617004A3286 /* Constructor */,
+			);
+			path = OLD;
+			sourceTree = "<group>";
+		};
+		AD1A122523002617004A3286 /* BackgroundModuleController */ = {
+			isa = PBXGroup;
+			children = (
+				AD1A122623002617004A3286 /* Presenter */,
+				AD1A122823002617004A3286 /* Model */,
+				AD1A122A23002617004A3286 /* View */,
 			);
 			path = BackgroundModuleController;
 			sourceTree = "<group>";
 		};
-		AD37C8AE226DE54500C7FF5F /* Presenter */ = {
+		AD1A122623002617004A3286 /* Presenter */ = {
 			isa = PBXGroup;
 			children = (
-				AD37C8AF226DE54500C7FF5F /* BackgroundModuleControllerPresenter.swift */,
+				AD1A122723002617004A3286 /* BackgroundModuleControllerPresenter.swift */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";
 		};
-		AD37C8B0226DE54500C7FF5F /* Model */ = {
+		AD1A122823002617004A3286 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				AD37C8B1226DE54500C7FF5F /* BackgroundModuleControllerAssembly.swift */,
+				AD1A122923002617004A3286 /* BackgroundModuleControllerAssembly.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
 		};
-		AD37C8B2226DE54500C7FF5F /* View */ = {
+		AD1A122A23002617004A3286 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				AD37C8B3226DE54500C7FF5F /* BackgroundModuleControllerController.swift */,
-				AD2CEEBA22B51D5B00EBF54C /* PipetteSubview.swift */,
+				AD1A122B23002617004A3286 /* BackgroundModuleControllerController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		AD1A122E23002617004A3286 /* PhotoModuleController */ = {
+			isa = PBXGroup;
+			children = (
+				AD1A122F23002617004A3286 /* Presenter */,
+				AD1A123123002617004A3286 /* Model */,
+				AD1A123323002617004A3286 /* View */,
+			);
+			path = PhotoModuleController;
+			sourceTree = "<group>";
+		};
+		AD1A122F23002617004A3286 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				AD1A123023002617004A3286 /* PhotoModuleControllerPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		AD1A123123002617004A3286 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				AD1A123223002617004A3286 /* PhotoModuleControllerAssembly.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		AD1A123323002617004A3286 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				AD1A123423002617004A3286 /* PhotoModuleControllerController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		AD1A123523002617004A3286 /* Constructor */ = {
+			isa = PBXGroup;
+			children = (
+				AD1A123623002617004A3286 /* Presenter */,
+				AD1A123823002617004A3286 /* Model */,
+				AD1A123B23002617004A3286 /* View */,
+			);
+			path = Constructor;
+			sourceTree = "<group>";
+		};
+		AD1A123623002617004A3286 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				AD1A123723002617004A3286 /* ConstructorPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		AD1A123823002617004A3286 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				AD1A123923002617004A3286 /* ConstructorAssembly.swift */,
+				AD1A123A23002617004A3286 /* ConstructorRouter.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		AD1A123B23002617004A3286 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				AD1A123C23002617004A3286 /* ConstructorSlideView.swift */,
+				AD1A123D23002617004A3286 /* ConstructorController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -628,95 +711,6 @@
 				AD4C0171223A787900F17FF3 /* TemplatePickerController.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		AD5829D2223BFCB80069558B /* PhotoModuleController */ = {
-			isa = PBXGroup;
-			children = (
-				AD5829D5223BFCB80069558B /* Presenter */,
-				AD5829D7223BFCB80069558B /* Model */,
-				AD5829DA223BFCB80069558B /* View */,
-			);
-			path = PhotoModuleController;
-			sourceTree = "<group>";
-		};
-		AD5829D5223BFCB80069558B /* Presenter */ = {
-			isa = PBXGroup;
-			children = (
-				AD5829D6223BFCB80069558B /* PhotoModuleControllerPresenter.swift */,
-			);
-			path = Presenter;
-			sourceTree = "<group>";
-		};
-		AD5829D7223BFCB80069558B /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				AD5829D8223BFCB80069558B /* PhotoModuleControllerAssembly.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		AD5829DA223BFCB80069558B /* View */ = {
-			isa = PBXGroup;
-			children = (
-				AD5829DB223BFCB80069558B /* PhotoModuleControllerController.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		AD5EA6FC228ABD5C00704218 /* Constructor */ = {
-			isa = PBXGroup;
-			children = (
-				AD5EA6FD228ABD5C00704218 /* Resources */,
-				AD5EA6FF228ABD5C00704218 /* Presenter */,
-				AD5EA701228ABD5C00704218 /* Model */,
-				AD5EA704228ABD5C00704218 /* View */,
-			);
-			path = Constructor;
-			sourceTree = "<group>";
-		};
-		AD5EA6FD228ABD5C00704218 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		AD5EA6FF228ABD5C00704218 /* Presenter */ = {
-			isa = PBXGroup;
-			children = (
-				AD5EA700228ABD5C00704218 /* ConstructorPresenter.swift */,
-			);
-			path = Presenter;
-			sourceTree = "<group>";
-		};
-		AD5EA701228ABD5C00704218 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				AD5EA702228ABD5C00704218 /* ConstructorAssembly.swift */,
-				AD5EA703228ABD5C00704218 /* ConstructorRouter.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		AD5EA704228ABD5C00704218 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				AD5EA705228ABD5C00704218 /* ConstructorController.swift */,
-				AD516E61228AD02E0072539A /* ConstructorSlideView.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		AD6C7BCD22D0B3F40097DBF6 /* OLD */ = {
-			isa = PBXGroup;
-			children = (
-				AD6C7BDF22D0C8230097DBF6 /* MenuView.swift */,
-				AD5EA6FC228ABD5C00704218 /* Constructor */,
-				AD37C8AC226DE54500C7FF5F /* BackgroundModuleController */,
-				AD5829D2223BFCB80069558B /* PhotoModuleController */,
-			);
-			path = OLD;
 			sourceTree = "<group>";
 		};
 		AD6C7BD222D0B9570097DBF6 /* MenuEditModule */ = {
@@ -900,6 +894,7 @@
 		AD8A7AB122B943B60039E2C7 /* Editor */ = {
 			isa = PBXGroup;
 			children = (
+				AD1A122223002595004A3286 /* PipetteSubview.swift */,
 				AD8A7AC622B94DB00039E2C7 /* Modules */,
 				AD8A7AB422B943B60039E2C7 /* Presenter */,
 				AD8A7AB622B943B60039E2C7 /* Model */,
@@ -1242,14 +1237,11 @@
 				12C118C32221C82500996C20 /* UINavigationController+Analytics.swift in Sources */,
 				AD95DB5D22E7850F00CABE48 /* BackgroundImageCell.swift in Sources */,
 				AD4C0175223A787900F17FF3 /* TemplatePickerAssembly.swift in Sources */,
-				AD6C7BE022D0C8230097DBF6 /* MenuView.swift in Sources */,
-				AD5829DE223BFCB80069558B /* PhotoModuleControllerAssembly.swift in Sources */,
 				AD95DB5B22E76D7D00CABE48 /* BackgroundImageEditModuleController.swift in Sources */,
 				128186B5222483A700E48646 /* Strings.swift in Sources */,
 				AD873FBE22DB911D00D84565 /* UsersCollectionRouter.swift in Sources */,
+				AD1A124323002617004A3286 /* PhotoModuleControllerPresenter.swift in Sources */,
 				AD8A7ABE22B943B60039E2C7 /* EditorRouter.swift in Sources */,
-				AD5EA70A228ABD5C00704218 /* ConstructorController.swift in Sources */,
-				AD5829E0223BFCB80069558B /* PhotoModuleControllerController.swift in Sources */,
 				AD8A7AC522B94D660039E2C7 /* EditModule.swift in Sources */,
 				AD87408022B98216000889BC /* FrameEditModulePresenter.swift in Sources */,
 				AD6C7BEA22D117440097DBF6 /* BaseEditModuleAssembly.swift in Sources */,
@@ -1259,20 +1251,23 @@
 				AD87407922B96FC7000889BC /* ItemEditModulePresenter.swift in Sources */,
 				AD6C7BDC22D0B9570097DBF6 /* MenuEditModuleAssembly.swift in Sources */,
 				1289FDA422227A5100CD7F0E /* StoryItem.swift in Sources */,
+				AD1A122323002596004A3286 /* PipetteSubview.swift in Sources */,
 				12C118C62221C82500996C20 /* RequestInfo.swift in Sources */,
 				AD516E70228BF80F0072539A /* PhotoPlaceConstructor.swift in Sources */,
 				AD4C0176223A787900F17FF3 /* TemplatePickerController.swift in Sources */,
-				AD5EA708228ABD5C00704218 /* ConstructorAssembly.swift in Sources */,
 				AD493BEC2294396D006B1524 /* FrameCell.swift in Sources */,
 				12C118EA2221F23F00996C20 /* StoryPickerRouter.swift in Sources */,
-				AD5EA709228ABD5C00704218 /* ConstructorRouter.swift in Sources */,
 				12C118C22221C82500996C20 /* Router.swift in Sources */,
+				AD1A123F23002617004A3286 /* BackgroundModuleControllerAssembly.swift in Sources */,
 				12C118E42221F23F00996C20 /* StoryEditorRouter.swift in Sources */,
+				AD1A124023002617004A3286 /* BackgroundModuleControllerController.swift in Sources */,
 				AD95A87922ECB59B00684B9F /* TextEditorModulePresenter.swift in Sources */,
 				ADB255A722F8C3CE00AEAC71 /* CoreDataToItem.swift in Sources */,
 				AD95A88022ECB5C300684B9F /* Colors.swift in Sources */,
 				ADB255A322F8BFD100AEAC71 /* DataToCoreData.swift in Sources */,
+				AD1A123E23002617004A3286 /* BackgroundModuleControllerPresenter.swift in Sources */,
 				12C118E62221F23F00996C20 /* StoryEditorController.swift in Sources */,
+				AD1A124A23002617004A3286 /* ConstructorController.swift in Sources */,
 				12C118E32221F23F00996C20 /* StoryEditorPresenter.swift in Sources */,
 				AD6C7BDB22D0B9570097DBF6 /* MenuEditModulePresenter.swift in Sources */,
 				AD4C0165223A5CC300F17FF3 /* UIView.swift in Sources */,
@@ -1282,12 +1277,13 @@
 				12528A8222351D3B0040609B /* StuffPlace.swift in Sources */,
 				12C118C42221C82500996C20 /* Font.swift in Sources */,
 				12528A6F222B5A5B0040609B /* StoryEditableItem.swift in Sources */,
+				AD1A124923002617004A3286 /* ConstructorSlideView.swift in Sources */,
 				12C118BF2221C82500996C20 /* MVP.swift in Sources */,
+				AD1A124723002617004A3286 /* ConstructorAssembly.swift in Sources */,
 				ADEBBC4422393DA900D2C566 /* TextViewPlace.swift in Sources */,
 				AD8A7AD622B94E100039E2C7 /* ColorEditModuleRouter.swift in Sources */,
 				12C118C12221C82500996C20 /* UICollectionView+Extension.swift in Sources */,
 				AD873FBF22DB911D00D84565 /* UsersCollectionAssembly.swift in Sources */,
-				AD5829DD223BFCB80069558B /* PhotoModuleControllerPresenter.swift in Sources */,
 				AD8A7AC322B949780039E2C7 /* UIViewController+Ext.swift in Sources */,
 				AD8A7AD722B94E100039E2C7 /* ColorEditModuleController.swift in Sources */,
 				12C118C52221C82500996C20 /* UIScreen.swift in Sources */,
@@ -1297,8 +1293,6 @@
 				AD95A87A22ECB59B00684B9F /* TextEditorModuleAssembly.swift in Sources */,
 				AD6C7BDD22D0B9570097DBF6 /* MenuEditModuleRouter.swift in Sources */,
 				1289FD90222208D800CD7F0E /* CreateStoryCell.swift in Sources */,
-				AD5EA707228ABD5C00704218 /* ConstructorPresenter.swift in Sources */,
-				AD516E62228AD02E0072539A /* ConstructorSlideView.swift in Sources */,
 				AD6C7BEC22D117440097DBF6 /* BaseEditModuleController.swift in Sources */,
 				AD87407E22B981E9000889BC /* ShapeEditModulePresenter.swift in Sources */,
 				AD87409222BA7EED000889BC /* SliderEditModuleAssembly.swift in Sources */,
@@ -1307,9 +1301,10 @@
 				12C118EB2221F23F00996C20 /* MainScreenController.swift in Sources */,
 				AD4C0174223A787900F17FF3 /* TemplatePickerRouter.swift in Sources */,
 				128186B32224839C00E48646 /* Strings+Ext.swift in Sources */,
+				AD1A124623002617004A3286 /* ConstructorPresenter.swift in Sources */,
 				12C118BE2221C82500996C20 /* TypeCast.swift in Sources */,
-				AD2CEEBB22B51D5B00EBF54C /* PipetteSubview.swift in Sources */,
 				AD6C7BE922D117440097DBF6 /* BaseEditModulePresenter.swift in Sources */,
+				AD36268F2334212E00A5068E /* CGPoint+Ext.swift in Sources */,
 				AD8A7AD522B94E100039E2C7 /* ColorEditModuleAssembly.swift in Sources */,
 				12C118E92221F23F00996C20 /* StoryPickerAssembly.swift in Sources */,
 				AD95DB5F22E797CD00CABE48 /* ColorCell.swift in Sources */,
@@ -1322,6 +1317,7 @@
 				12C118E52221F23F00996C20 /* StoryEditorAssembly.swift in Sources */,
 				AD95DB5A22E76D7D00CABE48 /* BackgroundImageEditModuleRouter.swift in Sources */,
 				12C118E82221F23F00996C20 /* MainScreenPresenter.swift in Sources */,
+				AD1A124823002617004A3286 /* ConstructorRouter.swift in Sources */,
 				AD4C0179223A82D900F17FF3 /* SetCollectionViewCell.swift in Sources */,
 				AD6C7BD122D0B63D0097DBF6 /* EditViewPresenter.swift in Sources */,
 				12528A7F223517F60040609B /* Common.swift in Sources */,
@@ -1329,23 +1325,23 @@
 				AD8A7ABD22B943B60039E2C7 /* EditorAssembly.swift in Sources */,
 				1289FDA6222281A000CD7F0E /* PhotoPlaceOld.swift in Sources */,
 				ADEBBC422239381A00D2C566 /* StorySlideView.swift in Sources */,
-				AD37C8B4226DE54500C7FF5F /* BackgroundModuleControllerPresenter.swift in Sources */,
 				AD87409322BA7EED000889BC /* SliderEditModuleRouter.swift in Sources */,
 				AD95A88222ECB5DD00684B9F /* Fonts.swift in Sources */,
 				AD8F6EDD22609D580030537D /* CoreDataStack.swift in Sources */,
 				AD873FC022DB911D00D84565 /* UsersCollectionController.swift in Sources */,
 				AD87407C22B96FC7000889BC /* ItemEditModuleController.swift in Sources */,
 				1289FD9D22220F6100CD7F0E /* SetWithTemplates.swift in Sources */,
+				AD1A124423002617004A3286 /* PhotoModuleControllerAssembly.swift in Sources */,
 				AD5F429E224186E000C19386 /* NSParagraphStyle.swift in Sources */,
 				AD95DB5922E76D7D00CABE48 /* BackgroundImageEditModuleAssembly.swift in Sources */,
 				12C118C02221C82500996C20 /* AttributedString+Extension.swift in Sources */,
-				AD37C8B6226DE54500C7FF5F /* BackgroundModuleControllerController.swift in Sources */,
 				AD6C7BEB22D117440097DBF6 /* BaseEditModuleRouter.swift in Sources */,
-				AD37C8B5226DE54500C7FF5F /* BackgroundModuleControllerAssembly.swift in Sources */,
 				1289FD9622220E9A00CD7F0E /* TemplatesStorage.swift in Sources */,
 				AD8F6EE22260BE4E0030537D /* SaveLocalCoreData.swift in Sources */,
+				AD1A124523002617004A3286 /* PhotoModuleControllerController.swift in Sources */,
 				12C118A02221C7F400996C20 /* AppDelegate.swift in Sources */,
 				AD95A87D22ECB59B00684B9F /* TextEditorModuleController.swift in Sources */,
+				AD1A124223002617004A3286 /* MenuView.swift in Sources */,
 				AD87409422BA7EED000889BC /* SliderEditModuleController.swift in Sources */,
 				12C118C72221C82500996C20 /* UITableView+Extension.swift in Sources */,
 				1289FD9B22220F3400CD7F0E /* Template.swift in Sources */,

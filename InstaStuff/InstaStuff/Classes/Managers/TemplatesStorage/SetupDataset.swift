@@ -15,9 +15,9 @@ extension TemplatesStorage {
         
         let CDSetFetch: NSFetchRequest<CDSet> = CDSet.fetchRequest()
         let CDTemplateFetch: NSFetchRequest<CDTemplate> = CDTemplate.fetchRequest()
-        let CDTemplateSettingsFetch: NSFetchRequest<CDTemplateSettings> = CDTemplateSettings.fetchRequest()
+        let CDItemSettingsFetch: NSFetchRequest<CDItemSettings> = CDItemSettings.fetchRequest()
         
-        let CDAbstractTemplateItemFetch: NSFetchRequest<CDAbstractTemplateItem> = CDAbstractTemplateItem.fetchRequest()
+        let CDAbstractItemInTemplateFetch: NSFetchRequest<CDAbstractItemInTemplate> = CDAbstractItemInTemplate.fetchRequest()
         let CDPhotoFrameInTemplateFetch: NSFetchRequest<CDPhotoFrameInTemplate> = CDPhotoFrameInTemplate.fetchRequest()
         let CDStuffItemInTemplateFetch: NSFetchRequest<CDStuffItemInTemplate> = CDStuffItemInTemplate.fetchRequest()
         let CDAbstractItemFetch: NSFetchRequest<CDAbstractItem> = CDAbstractItem.fetchRequest()
@@ -28,8 +28,8 @@ extension TemplatesStorage {
         
         [CDSetFetch,
          CDTemplateFetch,
-         CDTemplateSettingsFetch,
-         CDAbstractTemplateItemFetch,
+         CDItemSettingsFetch,
+         CDAbstractItemInTemplateFetch,
          CDPhotoFrameInTemplateFetch,
          CDStuffItemInTemplateFetch,
          CDAbstractItemFetch,
@@ -110,31 +110,31 @@ extension TemplatesStorage {
                                                         context: context)
         
         
-        let shape_1_to_2 = photoFrame(itemId: 2002,
-                                      ratio: 1/2,
-                                      frameName: "1_to_2",
+        let shape_9_to_16 = photoFrame(itemId: 2002,
+                                      ratio: 9.0/16.0,
+                                      frameName: "9_to_16",
                                       isShape: true,
                                       context: context)
         
-        shape_1_to_2.photoSettings = photoFrameSettings(centerX: 0.5,
+        shape_9_to_16.photoSettings = photoFrameSettings(centerX: 0.5,
                                                         centerY: 0.5,
                                                         angle: 0,
                                                         widthScale: 1,
-                                                        ratio: 1/2,
+                                                        ratio: 9.0/16.0,
                                                         round: 0,
                                                         context: context)
         
-        let shape_2_to_1 = photoFrame(itemId: 2003,
-                                      ratio: 2/1,
-                                      frameName: "2_to_1",
+        let shape_16_to_9 = photoFrame(itemId: 2003,
+                                      ratio: 16.0/9.0,
+                                      frameName: "16_to_9",
                                       isShape: true,
                                       context: context)
         
-        shape_2_to_1.photoSettings = photoFrameSettings(centerX: 0.5,
+        shape_16_to_9.photoSettings = photoFrameSettings(centerX: 0.5,
                                                         centerY: 0.5,
                                                         angle: 0,
                                                         widthScale: 1,
-                                                        ratio: 2/1,
+                                                        ratio: 16.0/9.0,
                                                         round: 0,
                                                         context: context)
         
@@ -172,7 +172,7 @@ extension TemplatesStorage {
         let itemInTemplate = stuffInTemplate(itemId: 2, centerX: 50, centerY: 50, angle: .pi / 2, widthScale: 25, context: context)
         let textInTemplate = dataToTextItemInTemplate(ratio: 2, centerX: 54, centerY: 120, angle: 0, widthScale: 90, context: context)
         textInTemplate.textSettings = defaultTextSettings(context: context)
-        let frame = dataToPhotoFrameInTemplate(itemId: 2005, centerX: 50, centerY: 80, angle: 0, widthScale: 70, context: context)
+        let frame = dataToPhotoFrameInTemplate(itemId: 2005, centerX: 50, centerY: 80, angle: 0, widthScale: 70, photoName: nil, context: context)
         
         let template = CDTemplate(context: context)
         template.elements = NSOrderedSet(array: [frame, textInTemplate, itemInTemplate])

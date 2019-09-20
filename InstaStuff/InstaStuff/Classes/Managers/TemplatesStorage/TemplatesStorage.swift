@@ -129,11 +129,13 @@ class TemplatesStorage {
             let results = try context.fetch(setFetch)
             results.forEach { cdPhotoItem in
                 guard let settings = frameSettings(from: cdPhotoItem) else { return }
+                let positionSettings = photoPositionSettings(from: cdPhotoItem)
                 let id = Int(cdPhotoItem.id)
                 let item = PhotoItem(frameId: id,
                                      frameImageName: cdPhotoItem.frameImageName,
                                      ratio: CGFloat(cdPhotoItem.ratio),
-                                     photoInFrameSettings: settings)
+                                     photoInFrameSettings: settings,
+                                     photoPositionSettings: positionSettings)
                 photoItemsById[id] = item
                 if cdPhotoItem.isShape {
                     photoItemsShape.append(item)

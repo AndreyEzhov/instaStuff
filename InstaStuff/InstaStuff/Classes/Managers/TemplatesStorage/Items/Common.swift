@@ -17,7 +17,7 @@ struct Settings {
 }
 
 struct PhotoInFrameSettings {
-    let center: CGPoint
+    var center: CGPoint
     let sizeWidth: CGFloat
     let angle: CGFloat
     let ratio: CGFloat
@@ -39,7 +39,8 @@ struct PhotoItem: PreviewProtocol {
     let frameId: PhotoItem.Id
     let frameImageName: String?
     let ratio: CGFloat
-    let photoInFrameSettings: PhotoInFrameSettings
+    var photoInFrameSettings: PhotoInFrameSettings
+    var photoPositionSettings: Settings
     
     var framePlaceImage: UIImage? {
         return UIImage(named: (frameImageName ?? "") + "_frameplace")

@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 typealias UIViewTemplatePlaceble = (UIView & TemplatePlaceble)
 
@@ -40,21 +41,7 @@ class StorySlideView: UIView {
         return tap
     }()
     
-    private(set) var editableView: UIViewTemplatePlaceble? {
-        didSet {
-            if oldValue === editableView, editableView != nil {
-                return
-            }
-            if let textViewPlace = oldValue as? TextViewPlace {
-                textViewPlace.isSelected = false
-            }
-            if let textViewPlace = editableView as? TextViewPlace {
-                textViewPlace.isSelected = true
-            }
-            slideViewPresenter?.selectedItem = editableView
-            closeButton.isHidden = editableView == nil
-        }
-    }
+    let editableView = BehaviorRelay<UIViewTemplatePlaceble?>(value: nil)
     
     private var customGestures = [UIGestureRecognizer]()
     
@@ -119,10 +106,10 @@ class StorySlideView: UIView {
                 guard let rect = self?.convert(textViewPlace.frame, to: self?.slideArea), let scrollView = self?.slideArea else { return }
                 let diff = rect.midY - (scrollView.bounds.height - 300) / 2
                 scrollView.setContentOffset(CGPoint(x: 0, y: diff), animated: true)
-                self?.editableView = textViewPlace
+                self?.editableView.accept(textViewPlace)
             }).disposed(by: bag)
             textViewPlace.textView.rx.didEndEditing.subscribe(onNext: { [weak self] _ in
-                self?.editableView = nil
+                self?.editableView.accept(nil)
                 self?.slideArea.setContentOffset(.zero, animated: true)
             }).disposed(by: bag)
         }
@@ -138,7 +125,7 @@ class StorySlideView: UIView {
     }
     
     func updateDeleteButton() {
-        if let editableView = editableView {
+        if let editableView = editableView.value {
             let x = min(max(0, editableView.frame.maxX), bounds.width - 40)
             let y = min(max(0, editableView.frame.minY - 40), bounds.height - 40)
             closeButton.frame = CGRect(x: x, y: y, width: 40, height: 40)
@@ -153,6 +140,20 @@ class StorySlideView: UIView {
         contentView.snp.remakeConstraints { maker in
             maker.edges.equalToSuperview()
         }
+        editableView
+            .distinctUntilChanged { (oldView, newView) -> Bool in
+                return oldView === newView
+            }
+            .subscribe(onNext: { [weak self] view in
+                if let textViewPlace = view as? TextViewPlace {
+                    textViewPlace.isSelected = false
+                }
+                if let textViewPlace = view as? TextViewPlace {
+                    textViewPlace.isSelected = true
+                }
+                self?.closeButton.isHidden = view == nil
+            })
+            .disposed(by: bag)
     }
     
     private func view(from sender: UIGestureRecognizer) -> UIViewTemplatePlaceble? {
@@ -180,7 +181,7 @@ class StorySlideView: UIView {
     
     @objc private func tapGesture(_ sender: UITapGestureRecognizer) {
         guard sender.state == .ended else { return }
-        editableView = view(from: sender)
+        editableView.accept(view(from: sender))
         updateDeleteButton()
     }
     
@@ -189,11 +190,17 @@ class StorySlideView: UIView {
         switch sender.state {
         case .began:
             guard let item = view(from: sender) else {
-                editableView = nil
+                editableView.accept(nil)
                 return
             }
-            editableView = item
-            let center = item.storyEditableItem.settings.center
+            editableView.accept(item)
+            let center: CGPoint
+            if slideViewPresenter.isPhotoLocked, let photoPlace = item as? PhotoPlace {
+                center = photoPlace.storyEditablePhotoItem.photoItem.photoPositionSettings.center
+            } else {
+                center = item.storyEditableItem.settings.center
+            }
+            
             let currentTranslation = CGPoint(x: center.x * bounds.width, y: center.y * bounds.height)
             sender.setTranslation(currentTranslation, in: self)
         case .changed:
@@ -211,10 +218,10 @@ class StorySlideView: UIView {
         switch sender.state {
         case .began:
             guard let item = view(from: sender) else {
-                editableView = nil
+                editableView.accept(nil)
                 return
             }
-            editableView = item
+            editableView.accept(item)
             sender.rotation = item.storyEditableItem.settings.angle
         case .changed:
             slideViewPresenter.apply(rotation: sender.rotation)
@@ -233,13 +240,13 @@ class StorySlideView: UIView {
         switch sender.state {
         case .began:
             guard let item = view(from: sender) else {
-                editableView = nil
+                editableView.accept(nil)
                 return
             }
-            editableView = item
+            editableView.accept(item)
             if item is TextViewPlace {
-                let A = sender.location(ofTouch: 0, in: editableView)
-                let B = sender.location(ofTouch: 1, in: editableView)
+                let A = sender.location(ofTouch: 0, in: editableView.value)
+                let B = sender.location(ofTouch: 1, in: editableView.value)
                 xD = abs( A.x - B.x )
                 yD = abs( A.y - B.y )
             } else {
@@ -247,7 +254,7 @@ class StorySlideView: UIView {
             }
             
         case .changed:
-            guard let editableView = editableView else { return }
+            guard let editableView = editableView.value else { return }
             if let textViewPlace = editableView as? TextViewPlace {
                 if sender.numberOfTouches < 2 {
                     return
@@ -273,8 +280,8 @@ class StorySlideView: UIView {
     }
     
     @objc private func deleteSelectedItem() {
-        guard let view = editableView else { return }
-        editableView = nil
+        guard let view = editableView.value else { return }
+        editableView.accept(nil)
         view.removeFromSuperview()
         slideViewPresenter?.deleteItem(view)
     }

@@ -13,7 +13,11 @@ protocol EditorDisplayer: class {
     func changeMenuSize(animated: Bool)
 }
 
-final class StoryEditorController: BaseViewController<StoryEditorPresentable>, StoryEditorDisplayable, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, PhotoPicker {
+protocol PhotoPickerProtocol: class {
+    func photoPlaceDidSelected(completion: @escaping (UIImage) -> ())
+}
+
+final class StoryEditorController: BaseViewController<StoryEditorPresentable>, StoryEditorDisplayable, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate {
     
     // MARK: - Properties
     
@@ -59,7 +63,13 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
         return view
     }()
     
-    private(set) lazy var slideViewPresenter = SlideViewPresenter(storySlideView: slideView, storyItem: presenter.story, editorPresenter: editorController.presenter as! EditorPresenter, coef: coef)
+    private(set) lazy var slideViewPresenter =
+        SlideViewPresenter(storySlideView: slideView,
+                           storyItem: presenter.story,
+                           editorPresenter: editorController.presenter as! EditorPresenter,
+                           coef: coef,
+                           photoPicker: self,
+                           imageHandler: self.presenter.imageHandler)
     
     var heightConstraint: ConstraintMakerEditable?
     
@@ -160,40 +170,19 @@ final class StoryEditorController: BaseViewController<StoryEditorPresentable>, S
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
-    
-    // MARK: - PhotoPicker
-    
-    func photoPlaceDidSelected(_ photoPlace: PhotoPlace, completion: @escaping (UIImage) -> ()) {
+
+}
+
+extension StoryEditorController: PhotoPickerProtocol {
+    func photoPlaceDidSelected(completion: @escaping (UIImage) -> ()) {
         present(imagePicker, animated: true, completion: nil)
         photoDidSelectedBlock = completion
     }
-    
-    // MARK: - UITextViewDelegate
-    
-    //    func textViewDidBeginEditing(_ textView: UITextView) {
-    //        guard let textView = textView.superview else {
-    //            return
-    //        }
-    //        let frame = view.convert(textView.frame, to: self.view)
-    //        let offset = view.frame.midY / 2.0 - frame.midY
-    //        slideArea.setContentOffset(CGPoint(x: 0, y: -offset), animated: true)
-    //    }
-    //
-    //    func textViewDidEndEditing(_ textView: UITextView) {
-    //        slideArea.setContentOffset(.zero, animated: true)
-    //    }
-    //
-    //    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-    //        return true
-    //    }
-    
-    
-    
 }
 
 extension StoryEditorController: MenuViewProtocol {
     func addPhotoAction(_ sender: UIButton) {
-        editorController.presenter.update(with: .addPhotoFrame)
+        editorController.presenter.update(with: .addPhotoFrame(slideViewPresenter))
     }
     
     func addItemAction(_ sender: UIButton) {
@@ -241,11 +230,11 @@ extension StoryEditorController: BackgroundPickerListener {
         slideArea.addSubview(view)
         slideArea.addSubview(pipette)
         pipette.view = view
-        let isFirstResponder = presenter.slideViewPresenter?.selectedItem?.isFirstResponder ?? false
-        presenter.slideViewPresenter?.selectedItem?.resignFirstResponder()
+        let isFirstResponder = presenter.slideViewPresenter?.storySlideView.editableView.value?.isFirstResponder ?? false
+        presenter.slideViewPresenter?.storySlideView.editableView.value?.resignFirstResponder()
         pipette.completion = { color in
             if isFirstResponder {
-                self.presenter.slideViewPresenter?.selectedItem?.becomeFirstResponder()
+                self.presenter.slideViewPresenter?.storySlideView.editableView.value?.becomeFirstResponder()
             }
             self.editorView.isHidden = false
             completion(color)
@@ -258,5 +247,16 @@ extension StoryEditorController: BackgroundPickerListener {
     
     func backgroundImageDidChanged(_ imageName: String?) {
         presenter.slideViewPresenter?.setBackgroundImage(imageName)
+    }
+}
+
+
+extension UIView {
+    func snapshot() -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(self.bounds.size, true, UIScreen.main.scale)
+        self.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let img = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return img!
     }
 }

@@ -28,13 +28,21 @@ class ImageHandler {
         }
     }
     
-    func loadImage(named fileName: String) -> UIImage? {
-        guard let documentsURL = documentsURL else { return nil }
+    func loadImage(named fileName: String?) -> UIImage? {
+        guard let documentsURL = documentsURL, let fileName = fileName else { return nil }
         let filePath = documentsURL.appendingPathComponent("\(fileName).png").path
         if FileManager.default.fileExists(atPath: filePath) {
             return UIImage(contentsOfFile: filePath)
         }
         return UIImage(named: fileName)
+    }
+    
+    func deleteImage(named fileName: String?) {
+        guard let documentsURL = documentsURL, let fileName = fileName else { return }
+        let filePath = documentsURL.appendingPathComponent("\(fileName).png").path
+        if FileManager.default.fileExists(atPath: filePath) {
+            try? FileManager.default.removeItem(atPath: filePath)
+        }
     }
     
     private func removeImage(named fileName: String) {

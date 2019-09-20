@@ -16,6 +16,7 @@ protocol StoryEditorDisplayable: View {
 protocol StoryEditorPresentable: Presenter {
     var story: StoryItem { get }
     var slideViewPresenter: SlideViewPresenter? { get set }
+    var imageHandler: ImageHandler { get }
     func saveTemplate(with image: UIImage)
     func exportImage(initiatedByUser: Bool)
 }
@@ -43,7 +44,7 @@ final class StoryEditorPresenter: StoryEditorPresentable {
     
     private let templatesStorage: TemplatesStorage
     
-    private let imageHandler: ImageHandler
+    let imageHandler: ImageHandler
     
     var slideViewPresenter: SlideViewPresenter?
     

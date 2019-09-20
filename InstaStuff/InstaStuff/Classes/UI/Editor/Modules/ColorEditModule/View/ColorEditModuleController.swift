@@ -72,7 +72,7 @@ final class ColorEditModuleController: BaseViewController<ColorEditModulePresent
         super.viewDidLoad()
         view.addSubview(collectionView)
         view.addSubview(pipetteButton)
-        updateColor(presenter.delegate?.currentColor)
+        updateUIColor(presenter.delegate?.currentColor)
     }
     
     // MARK: - ColorEditModuleDisplayable

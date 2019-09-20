@@ -33,13 +33,6 @@ class EditViewPresenter: CunstructorEditViewProtocol {
     
     private(set) var isEditing: Bool = false
     
-    weak var slideView: ConstructorSlideView? {
-        didSet {
-            //shapeEditModuleController.presenter.slideView = slideView
-            //frameEditModuleController.presenter.slideView = slideView
-        }
-    }
-    
     weak var sliderListener: SliderListener? {
         didSet {
             sliderEditModuleController.presenter.sliderListener = sliderListener

@@ -33,6 +33,8 @@ class StoryEditableItem {
 }
 
 class StoryEditablePhotoItem: StoryEditableItem {
+    // КРИВО
+    private static let imageHandler = ImageHandler()
     
     override var ratio: CGFloat? {
         return photoItem.ratio
@@ -42,60 +44,84 @@ class StoryEditablePhotoItem: StoryEditableItem {
     
     var customSettings: PhotoItemCustomSettings?
     
-    let image: BehaviorSubject<UIImage?>
+    let imageName: BehaviorRelay<String?>
     
-    private var renderedPhoto: UIImage? {
-        //        let photoWidth = Consts.UIGreed.screenWidth * photoItem.photoAreaLocation.sizeWidth * settings.sizeWidth
-        //        let photoSize = CGSize(width: photoWidth,
-        //                               height: photoWidth / photoItem.photoAreaLocation.ratio)
-        //        UIGraphicsBeginImageContext(photoSize)
-        //
-        //        UIColor.white.setFill()
-        //        let context = UIGraphicsGetCurrentContext()
-        //        context?.fill(CGRect(origin: .zero, size: photoSize))
-        //
-        //        if let context = UIGraphicsGetCurrentContext(),
-        //            let photo = ((try? self.image.value()) as UIImage??), let unwrapedPhoto = photo {
-        //            context.translateBy(x: photoSize.width / 2.0 + editablePhotoTransform.currentTranslation.x / scale,
-        //                                y: photoSize.height / 2.0 + editablePhotoTransform.currentTranslation.y / scale)
-        //            context.rotate(by: editablePhotoTransform.currentRotation)
-        //            context.scaleBy(x: editablePhotoTransform.currentScale,
-        //                            y: editablePhotoTransform.currentScale)
-        //            let minRatio = min(unwrapedPhoto.size.width/photoSize.width, unwrapedPhoto.size.height/photoSize.height)
-        //            let size = CGSize(width: unwrapedPhoto.size.width / minRatio, height: unwrapedPhoto.size.height / minRatio)
-        //            unwrapedPhoto.draw(in: CGRect(origin: CGPoint(x: -size.width / 2.0, y: -size.height / 2.0), size: size))
-        //        }
-        //
-        //        let image = UIGraphicsGetImageFromCurrentImageContext()
-        //        UIGraphicsEndImageContext()
-        //        return image
-        return nil
+    var image: UIImage? {
+        return StoryEditablePhotoItem.imageHandler.loadImage(named: imageName.value)
+    }
+    
+    private func renderedPhoto(size: CGSize) -> UIImage? {
+        guard let image = image else { return nil }
+        let imageSize: CGSize
+        if (size.width / size.height) > (image.size.width / image.size.height) {
+            imageSize = CGSize(width: size.width, height: image.size.height / image.size.width * size.width)
+        } else {
+            imageSize = CGSize(width: image.size.width / image.size.height * size.height, height: size.height)
+        }
+        
+        UIGraphicsBeginImageContext(size)
+        
+        if let context = UIGraphicsGetCurrentContext() {
+            context.saveGState()
+            UIBezierPath(roundedRect: CGRect(origin: .zero, size: size), cornerRadius: photoItem.photoInFrameSettings.round * size.width).addClip()
+            context.translateBy(x: size.width / 2.0,
+                                y: size.height / 2.0)
+            let frame = CGRect(origin: CGPoint(x: -imageSize.width / 2.0,
+                                               y: -imageSize.height / 2.0),
+                               size: imageSize)
+            image.draw(in: frame)
+            context.restoreGState()
+        }
+        let result = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return result
     }
     
     override var renderedImage: UIImage? {
         let frameWidth = Consts.UIGreed.screenWidth * settings.sizeWidth
+        let frameHeigth = frameWidth / photoItem.ratio
         let size = CGSize(width: frameWidth, height: frameWidth / photoItem.ratio)
         UIGraphicsBeginImageContext(size)
+        
+        // Рисуем фотографию
+        let photoWidth = frameWidth * photoItem.photoInFrameSettings.sizeWidth
+        let photoHeigth = photoWidth / photoItem.photoInFrameSettings.ratio
+        let photoSize = CGSize(width: photoWidth, height: photoHeigth)
+        if let photo = renderedPhoto(size: photoSize), let context = UIGraphicsGetCurrentContext() {
+            context.saveGState()
+            context.translateBy(x: frameWidth * photoItem.photoInFrameSettings.center.x,
+                                y: frameHeigth * photoItem.photoInFrameSettings.center.y)
+            context.concatenate(CGAffineTransform(rotationAngle: photoItem.photoInFrameSettings.angle))
+            let frame = CGRect(origin: CGPoint(x: -photoSize.width / 2.0,
+                                               y: -photoSize.height / 2.0),
+                               size: photoSize)
+            photo.draw(in: frame)
+            context.restoreGState()
+        }
+        
         photoItem.framePlaceImage?.draw(in: CGRect(origin: .zero, size: size))
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return image
     }
     
-    init(_ photoItem: PhotoItem, customSettings: PhotoItemCustomSettings?, settings: Settings) {
-        image = BehaviorSubject(value: nil)
+    init(_ photoItem: PhotoItem, customSettings: PhotoItemCustomSettings?, settings: Settings, dafultImageName: String?) {
+        imageName = BehaviorRelay(value: dafultImageName)
         self.customSettings = customSettings
         self.photoItem = photoItem
         super.init(settings)
     }
     
-    func update(image: UIImage?) {
+    func update(imageName: String?) {
         //editablePhotoTransform.identity()
-        self.image.onNext(image)
+        self.imageName.accept(imageName)
     }
     
     override func copy() -> StoryEditableItem {
-        return StoryEditablePhotoItem(photoItem, customSettings: customSettings, settings: settings)
+        return StoryEditablePhotoItem(photoItem,
+                                      customSettings: customSettings,
+                                      settings: settings,
+                                      dafultImageName: imageName.value)
     }
     
 }

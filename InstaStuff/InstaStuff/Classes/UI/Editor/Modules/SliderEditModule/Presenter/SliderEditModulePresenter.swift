@@ -6,7 +6,12 @@
 //  Copyright © 2019 Андрей Ежов. All rights reserved.
 //
 
+import UIKit
 import Foundation
+
+protocol SliderListener: UIView {
+    func valueDidChanged(_ value: Float)
+}
 
 /// Протокол для общения с вью частью
 protocol SliderEditModuleDisplayable: View {

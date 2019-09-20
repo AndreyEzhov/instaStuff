@@ -8,10 +8,6 @@
 
 import UIKit
 
-protocol SliderListener: UIView {
-    func valueDidChanged(_ value: Float)
-}
-
 private enum Constants {
     
     static let sliderHight: CGFloat = 44.0

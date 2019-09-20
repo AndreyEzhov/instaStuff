@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 /// Контроллер для экрана «SliderEditModule»
 final class BaseEditModuleController: BaseViewController<BaseEditModulePresentable>, BaseEditModuleDisplayable {
@@ -17,6 +19,9 @@ final class BaseEditModuleController: BaseViewController<BaseEditModulePresentab
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
+        if self.presenter.showLock {
+            stackView.addArrangedSubview(lockButton)
+        }
         stackView.addArrangedSubview(toTopButton)
         stackView.addArrangedSubview(toBackgroundButton)
         return stackView
@@ -33,6 +38,13 @@ final class BaseEditModuleController: BaseViewController<BaseEditModulePresentab
         button.setImage(#imageLiteral(resourceName: "moveToBack"), for: .normal)
         return button
     }()
+    
+    private lazy var lockButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "pencil"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "centerAlignment"), for: .selected)
+        return button
+    }()
 
     // MARK: - Life Cycle
 
@@ -42,6 +54,7 @@ final class BaseEditModuleController: BaseViewController<BaseEditModulePresentab
         }
         super.updateViewConstraints()
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -57,6 +70,7 @@ final class BaseEditModuleController: BaseViewController<BaseEditModulePresentab
     }
     
     private func setupActions(for target: BaseEditProtocol) {
+        lockButton.addTarget(target, action: #selector(BaseEditProtocol.lock(_:)), for: .touchUpInside)
         toTopButton.addTarget(target, action: #selector(BaseEditProtocol.moveToFront), for: .touchUpInside)
         toBackgroundButton.addTarget(target, action: #selector(BaseEditProtocol.moveToBack), for: .touchUpInside)
     }

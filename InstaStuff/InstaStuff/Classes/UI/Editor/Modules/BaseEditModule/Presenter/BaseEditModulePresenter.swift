@@ -7,8 +7,11 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
 
 @objc protocol BaseEditProtocol {
+    @objc func lock(_ sender: UIButton)
     @objc func moveToFront()
     @objc func moveToBack()
 }
@@ -19,6 +22,7 @@ protocol BaseEditModuleDisplayable: View {
 
 /// Интерфейс презентера
 protocol BaseEditModulePresentable: Presenter {
+    var showLock: Bool { get }
     var baseEditHandler: BaseEditProtocol { get }
 }
 
@@ -31,6 +35,7 @@ final class BaseEditModulePresenter: BaseEditModulePresentable {
     
     /// Параметры экрана
     struct Parameters {
+        let showLock: Bool
         let baseEditHandler: BaseEditProtocol
     }
     
@@ -40,10 +45,13 @@ final class BaseEditModulePresenter: BaseEditModulePresentable {
     
     let baseEditHandler: BaseEditProtocol
     
+    let showLock: Bool
+    
     // MARK: - Construction
     
     init(params: Parameters) {
         baseEditHandler = params.baseEditHandler
+        showLock = params.showLock
     }
     
     // MARK: - Private Functions

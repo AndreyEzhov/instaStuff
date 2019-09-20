@@ -11,8 +11,9 @@ import CoreData
 
 extension TemplatesStorage {
     
-    func dataToPhotoFrameInTemplate(itemId: Int, centerX: CGFloat, centerY: CGFloat, angle: CGFloat, widthScale: CGFloat, applyScale: Bool = true, context: NSManagedObjectContext) -> CDPhotoFrameInTemplate {
+    func dataToPhotoFrameInTemplate(itemId: Int, centerX: CGFloat, centerY: CGFloat, angle: CGFloat, widthScale: CGFloat, applyScale: Bool = true, photoName: String?, context: NSManagedObjectContext) -> CDPhotoFrameInTemplate {
         let frameInTemplate = CDPhotoFrameInTemplate(context: context)
+        frameInTemplate.photoName = photoName
         frameInTemplate.itemId = Int64(itemId)
         let settings = generateSettings(centerX: centerX, centerY: centerY, angle: angle, widthScale: widthScale, applyScale: applyScale, context: context)
         frameInTemplate.settings = settings
@@ -53,8 +54,8 @@ extension TemplatesStorage {
         return textInTemplate
     }
     
-    func generateSettings(centerX: CGFloat, centerY: CGFloat, angle: CGFloat, widthScale: CGFloat, applyScale: Bool = true, context: NSManagedObjectContext) -> CDTemplateSettings {
-        let settings = CDTemplateSettings(context: context)
+    func generateSettings(centerX: CGFloat, centerY: CGFloat, angle: CGFloat, widthScale: CGFloat, applyScale: Bool = true, context: NSManagedObjectContext) -> CDItemSettings {
+        let settings = CDItemSettings(context: context)
         settings.midX = Float(centerX / (applyScale ? 108.0 : 1))
         settings.midY = Float(centerY / (applyScale ? 192.0 : 1))
         settings.angle = Float(angle)

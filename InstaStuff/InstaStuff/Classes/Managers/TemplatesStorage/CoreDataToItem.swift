@@ -34,10 +34,20 @@ extension TemplatesStorage {
                                     round: CGFloat(settings.round))
     }
     
+    func photoPositionSettings(from photoFrame: CDPhotoFrameItem) -> Settings {
+        
+        guard let settings = photoFrame.photoPositionSettings else {
+            return Settings(center: CGPoint.init(x: 0.5, y: 0.5), sizeWidth: 1, angle: 0)
+        }
+        return Settings(center: CGPoint(x: CGFloat(settings.midX), y: CGFloat(settings.midY)),
+                        sizeWidth: CGFloat(settings.widthScale),
+                        angle: CGFloat(settings.angle))
+    }
+    
     func template(from currentTemplate: CDTemplate) -> Template? {
         guard let name = currentTemplate.name,
             let backgroundColor = currentTemplate.backGroundColor as? UIColor,
-            let areas = currentTemplate.elements?.array as? [CDAbstractTemplateItem] else {
+            let areas = currentTemplate.elements?.array as? [CDAbstractItemInTemplate] else {
                 return nil
         }
         
@@ -52,7 +62,7 @@ extension TemplatesStorage {
                         createdByUser: currentTemplate.managedObjectContext == localCoreDataStack.managedContext)
     }
     
-    func createStoryEditableItem(from itemInTemplate: CDAbstractTemplateItem) -> StoryEditableItem? {
+    func createStoryEditableItem(from itemInTemplate: CDAbstractItemInTemplate) -> StoryEditableItem? {
         switch itemInTemplate {
         case let item as CDPhotoFrameInTemplate:
             return frameEditableItem(from: item)
@@ -72,7 +82,8 @@ extension TemplatesStorage {
         }
         return StoryEditablePhotoItem(photoItem,
                                       customSettings: nil,
-                                      settings: settings)
+                                      settings: settings,
+                                      dafultImageName: item.photoName)
     }
     
     func stuffEditableItem(from item: CDStuffItemInTemplate) -> StoryEditableItem? {
@@ -89,7 +100,7 @@ extension TemplatesStorage {
         return StoryEditableTextItem(textItem, settings: settings)
     }
     
-    func generateSettings(from itemSettings: CDTemplateSettings?) -> Settings? {
+    func generateSettings(from itemSettings: CDItemSettings?) -> Settings? {
         guard let itemSettings = itemSettings else { return nil }
         let centerPoint = CGPoint(x: CGFloat(itemSettings.midX), y: CGFloat(itemSettings.midY))
         return Settings(center: centerPoint,

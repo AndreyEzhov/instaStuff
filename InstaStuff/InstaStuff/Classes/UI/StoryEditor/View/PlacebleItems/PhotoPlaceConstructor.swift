@@ -14,7 +14,7 @@ extension PhotoPlaceConstructor: SliderListener {
     func valueDidChanged(_ value: Float) {
         DispatchQueue.global(qos: .background).async {
             self.photoRedactorValue = value
-            guard let imageOpt = ((try? self.storyEditablePhotoItem.image.value()) as UIImage??), let image = imageOpt else {
+            guard let image = self.storyEditablePhotoItem.image else {
                 return
             }
             if let originalImage = CIImage(image: image) {

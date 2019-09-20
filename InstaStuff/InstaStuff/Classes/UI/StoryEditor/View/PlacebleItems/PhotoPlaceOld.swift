@@ -16,10 +16,6 @@ import RxSwift
     @objc func itemToBackground()
 }
 
-protocol PhotoPicker: class {
-    func photoPlaceDidSelected(_ photoPlace: PhotoPlace, completion: @escaping (UIImage) -> ())
-}
-
 protocol TemplatePlaceble: class {
     var storyEditableItem: StoryEditableItem { get }
     func selectAsEditable(delegate: ConstructorItemDelegate)

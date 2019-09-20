@@ -28,7 +28,7 @@ final class EditorPresenter: EditorPresentable {
     // MARK: - Nested types
     
     enum State {
-        case main(MenuViewProtocol?), addStuff(SlideViewPresenter), stuffEdit(BaseEditProtocol), backgroundChange(BackgroundPickerListener), addPhotoFrame
+        case main(MenuViewProtocol?), addStuff(SlideViewPresenter), stuffEdit(BaseEditProtocol), backgroundChange(BackgroundPickerListener), addPhotoFrame(BaseEditProtocol)
     }
     
     typealias T = EditorDisplayable
@@ -94,7 +94,7 @@ final class EditorPresenter: EditorPresentable {
     }
     
     private func stuffEdit(_ baseEditHandler: BaseEditProtocol) -> [EditModule] {
-        let сontroller = Assembly.shared.createBaseEditModuleController(params: BaseEditModulePresenter.Parameters(baseEditHandler: baseEditHandler))
+        let сontroller = Assembly.shared.createBaseEditModuleController(params: BaseEditModulePresenter.Parameters(showLock: false, baseEditHandler: baseEditHandler))
         let module = EditModule(estimatedHeight: 60, controller: сontroller)
         return [module]
     }
@@ -108,14 +108,16 @@ final class EditorPresenter: EditorPresentable {
         return [imageModule, colorModule]
     }
     
-    private func addPhotoFrame() -> [EditModule] {
+    private func addPhotoFrame(_ baseEditHandler: BaseEditProtocol) -> [EditModule] {
         let shapeController = Assembly.shared.createShapeEditModuleController(params: ShapeEditModulePresenter.Parameters(numberOfRows: 1))
         let shapeModule = EditModule(estimatedHeight: 60, controller: shapeController)
         shapeController.presenter.slideViewPresenter = slideViewPresenter
         let framesController = Assembly.shared.createFrameEditModuleController(params: FrameEditModulePresenter.Parameters(numberOfRows: 1))
         let frameModule = EditModule(estimatedHeight: 60, controller: framesController)
         framesController.presenter.slideViewPresenter = slideViewPresenter
-        return [shapeModule, frameModule]
+        let baseController = Assembly.shared.createBaseEditModuleController(params: BaseEditModulePresenter.Parameters(showLock: true, baseEditHandler: baseEditHandler))
+        let baseModule = EditModule(estimatedHeight: 60, controller: baseController)
+        return [shapeModule, frameModule, baseModule]
     }
     
     // MARK: - Functions
@@ -139,8 +141,8 @@ final class EditorPresenter: EditorPresentable {
             newModules = stuffEdit(baseEditHandler)
         case .backgroundChange(let colorPickerListener):
             newModules = backgroundEdit(delegate: colorPickerListener)
-        case .addPhotoFrame:
-            newModules = addPhotoFrame()
+        case .addPhotoFrame(let baseEditHandler):
+            newModules = addPhotoFrame(baseEditHandler)
         }
         contentView()?.editorToolbar.setDoneButton(hidden: hideDoneButton)
         contentView()?.updateContent(old: modules, new: newModules)
@@ -155,7 +157,7 @@ final class EditorPresenter: EditorPresentable {
     
     @objc func doneTouch() {
         defaultState()
-        slideViewPresenter?.selectedItem = nil
+        slideViewPresenter?.storySlideView.editableView.accept(nil)
     }
-
+    
 }

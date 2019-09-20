@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class PhotoPlace: UIViewTemplatePlaceble {
     
@@ -14,7 +16,36 @@ class PhotoPlace: UIViewTemplatePlaceble {
     
     private lazy var framePlace = UIImageView()
     
-    private lazy var photoLayerView = PhotoLayerView()
+    private lazy var photoLayerView: PhotoLayerView = {
+        let view = PhotoLayerView()
+        view.addGestureRecognizer(pickImageTapGesture)
+        view.isUserInteractionEnabled = true
+        return view
+    }()
+    
+    private let imageHandler: ImageHandler
+    
+    private(set) lazy var pickImageTapGesture: UITapGestureRecognizer = {
+        let gesture = UITapGestureRecognizer()
+        gesture.delegate = self
+        return gesture
+    }()
+ 
+    private lazy var imageView: UIImageView = {
+        let view = UIImageView()
+        storyEditablePhotoItem.imageName.subscribe(onNext: { [weak self] name in
+            let image = self?.imageHandler.loadImage(named: name)
+            view.image = image
+            if let image = image, let photoPlaceRatio = self?.storyEditablePhotoItem.ratio {
+                var settings = Settings(center: CGPoint(x: 0.5, y: 0.5),
+                                        sizeWidth: 1,
+                                        angle: 0)
+                self?.storyEditablePhotoItem.photoItem.photoPositionSettings = settings
+            }
+        }).disposed(by: bag)
+        view.contentMode = .scaleAspectFill
+        return view
+    }()
     
     var storyEditableItem: StoryEditableItem {
         return storyEditablePhotoItem
@@ -22,9 +53,12 @@ class PhotoPlace: UIViewTemplatePlaceble {
     
     let storyEditablePhotoItem: StoryEditablePhotoItem
     
+    private let bag = DisposeBag()
+    
     // MARK: - Contruction
     
-    init(_ storyEditablePhotoItem: StoryEditablePhotoItem) {
+    init(_ storyEditablePhotoItem: StoryEditablePhotoItem, imageHandler: ImageHandler) {
+        self.imageHandler = imageHandler
         self.storyEditablePhotoItem = storyEditablePhotoItem
         super.init(frame: .zero)
         setup()
@@ -43,11 +77,10 @@ class PhotoPlace: UIViewTemplatePlaceble {
     
     override func updateConstraints() {
         super.updateConstraints()
-        photoLayerView.snp.remakeConstraints { maker in
-            let settings = storyEditablePhotoItem.photoItem.photoInFrameSettings
+        imageView.snp.remakeConstraints { maker in
+            let settings = storyEditablePhotoItem.photoItem.photoPositionSettings
             maker.centerX.equalToSuperview().multipliedBy(settings.center.x * 2)
             maker.centerY.equalToSuperview().multipliedBy(settings.center.y * 2)
-            maker.width.equalTo(photoLayerView.snp.height).multipliedBy(settings.ratio)
             maker.width.equalToSuperview().multipliedBy(settings.sizeWidth)
         }
     }
@@ -62,16 +95,43 @@ class PhotoPlace: UIViewTemplatePlaceble {
         photoLayerView.setNeedsDisplay()
     }
     
+    func updatePhoto(_ photo: UIImage?) {
+        imageView.image = photo
+    }
     
     // MARK: - Private Functions
     
     private func setup() {
         addSubview(photoLayerView)
         addSubview(framePlace)
+        photoLayerView.addSubview(imageView)
         framePlace.snp.remakeConstraints { maker in
             maker.edges.equalToSuperview()
         }
+        photoLayerView.snp.remakeConstraints { maker in
+            let settings = storyEditablePhotoItem.photoItem.photoInFrameSettings
+            maker.centerX.equalToSuperview().multipliedBy(settings.center.x * 2)
+            maker.centerY.equalToSuperview().multipliedBy(settings.center.y * 2)
+            maker.width.equalTo(photoLayerView.snp.height).multipliedBy(settings.ratio)
+            maker.width.equalToSuperview().multipliedBy(settings.sizeWidth)
+        }
         update(with: storyEditablePhotoItem.photoItem)
+        setupGestures()
+    }
+    
+    private func setupGestures() {
+        
+    }
+    
+}
+
+extension PhotoPlace: UIGestureRecognizerDelegate {
+    
+    override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer === pickImageTapGesture {
+            return storyEditablePhotoItem.imageName.value == nil
+        }
+        return true
     }
     
 }

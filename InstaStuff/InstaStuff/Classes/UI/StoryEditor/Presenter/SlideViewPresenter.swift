@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class SlideViewPresenter {
     
     // MARK: - Properties
     
-    private let storySlideView: StorySlideView
+    let storySlideView: StorySlideView
     
     private let storyItem: StoryItem
     
@@ -20,30 +22,25 @@ class SlideViewPresenter {
     
     private let coef: CGFloat
     
-    var selectedItem: UIViewTemplatePlaceble? {
-        didSet {
-            guard oldValue !== selectedItem else {
-                return
-            }
-            if selectedItem is StuffPlace {
-                editorPresenter.update(with: .stuffEdit(self))
-            } else if selectedItem is PhotoPlace {
-                editorPresenter.update(with: .addPhotoFrame)
-            } else {
-                editorPresenter.defaultState()
-            }
-        }
-    }
+    private weak var photoPicker: PhotoPickerProtocol?
+    
+    private let imageHandler: ImageHandler
+    
+    private let bag = DisposeBag()
+    
+    private(set) var isPhotoLocked = false
     
     // MARK: - Construction
     
-    init(storySlideView: StorySlideView, storyItem: StoryItem, editorPresenter: EditorPresenter, coef: CGFloat) {
+    init(storySlideView: StorySlideView, storyItem: StoryItem, editorPresenter: EditorPresenter, coef: CGFloat, photoPicker: PhotoPickerProtocol, imageHandler: ImageHandler) {
+        self.photoPicker = photoPicker
         self.coef = coef
         self.storySlideView = storySlideView
         self.storyItem = storyItem
         self.editorPresenter = editorPresenter
-        storySlideView.slideViewPresenter = self
+        self.imageHandler = imageHandler
         editorPresenter.slideViewPresenter = self
+        storySlideView.slideViewPresenter = self
         setup()
         replaceAllElemets()
     }
@@ -52,6 +49,23 @@ class SlideViewPresenter {
     
     private func setup() {
         TextViewPlace.editView.presenter.baseEditor = self
+        storySlideView
+            .editableView
+            .distinctUntilChanged { (oldView, newView) -> Bool in
+                return oldView === newView
+            }
+            .subscribe(onNext: { [weak self] view in
+                guard let sSelf = self else { return }
+                sSelf.isPhotoLocked = false
+                if view is StuffPlace {
+                    sSelf.editorPresenter.update(with: .stuffEdit(sSelf))
+                } else if view is PhotoPlace {
+                    sSelf.editorPresenter.update(with: .addPhotoFrame(sSelf))
+                } else {
+                    sSelf.editorPresenter.defaultState()
+                }
+            })
+            .disposed(by: bag)
     }
     
     private func replaceAllElemets() {
@@ -74,7 +88,18 @@ class SlideViewPresenter {
         var view: UIViewTemplatePlaceble?
         switch item {
         case let item as StoryEditablePhotoItem:
-            view = PhotoPlace(item)
+            let photoPlace = PhotoPlace(item, imageHandler: imageHandler)
+            view = photoPlace
+            photoPlace.pickImageTapGesture.rx.event.subscribe(onNext: { [weak self] gesture in
+                if gesture.state == .ended {
+                    self?.photoPicker?.photoPlaceDidSelected(completion: { image in
+                        self?.imageHandler.deleteImage(named: item.imageName.value)
+                        let uuid = UUID().uuidString
+                        self?.imageHandler.saveImage(image, name: uuid)
+                        item.update(imageName: uuid)
+                    })
+                }
+            }).disposed(by: bag)
         case let item as StoryEditableStuffItem:
             let stuffPlace = StuffPlace(item)
             view = stuffPlace
@@ -101,17 +126,32 @@ class SlideViewPresenter {
         updateTransform(for: view)
     }
     
+    private func updatePhotoInFramePosition(for view: PhotoPlace) {
+        view.updateConstraints()
+    }
+    
+    private func setupBackgroundColor(_ color: UIColor?) {
+        let color = color ?? .white
+        storyItem.backgroundColor = color
+        storySlideView.setBackgroundColor(color)
+    }
+    
+    private func setupBackgroundImage(_ imageName: String?) {
+        storyItem.backgroundImageName = imageName
+        storySlideView.setBackgroundImage(storyItem.backgroundImage)
+    }
+    
     // MARK: - Functions
     
     func addOrModify(_ item: PhotoItem) {
-        if let selectedFrame = selectedItem as? PhotoPlace {
+        if let selectedFrame = storySlideView.editableView.value as? PhotoPlace {
             selectedFrame.update(with: item)
             updatePosition(for: selectedFrame)
             storySlideView.layoutIfNeeded()
             storySlideView.updateDeleteButton()
         } else {
             let settings = Settings(center: CGPoint(x: 0.5, y: 0.5), sizeWidth: 0.7, angle: 0)
-            add(StoryEditablePhotoItem(item, customSettings: nil, settings: settings))
+            add(StoryEditablePhotoItem(item, customSettings: nil, settings: settings, dafultImageName: nil))
         }
     }
     
@@ -121,43 +161,56 @@ class SlideViewPresenter {
     }
     
     func setBackgroundColor(_ color: UIColor?) {
-        let color = color ?? .white
-        storyItem.backgroundColor = color
-        storySlideView.setBackgroundColor(color)
+        setupBackgroundColor(color)
+        setupBackgroundImage(nil)
     }
     
     func setBackgroundImage(_ imageName: String?) {
-        storyItem.backgroundImageName = imageName
-        storySlideView.setBackgroundImage(storyItem.backgroundImage)
+        setupBackgroundColor(.white)
+        setupBackgroundImage(imageName)
     }
     
     func apply(translation: CGPoint) {
-        guard let selectedItem = selectedItem else { return }
-        selectedItem.storyEditableItem.settings.center = translation
-        updatePosition(for: selectedItem)
+        guard let selectedItem = storySlideView.editableView.value else { return }
+        if isPhotoLocked, let photoPlace = selectedItem as? PhotoPlace {
+            photoPlace.storyEditablePhotoItem.photoItem.photoPositionSettings.center = translation
+            updatePhotoInFramePosition(for: photoPlace)
+        } else {
+            selectedItem.storyEditableItem.settings.center = translation
+            updatePosition(for: selectedItem)
+        }
     }
     
     func apply(rotation: CGFloat) {
-        guard let selectedItem = selectedItem else { return }
+        guard let selectedItem = storySlideView.editableView.value else { return }
         selectedItem.storyEditableItem.settings.angle = rotation
         updateTransform(for: selectedItem)
     }
     
     func apply(scale: CGFloat) {
-        guard let selectedItem = selectedItem else { return }
+        guard let selectedItem = storySlideView.editableView.value else { return }
         selectedItem.storyEditableItem.settings.sizeWidth = scale
         updatePosition(for: selectedItem)
     }
     
     func deleteItem(_ item: UIViewTemplatePlaceble) {
         let item = item.storyEditableItem
+        if let photoItem = item as? StoryEditablePhotoItem {
+            imageHandler.deleteImage(named: photoItem.imageName.value)
+        }
         storyItem.items.removeAll { $0 === item }
     }
 }
 
 extension SlideViewPresenter: BaseEditProtocol {
+    
+    func lock(_ sender: UIButton) {
+        isPhotoLocked.toggle()
+        sender.isSelected = isPhotoLocked
+    }
+    
     func moveToFront() {
-        guard let selectedItem = selectedItem else { return }
+        guard let selectedItem = storySlideView.editableView.value else { return }
         let item = selectedItem.storyEditableItem
         storyItem.items.removeAll { $0 === item }
         storyItem.items.append(item)
@@ -165,7 +218,7 @@ extension SlideViewPresenter: BaseEditProtocol {
     }
     
     func moveToBack() {
-        guard let selectedItem = selectedItem else { return }
+        guard let selectedItem = storySlideView.editableView.value else { return }
         let item = selectedItem.storyEditableItem
         storyItem.items.removeAll { $0 === item }
         storyItem.items.insert(item, at: 0)

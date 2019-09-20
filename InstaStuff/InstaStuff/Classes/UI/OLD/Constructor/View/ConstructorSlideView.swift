@@ -89,7 +89,6 @@ class ConstructorSlideView: UIView, UIGestureRecognizerDelegate, ConstructorItem
     init(editViewPeresenter: EditViewPresenter) {
         self.editViewPeresenter = editViewPeresenter
         super.init(frame: .zero)
-        editViewPeresenter.slideView = self
         setup()
         addGestures()
     }

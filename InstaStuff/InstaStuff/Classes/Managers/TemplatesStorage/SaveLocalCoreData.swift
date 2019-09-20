@@ -14,7 +14,7 @@ import CoreData
 extension TemplatesStorage {
     
     func saveTemplateInCD(_ template: Template, context: NSManagedObjectContext) {
-        let items: [CDAbstractTemplateItem] = template.storyEditableItem.map { item in
+        let items: [CDAbstractItemInTemplate] = template.storyEditableItem.map { item in
             switch item {
             case let stuff as StoryEditableStuffItem:
                 return stuffInTemplate(stuff: stuff, context: context)
@@ -99,6 +99,7 @@ extension TemplatesStorage {
                                                               angle: photo.settings.angle,
                                                               widthScale: photo.settings.sizeWidth,
                                                               applyScale: false,
+                                                              photoName: photo.imageName.value,
                                                               context: context)
         return photoFrameInTemplate
     }
